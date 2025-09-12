@@ -1,6 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { HandCoins } from 'lucide-react';
+import { BadgePoundSterling } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
+import { Receipt } from 'lucide-react';
+import { ScanSearch } from 'lucide-react';
+import { FilePlus2 } from 'lucide-react';
+import { Columns3Cog } from 'lucide-react';
+import { BriefcaseBusiness } from 'lucide-react';
+
+
+
+
+
+
+
 
 // or use your own modal implementation
 
@@ -96,7 +111,8 @@ function PopupModel() {
                     onKeyDown={(e) => handleKeyDown(e, 0)}
                     className={`box ${hoveredIndex === 0 ? "active" : ""}`}
                   >
-                    <p className="m-0 p-3 color">OutStanding</p>
+                    <p className="m-0 px-3 py-1 color"><span><BriefcaseBusiness/></span> OutStanding</p>
+                    
                   </div>
                 </Link>
               </div>
@@ -111,7 +127,7 @@ function PopupModel() {
                     onKeyDown={(e) => handleKeyDown(e, 1)}
                     className={`box ${hoveredIndex === 1 ? "active" : ""}`}
                   >
-                    <p className="m-0 p-3 color">Received</p>
+                    <p className="m-0 p-3 color"> <span><HandCoins/></span> Received</p>
                   </div>
                 </Link>
               </div>
@@ -126,7 +142,7 @@ function PopupModel() {
                     onKeyDown={(e) => handleKeyDown(e, 2)}
                     className={`box ${hoveredIndex === 2 ? "active" : ""}`}
                   >
-                    <p className="m-0 p-3 color">Payment</p>
+                    <p className="m-0 p-3 color"> <span><BadgePoundSterling/></span> Payment</p>
                   </div>
                 </Link>
               </div>
@@ -142,7 +158,7 @@ function PopupModel() {
                     onKeyDown={(e) => handleKeyDown(e, 3)}
                     className={`box ${hoveredIndex === 3 ? "active" : ""}`}
                   >
-                    <p className="m-0 p-3 color">Purchase bill</p>
+                    <p className="m-0 px-3 py-1 color"> <span><Receipt/></span> Purchase bill</p>
                   </div>
                 </Link>
               </div>
@@ -157,7 +173,7 @@ function PopupModel() {
                     onKeyDown={(e) => handleKeyDown(e, 4)}
                     className={`box ${hoveredIndex === 4 ? "active" : ""}`}
                   >
-                    <p className="m-0 p-3 color">Customer</p>
+                    <p className="m-0 p-3 color"> <span><Columns3Cog/></span> Customer</p>
                   </div>
                 </Link>
               </div>
@@ -172,7 +188,7 @@ function PopupModel() {
                     onKeyDown={(e) => handleKeyDown(e, 5)}
                     className={`box ${hoveredIndex === 5 ? "active" : ""}`}
                   >
-                    <p className="m-0 p-3 color">Product</p>
+                    <p className="m-0 p-3 color"> <span><ShoppingCart/></span> Product</p>
                   </div>
                 </Link>
               </div>
@@ -188,7 +204,7 @@ function PopupModel() {
                     onKeyDown={(e) => handleKeyDown(e, 6)}
                     className={`box ${hoveredIndex === 6 ? "active" : ""}`}
                   >
-                    <p className="m-0 p-3 color">Add New Bill</p>
+                    <p className="m-0 px-3 py-1 color"> <span><FilePlus2/></span> Add New Bill</p>
                   </div>
                 </Link>
               </div>
@@ -203,7 +219,7 @@ function PopupModel() {
                     onKeyDown={(e) => handleKeyDown(e, 7)}
                     className={`box ${hoveredIndex === 7 ? "active" : ""}`}
                   >
-                    <p className="m-0 p-3 color">View Bill</p>
+                    <p className="m-0 p-3 color"><span><ScanSearch/></span> View Bill</p>
                   </div>
                 </Link>
               </div>
