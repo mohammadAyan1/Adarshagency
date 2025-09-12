@@ -28,7 +28,7 @@ app.use(morgan("dev"));
 //  CORS setup
 app.use(
   cors({
-    origin:["https://adarsh-agency-zeta.vercel.app","http://localhost:5173","https://adarshagency-3f6i.vercel.app/"],
+    origin:["https://adarsh-agency-zeta.vercel.app","http://localhost:5173","https://adarshagency-3f6i.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"], 
     credentials: true, 
   })
