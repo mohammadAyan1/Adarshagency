@@ -27,13 +27,13 @@ const BillingTableRow = ({
           >
             <Select
               ref={selectRef}
-              className='w-100 '
+              className="w-100 "
               value={
                 row.product
                   ? { label: row.product.productName, value: row.product._id }
                   : null
               }
-              placeholder='Select Product'
+              placeholder="Select Product"
               isDisabled
               styles={{
                 container: (base) => ({ ...base, minWidth: "350px" }),
@@ -42,7 +42,7 @@ const BillingTableRow = ({
           </div>
         ) : field === "Unit" ? (
           <Select
-            className='w-100'
+            className="w-100"
             value={row.Unit ? { label: row.Unit, value: row.Unit } : null}
             options={[
               row.product?.primaryUnit && {
@@ -81,8 +81,8 @@ const BillingTableRow = ({
             "Basic",
           ].includes(field) ? (
           <input
-            type='text'
-            className='form-control'
+            type="text"
+            className="form-control"
             value={row[field]}
             onFocus={() => {
               if (row[field] === "0.00" || row[field] === 0)
@@ -105,15 +105,15 @@ const BillingTableRow = ({
           />
         ) : field === "GST" ? (
           <input
-            type='text'
-            className='form-control'
+            type="text"
+            className="form-control"
             value={row[field]}
             readOnly
           />
         ) : (
           <input
-            type='text'
-            className='form-control'
+            type="text"
+            className="form-control"
             ref={field === "Qty" ? qtyRef : null}
             value={row[field] || ""}
             onChange={(e) => handleChange(rowIndex, field, e.target.value)}

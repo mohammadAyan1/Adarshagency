@@ -30,13 +30,13 @@ const CustomerBilling = ({
   });
 
   const [salesmen, setSalesmen] = useState([]);
-  const [selectedSalesman, setSelectedSalesman] = useState( null);
+  const [selectedSalesman, setSelectedSalesman] = useState(null);
   const [beatsOptions, setBeatsOptions] = useState([]);
-  const [selectedBeat, setSelectedBeat] = useState( null);
+  const [selectedBeat, setSelectedBeat] = useState(null);
   const [allCustomers, setAllCustomers] = useState([]);
   const [originalCustomers, setOriginalCustomers] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
-  const [selectedCustomer, setSelectedCustomer] = useState( null);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const [showSalesmanModal, setShowSalesmanModal] = useState(false);
@@ -214,6 +214,10 @@ const CustomerBilling = ({
           axios.get("/salesman"),
           axios.get("/customer"),
         ]);
+
+        console.log(salesRes);
+        console.log(custRes);
+        
         setSalesmen(salesRes.data.Data || []);
         const customers = custRes.data || [];
         setOriginalCustomers(customers);
@@ -255,7 +259,7 @@ const CustomerBilling = ({
   useEffect(() => {
     if (!selectedBeat) {
       const allCustomerOptions = originalCustomers.map((c) => ({
-        label: c.ledger ,
+        label: c.ledger,
         value: c._id,
         customerObject: c,
       }));
@@ -405,8 +409,6 @@ const CustomerBilling = ({
       //   label:onEdit?.salesmanId?.beat?.area,
       //   value:onEdit?.salesmanId?.beat?._id
       // }))
-      
-
     } else {
       setShowSalesmanModal(true);
     }
@@ -440,7 +442,9 @@ const CustomerBilling = ({
               options={beatsOptions}
               // {onEdit?value.onEdit?.customer?.}
               value={selectedBeat}
-              onChange={(opt) =>{ setSelectedBeat(opt),console.log(opt)}}
+              onChange={(opt) => {
+                setSelectedBeat(opt), console.log(opt);
+              }}
               placeholder="Select Beat"
               isClearable
               styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}

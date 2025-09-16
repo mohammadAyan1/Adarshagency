@@ -188,15 +188,15 @@ const GenerateInvoice = () => {
     };
   }, []);
 
-  if (error) return <p className='text-danger'>{error}</p>;
+  if (error) return <p className="text-danger">{error}</p>;
   if (loading || !invoiceData) return <Loader />;
 
   return (
     <div>
-      <div className='container d-print-none'>
+      <div className="container d-print-none">
         <button
           onClick={() => window.print()}
-          className='btn btn-primary my-3 d-print-none'
+          className="btn btn-primary my-3 d-print-none"
         >
           Print Invoice
         </button>
@@ -269,11 +269,11 @@ const GenerateInvoice = () => {
 `}
       </style>
 
-      <div id='print-area' style={{ lineHeight: "1" }}>
+      <div id="print-area" style={{ lineHeight: "1" }}>
         {billingChunks.map((chunk, pageIndex) => (
           <div
             key={pageIndex}
-            className='invoice-page'
+            className="invoice-page"
             style={{
               margin: "auto",
               fontFamily: "Courier New monospace",
@@ -289,11 +289,11 @@ const GenerateInvoice = () => {
                   marginTop: "0px",
                 }}
               >
-                <div className='line-main'>
-                  <div className='liness'></div>
+                <div className="line-main">
+                  <div className="liness"></div>
                 </div>
 
-                <div className='d-flex mt-2'>
+                <div className="d-flex mt-2">
                   <p style={{ marginBottom: "0px", fontSize: "14px" }}>
                     <strong>GSTIN: 23BJUPR9537F1ZK</strong>
                   </p>
@@ -379,7 +379,7 @@ const GenerateInvoice = () => {
                     </strong>
                   </span>
 
-                  <div className='div flex flex-col'>
+                  <div className="div flex flex-col">
                     <span>
                       <strong style={{ lineHeight: "1" }}>Date:</strong>
                       {new Date(customer?.Billdate).toLocaleDateString(
@@ -388,7 +388,7 @@ const GenerateInvoice = () => {
                       &nbsp; {invoiceData?.billingType || "N/A"}
                     </span>
 
-                    <span className='d-flex align-items-center gap-1 '>
+                    <span className="d-flex align-items-center gap-1 ">
                       <strong>Salesman:</strong>
                       <span> {salesmanId?.name || "N/A"} </span>{" "}
                       <strong> M.No. </strong>
@@ -400,7 +400,7 @@ const GenerateInvoice = () => {
 
               <Table
                 bordered
-                className='mt-1 table-sm'
+                className="mt-1 table-sm"
                 style={{ fontSize: "12px", borderBottom: "none" }}
               >
                 <thead>
@@ -550,17 +550,17 @@ const GenerateInvoice = () => {
                   {pageIndex === billingChunks.length - 1 && (
                     <tr style={{ fontWeight: "bold" }}>
                       <td
-                        className='border border-black p-1'
+                        className="border border-black p-1"
                         style={{ textAlign: "center" }}
                       ></td>
                       <td
-                        className='border border-black p-1'
+                        className="border border-black p-1"
                         style={{ textAlign: "center" }}
                       >
                         Basic Amount: {formatCurrency(totals.total)}
                       </td>
                       <td
-                        className='p-1'
+                        className="p-1"
                         style={{
                           borderBottom: "1px solid black",
                           borderTop: "1px solid black",
@@ -570,7 +570,7 @@ const GenerateInvoice = () => {
                         QTY:{" "}
                       </td>
                       <td
-                        className='p-1 '
+                        className="p-1 "
                         style={{
                           whiteSpace: "nowrap",
                           borderBottom: " 1px solid black",
@@ -581,7 +581,7 @@ const GenerateInvoice = () => {
                         C/S 0
                       </td>
                       <td
-                        className='p-1'
+                        className="p-1"
                         style={{
                           borderBottom: "1px solid black",
                           borderRight: "1px solid black",
@@ -593,49 +593,49 @@ const GenerateInvoice = () => {
                         PCS:{totals.totalQty || 0}
                       </td>
                       <td
-                        className='border border-black p-1'
+                        className="border border-black p-1"
                         style={{ textAlign: "center" }}
                       >
                         0
                       </td>
                       <td
-                        className='border border-black p-1'
+                        className="border border-black p-1"
                         style={{ textAlign: "center" }}
                       ></td>
                       <td
-                        className='border border-black p-1'
+                        className="border border-black p-1"
                         style={{ textAlign: "center" }}
                       ></td>
                       <td
-                        className='border border-black p-1'
+                        className="border border-black p-1"
                         style={{ textAlign: "center" }}
                       >
                         {formatCurrency(totals.totalSchAmt)}
                       </td>
                       <td
-                        className='border border-black p-1 '
+                        className="border border-black p-1 "
                         style={{ textAlign: "center" }}
                       ></td>
                       <td
-                        className='border border-black p-1'
+                        className="border border-black p-1"
                         style={{ textAlign: "center" }}
                       >
                         {formatCurrency(totals.total)}
                       </td>
                       <td
-                        className='border border-black p-1'
+                        className="border border-black p-1"
                         style={{ textAlign: "center" }}
                       >
                         {formatCurrency(totals.sgst)}
                       </td>
                       <td
-                        className='border border-black p-1'
+                        className="border border-black p-1"
                         style={{ textAlign: "center" }}
                       >
                         {formatCurrency(totals.cgst)}
                       </td>
                       <td
-                        className='border border-black p-1 '
+                        className="border border-black p-1 "
                         style={{ textAlign: "center" }}
                       >
                         {formatCurrency(invoiceData.finalAmount)}
@@ -648,7 +648,7 @@ const GenerateInvoice = () => {
               {/* // first page footer  */}
               {pageIndex < billingChunks.length - 1 && (
                 <div
-                  className='invoice-footer'
+                  className="invoice-footer"
                   style={{
                     display: "flex",
                     marginTop: "-16px",
@@ -704,7 +704,7 @@ const GenerateInvoice = () => {
 
                   {/* // right section */}
                   <div
-                    className=''
+                    className=""
                     style={{
                       // borderLeft: "1px solid black",
                       paddingLeft: "10px",
@@ -733,7 +733,7 @@ const GenerateInvoice = () => {
               {/* // second page footer  */}
               {pageIndex === billingChunks.length - 1 && (
                 <div
-                  className='invoice-footer'
+                  className="invoice-footer"
                   style={{
                     display: "flex",
                     paddingBottom: "0",
@@ -762,7 +762,7 @@ const GenerateInvoice = () => {
                     <p style={{ marginBottom: "0" }}>
                       Subject to Bhopal jurisdiction/-
                     </p>
-                    <p className='mb-0'>E.&.O.ES</p>
+                    <p className="mb-0">E.&.O.ES</p>
                   </div>
 
                   <div

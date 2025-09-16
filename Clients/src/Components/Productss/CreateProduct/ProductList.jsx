@@ -119,13 +119,13 @@ const ProductList = ({ onEdit, refreshFlag }) => {
       cell: (row, index) => (
         <>
           <button
-            className='btn btn-sm btn-warning me-2'
+            className="btn btn-sm btn-warning me-2"
             onClick={() => handleEdit(index)}
           >
             <PencilFill />
           </button>
           <button
-            className='btn btn-sm btn-danger'
+            className="btn btn-sm btn-danger"
             onClick={() => handleDelete(index)}
           >
             <TrashFill />
@@ -141,15 +141,15 @@ const ProductList = ({ onEdit, refreshFlag }) => {
   if (loading) return <Loader />;
 
   return (
-    <div className='col-md-12 mb-4'>
-      <div className='card shadow border-0'>
-        <div className='card-body'>
-          <h5 className='card-title text-success mb-3'>Product List</h5>
+    <div className="col-md-12 mb-4">
+      <div className="card shadow border-0">
+        <div className="card-body">
+          <h5 className="card-title text-success mb-3">Product List</h5>
           {products.length === 0 ? (
             <p>No products added yet.</p>
           ) : (
             <CustomDataTable
-              title='Product Table'
+              title="Product Table"
               columns={productColumns}
               data={products}
               pagination={true}

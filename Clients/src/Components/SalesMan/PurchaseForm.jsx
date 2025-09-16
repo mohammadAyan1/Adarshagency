@@ -12,8 +12,7 @@ import ProductModel from "./purchaseModel/ProductModel";
 import BrandModels from "./purchaseModel/BrandModels";
 import VendorModal from "./purchaseModel/VendorModel";
 import dayjs from "dayjs";
-import PartyModal from "./vendorReport/PartyModal"
-
+import PartyModal from "./vendorReport/PartyModal";
 
 const defaultItem = {
   productId: "",
@@ -54,9 +53,6 @@ const PurchaseForm = ({ idToEdit, onSuccess }) => {
     companyId: "",
   });
 
-
-
-
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "F9") {
@@ -67,8 +63,6 @@ const PurchaseForm = ({ idToEdit, onSuccess }) => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
-
-
 
   const AddPartySubmit = async (party) => {
     try {
@@ -85,17 +79,15 @@ const PurchaseForm = ({ idToEdit, onSuccess }) => {
     }
   };
 
-
-
   // fetch products use after adding a new product to get latest products list
   const fetchProducts = async () => {
-  try {
-    const res = await axios.get("/product");
-    setProducts(res.data || []);
-  } catch (error) {
-    console.error("Failed to fetch products:", error);
-  }
-};
+    try {
+      const res = await axios.get("/product");
+      setProducts(res.data || []);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    }
+  };
 
   // Fetch initial data
   useEffect(() => {
@@ -117,9 +109,6 @@ const PurchaseForm = ({ idToEdit, onSuccess }) => {
         setLoading(false);
       }
     };
-
-
-
 
     const fetchEntryNumber = async () => {
       try {
@@ -187,64 +176,66 @@ const PurchaseForm = ({ idToEdit, onSuccess }) => {
   const brandModal = useSearchableModal(companies, "name");
   const productModal = useSearchableModal(products, "productName");
 
-
   const handleItemChange = (e, rowIndex) => {
-  const { name, value } = e.target;
-  setItemsList((prev) => {
-    const updated = [...prev];
-    let newValue = value;
+    const { name, value } = e.target;
+    setItemsList((prev) => {
+      const updated = [...prev];
+      let newValue = value;
 
-    if (name === "quantity") {
-      const available = parseInt(updated[rowIndex].availableQty) || 0;
-      //  Clamp between 1 and availableQty
-      newValue = Math.max(1, Math.min(parseInt(value) || 1, available));
-    }
-
-    // Prevent negative values for rate, discount%, scheme%, and total
-    if (name === "purchaseRate" || name === "discountPercent" || name === "schemePercent" || name === "totalAmount") {
-      const numValue = parseFloat(value);
-      if (numValue < 0 || isNaN(numValue)) {
-        newValue = "0";
-      } else {
-        newValue = value;
+      if (name === "quantity") {
+        const available = parseInt(updated[rowIndex].availableQty) || 0;
+        //  Clamp between 1 and availableQty
+        newValue = Math.max(1, Math.min(parseInt(value) || 1, available));
       }
-    }
 
-    updated[rowIndex][name] = newValue;
-
-    if (name === "productId") {
-      const selectedProduct = products.find((p) => p._id === value);
-      if (selectedProduct) {
-        updated[rowIndex] = {
-          ...updated[rowIndex],
-          availableQty: selectedProduct.availableQty,
-          purchaseRate: selectedProduct.purchaseRate,
-          quantity: 1,
-          companyId: purchaseData.companyId,
-          totalAmount: "",
-          discountPercent: "0",
-          schemePercent: "0",
-        };
+      // Prevent negative values for rate, discount%, scheme%, and total
+      if (
+        name === "purchaseRate" ||
+        name === "discountPercent" ||
+        name === "schemePercent" ||
+        name === "totalAmount"
+      ) {
+        const numValue = parseFloat(value);
+        if (numValue < 0 || isNaN(numValue)) {
+          newValue = "0";
+        } else {
+          newValue = value;
+        }
       }
-    }
 
-    //  Recalculate total
-    const rate = parseFloat(updated[rowIndex].purchaseRate) || 0;
-    const qty = parseFloat(updated[rowIndex].quantity) || 0;
-    const dis = parseFloat(updated[rowIndex].discountPercent) || 0;
-    const scm = parseFloat(updated[rowIndex].schemePercent) || 0;
+      updated[rowIndex][name] = newValue;
 
-    if (rate && qty) {
-      const finalRate = rate * (1 - dis / 100) * (1 - scm / 100);
-      const calculatedTotal = (finalRate * qty);
-      updated[rowIndex].totalAmount = Math.max(0, calculatedTotal).toFixed(2);
-    }
+      if (name === "productId") {
+        const selectedProduct = products.find((p) => p._id === value);
+        if (selectedProduct) {
+          updated[rowIndex] = {
+            ...updated[rowIndex],
+            availableQty: selectedProduct.availableQty,
+            purchaseRate: selectedProduct.purchaseRate,
+            quantity: 1,
+            companyId: purchaseData.companyId,
+            totalAmount: "",
+            discountPercent: "0",
+            schemePercent: "0",
+          };
+        }
+      }
 
-    return updated;
-  });
-};
+      //  Recalculate total
+      const rate = parseFloat(updated[rowIndex].purchaseRate) || 0;
+      const qty = parseFloat(updated[rowIndex].quantity) || 0;
+      const dis = parseFloat(updated[rowIndex].discountPercent) || 0;
+      const scm = parseFloat(updated[rowIndex].schemePercent) || 0;
 
+      if (rate && qty) {
+        const finalRate = rate * (1 - dis / 100) * (1 - scm / 100);
+        const calculatedTotal = finalRate * qty;
+        updated[rowIndex].totalAmount = Math.max(0, calculatedTotal).toFixed(2);
+      }
 
+      return updated;
+    });
+  };
 
   // Handle row key navigation
   const handleRowKeyDown = (e, rowIndex, fieldName) => {
@@ -317,42 +308,44 @@ const PurchaseForm = ({ idToEdit, onSuccess }) => {
     }
   };
 
+  // Add Item to List
+  const addItemToList = useCallback(() => {
+    const currentItem = itemsList[itemsList.length - 1];
+    console.log("Current Item", currentItem);
 
+    if (
+      !currentItem.productId ||
+      !currentItem.quantity ||
+      !currentItem.purchaseRate
+    ) {
+      toast.error("Please fill all required item fields.");
+      return;
+    }
 
-  
+    const itemWithBrand = {
+      ...currentItem,
+      companyId: purchaseData.companyId || currentItem.companyId,
+    };
 
-// Add Item to List
-const addItemToList = useCallback(() => {
-  const currentItem = itemsList[itemsList.length - 1];
-  console.log("Current Item", currentItem);
-  
-  if (!currentItem.productId || !currentItem.quantity || !currentItem.purchaseRate) {
-    toast.error("Please fill all required item fields.");
-    return;
-  }
+    if (editItemIndex !== null) {
+      const updatedItems = [...itemsList];
+      updatedItems[editItemIndex] = { ...itemWithBrand };
+      setItemsList(updatedItems);
+      setEditItemIndex(null);
+      toast.success("Item updated successfully!");
+    } else {
+      setItemsList((prev) => [
+        ...prev,
+        { ...defaultItem, companyId: purchaseData.companyId },
+      ]);
+      toast.success("Item added successfully!");
+    }
 
-  const itemWithBrand = {
-    ...currentItem,
-    companyId: purchaseData.companyId || currentItem.companyId,
-  };
-
-  if (editItemIndex !== null) {
-    const updatedItems = [...itemsList];
-    updatedItems[editItemIndex] = { ...itemWithBrand };
-    setItemsList(updatedItems);
-    setEditItemIndex(null);
-    toast.success("Item updated successfully!");
-  } else {
-    setItemsList((prev) => [...prev, { ...defaultItem, companyId: purchaseData.companyId }]);
-    toast.success("Item added successfully!");
-  }
-
-  setPurchaseData((prev) => ({
-    ...prev,
-    item: { ...defaultItem, companyId: prev.companyId },
-  }));
-}, [itemsList, purchaseData.companyId, editItemIndex]);
-
+    setPurchaseData((prev) => ({
+      ...prev,
+      item: { ...defaultItem, companyId: prev.companyId },
+    }));
+  }, [itemsList, purchaseData.companyId, editItemIndex]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -420,7 +413,7 @@ const addItemToList = useCallback(() => {
 
       if (e.altKey && e.key.toLowerCase() === "w") {
         e.preventDefault();
-        if (!loading) handleSubmit({ preventDefault: () => { } });
+        if (!loading) handleSubmit({ preventDefault: () => {} });
       }
 
       if (e.key === "Escape") {
@@ -432,7 +425,7 @@ const addItemToList = useCallback(() => {
           // setPurchaseData((prev) => ({ ...prev, item: { ...defaultItem } }));
           setPurchaseData((prev) => ({
             ...prev,
-            item: { ...defaultItem, companyId: prev.companyId } 
+            item: { ...defaultItem, companyId: prev.companyId },
           }));
         } else if (editingId) {
           setEditingId(null);
@@ -470,11 +463,7 @@ const addItemToList = useCallback(() => {
     }
   }, [loading, vendors]);
 
-
-
-
   useEffect(() => {
-
     const fetchVendors = async () => {
       try {
         const res = await axios.get("/vendor");
@@ -484,12 +473,8 @@ const addItemToList = useCallback(() => {
       }
     };
 
-    fetchVendors()
-  }, [])
-
-
-
-
+    fetchVendors();
+  }, []);
 
   // Handle product selection
   const handleProductSelect = (product, rowIndex) => {
@@ -523,26 +508,22 @@ const addItemToList = useCallback(() => {
     }, 50);
   };
 
-
   if (loading) return <Loader />;
 
-
-
-
   return (
-    <div className='mx-5'>
-      <Card className='p-4 mb-4'>
-        <h4 className='mb-3'>{idToEdit ? "Edit Purchase" : "Add Purchase"}</h4>
+    <div className="mx-5">
+      <Card className="p-4 mb-4">
+        <h4 className="mb-3">{idToEdit ? "Edit Purchase" : "Add Purchase"}</h4>
         <Form onSubmit={handleSubmit}>
           {/* Vendor & Date */}
-          <Row className='mb-3 d-flex justify-content-between align-items-end'>
+          <Row className="mb-3 d-flex justify-content-between align-items-end">
             <Col xs={12} sm={6} md={3}>
               <Form.Group>
                 <Form.Label>Party</Form.Label>
                 <div
                   ref={vendorRef}
                   tabIndex={0}
-                  className='form-select'
+                  className="form-select"
                   style={{
                     cursor: "pointer",
                     backgroundColor: "white",
@@ -557,13 +538,13 @@ const addItemToList = useCallback(() => {
                 </div>
               </Form.Group>
             </Col>
-            <Col xs={12} sm={6} md={2} className='text-end'>
+            <Col xs={12} sm={6} md={2} className="text-end">
               <Form.Group>
                 <Form.Label>Purchase Date</Form.Label>
                 <Form.Control
                   ref={dateRef}
-                  type='date'
-                  name='date'
+                  type="date"
+                  name="date"
                   value={purchaseData.date}
                   onChange={(e) =>
                     setPurchaseData((prev) => ({
@@ -583,26 +564,26 @@ const addItemToList = useCallback(() => {
           </Row>
 
           {/* Entry No., Brand, Party No. */}
-          <Row className='mb-3 d-flex justify-content-between align-items-end'>
-            <Col xs='auto'>
+          <Row className="mb-3 d-flex justify-content-between align-items-end">
+            <Col xs="auto">
               <Form.Group>
                 <Form.Label>Entry No.</Form.Label>
                 <Form.Control
-                  type='text'
-                  name='entryNumber'
+                  type="text"
+                  name="entryNumber"
                   value={purchaseData.entryNumber}
                   readOnly
                   style={{ minWidth: "100px" }}
                 />
               </Form.Group>
             </Col>
-            <Col md='auto'>
+            <Col md="auto">
               <Form.Group>
                 <Form.Label>Brand</Form.Label>
                 <Form.Control
                   ref={brandRef}
-                  type='text'
-                  name='brand'
+                  type="text"
+                  name="brand"
                   value={
                     companies.find((c) => c._id === purchaseData.companyId)
                       ?.name || ""
@@ -616,8 +597,8 @@ const addItemToList = useCallback(() => {
                   }}
                   readOnly
                   data-nav
-                  placeholder='Select Brand'
-                  className='form-select'
+                  placeholder="Select Brand"
+                  className="form-select"
                 />
               </Form.Group>
             </Col>
@@ -626,8 +607,8 @@ const addItemToList = useCallback(() => {
                 <Form.Label>Bill No.</Form.Label>
                 <Form.Control
                   ref={partyNoRef}
-                  type='text'
-                  name='partyNo'
+                  type="text"
+                  name="partyNo"
                   value={purchaseData.partyNo}
                   required
                   onChange={(e) =>
@@ -655,13 +636,13 @@ const addItemToList = useCallback(() => {
           </Row>
 
           {/* Buttons */}
-          <Row className='mt-3 d-flex align-items-center justify-content-between flex-wrap'>
-            <Col xs={12} md='auto' className='mb-2'>
+          <Row className="mt-3 d-flex align-items-center justify-content-between flex-wrap">
+            <Col xs={12} md="auto" className="mb-2">
               <div style={{ fontSize: "12px", color: "gray" }}>
-                <span className='me-3'>
+                <span className="me-3">
                   Press <kbd>Enter</kbd> to navigate
                 </span>
-                <span className='me-3'>
+                <span className="me-3">
                   Press <kbd>F2</kbd> to add row
                 </span>
                 <span>
@@ -674,37 +655,34 @@ const addItemToList = useCallback(() => {
             </Col>
             <Col
               xs={12}
-              md='auto'
-              className='d-flex justify-content-end gap-2 mb-2'
+              md="auto"
+              className="d-flex justify-content-end gap-2 mb-2"
             >
               <Button
-                variant='primary'
+                variant="primary"
                 onClick={() => setShowProductModal(true)}
               >
                 <BsPlusCircle size={16} style={{ marginRight: "4px" }} />{" "}
                 Product
               </Button>
-              <Button variant='primary' onClick={addItemToList}>
+              <Button variant="primary" onClick={addItemToList}>
                 <MdOutlineKeyboardHide
                   size={16}
                   style={{ marginRight: "4px" }}
                 />{" "}
                 {editItemIndex !== null ? "Update Item" : "Add Item"}
               </Button>
-               <Button
-                variant='primary'
-                onClick={()=> setShowPartyModal(true)}
-              >
-              <BsPlusCircle size={16} style={{ marginRight: "4px" }} />{" "}
-                Add Party
+              <Button variant="primary" onClick={() => setShowPartyModal(true)}>
+                <BsPlusCircle size={16} style={{ marginRight: "4px" }} /> Add
+                Party
               </Button>
             </Col>
           </Row>
 
           {/* Items Table */}
           <div style={{ overflowX: "auto" }}>
-            <table className='table'>
-              <thead className='table-secondary'>
+            <table className="table">
+              <thead className="table-secondary">
                 <tr>
                   <th>Product</th>
                   <th>Qty</th>
@@ -719,23 +697,25 @@ const addItemToList = useCallback(() => {
                 {itemsList.map((row, rowIndex) => (
                   <tr key={rowIndex}>
                     <td style={{ minWidth: "200px" }}>
-
                       <Form.Control
                         type="text"
                         name="productId"
-                        value={products.find((p) => p._id === row.productId)?.productName || ""}
+                        value={
+                          products.find((p) => p._id === row.productId)
+                            ?.productName || ""
+                        }
                         placeholder="Select Product"
                         readOnly
                         onFocus={() => {
                           setFocusedRowIndex(rowIndex);
                           productModal.setShowModal(true);
                         }}
-                        onKeyDown={(e) => handleRowKeyDown(e, rowIndex, "productId")}
+                        onKeyDown={(e) =>
+                          handleRowKeyDown(e, rowIndex, "productId")
+                        }
                         className="form-select"
                         style={{ cursor: "pointer", backgroundColor: "white" }}
                       />
-
-
                     </td>
                     {[
                       { name: "quantity" },
@@ -747,13 +727,13 @@ const addItemToList = useCallback(() => {
                     ].map(({ name, readOnly = false }, colIndex) => (
                       <td key={colIndex} style={{ minWidth: "150px" }}>
                         <input
-                          type='number'
+                          type="number"
                           name={name}
                           value={row[name]}
                           onChange={(e) => handleItemChange(e, rowIndex)}
                           readOnly={readOnly}
                           placeholder={`Enter ${name}`}
-                          className='form-control'
+                          className="form-control"
                           onKeyDown={(e) => handleRowKeyDown(e, rowIndex, name)}
                           style={{ minWidth: "100px", height: "30px" }}
                         />
@@ -766,9 +746,9 @@ const addItemToList = useCallback(() => {
           </div>
 
           <Button
-            variant='primary'
-            type='submit'
-            className='mt-3'
+            variant="primary"
+            type="submit"
+            className="mt-3"
             disabled={!purchaseData.vendorId || itemsList.length === 0}
           >
             {editingId ? "Update Purchase" : "Save Purchase"}
@@ -783,7 +763,7 @@ const addItemToList = useCallback(() => {
           setSelectedProductToEdit(null);
           setShowProductModal(false);
         }}
-        size='lg'
+        size="lg"
         centered
       >
         <Modal.Header closeButton>
@@ -793,7 +773,7 @@ const addItemToList = useCallback(() => {
         </Modal.Header>
         <Modal.Body>
           <Product
-            onSuccess={async() => {
+            onSuccess={async () => {
               setShowProductModal(false);
               setSelectedProductToEdit(null);
               await fetchProducts();
@@ -854,14 +834,12 @@ const addItemToList = useCallback(() => {
         }
       />
 
-
       {/* Party Modal */}
       <PartyModal
         show={showPartyModal}
         onHide={() => setShowPartyModal(false)}
         onSubmit={AddPartySubmit}
       />
-
     </div>
   );
 };

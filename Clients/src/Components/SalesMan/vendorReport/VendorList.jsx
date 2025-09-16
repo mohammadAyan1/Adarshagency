@@ -37,9 +37,9 @@ const VendorList = ({ vendorList, handleEdit, handleDelete, loading }) => {
       sortable: true,
     },
     {
-      name :"Balance",
-      selector:(row)=> row.totalBalance,
-      sortable:true
+      name: "Balance",
+      selector: (row) => row.totalBalance,
+      sortable: true,
     },
     {
       name: "GST NO.",
@@ -50,13 +50,13 @@ const VendorList = ({ vendorList, handleEdit, handleDelete, loading }) => {
       name: "Actions",
       cell: (row) => (
         <>
-          <Button variant='warning' size='sm' onClick={() => handleEdit(row)}>
+          <Button variant="warning" size="sm" onClick={() => handleEdit(row)}>
             <BsPencil />
           </Button>
           <Button
-            variant='danger'
-            size='sm'
-            className='ms-2'
+            variant="danger"
+            size="sm"
+            className="ms-2"
             onClick={() => handleDelete(row._id)}
           >
             <BsTrash2 />
@@ -68,7 +68,7 @@ const VendorList = ({ vendorList, handleEdit, handleDelete, loading }) => {
 
   return (
     <CustomDataTable
-      title='Party List'
+      title="Party List"
       columns={columns}
       data={vendorList}
       loading={loading}

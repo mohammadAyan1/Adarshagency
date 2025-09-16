@@ -95,7 +95,7 @@ function DisplaySalesMan({ onEdit, refreshTrigger }) {
       name: "Beat",
       selector: (row) =>
         row.beat?.map((b, i) => (
-          <span key={i} className='bg-light px-2 py-1 rounded d-block'>
+          <span key={i} className="bg-light px-2 py-1 rounded d-block">
             {b.area}
           </span>
         )),
@@ -115,17 +115,17 @@ function DisplaySalesMan({ onEdit, refreshTrigger }) {
     {
       name: "Actions",
       cell: (row) => (
-        <div className='btn-group' role='group'>
+        <div className="btn-group" role="group">
           <Button
-            variant='link'
-            className='text-primary'
+            variant="link"
+            className="text-primary"
             onClick={() => handleEdit(row._id)}
           >
             <PencilFill />
           </Button>
           <Button
-            variant='link'
-            className='text-danger'
+            variant="link"
+            className="text-danger"
             onClick={() => handleDelete(row._id)}
           >
             <TrashFill />
@@ -143,9 +143,9 @@ function DisplaySalesMan({ onEdit, refreshTrigger }) {
   }
 
   return (
-    <Container className='my-4'>
+    <Container className="my-4">
       <CustomDataTable
-        title='Salesman List'
+        title="Salesman List"
         columns={getSalesmanColumns(handleEdit, handleDelete, IMAGE_BASE)}
         data={salesmen?.Data || []}
         pagination={true}

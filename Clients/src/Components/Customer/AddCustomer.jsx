@@ -4,7 +4,12 @@ import axios from "../../Config/axios";
 import toast from "react-hot-toast";
 import Loader from "../Loader";
 
-function AddCustomer({ refresh, editingCustomer, setEditingCustomer, setActiveTab }) {
+function AddCustomer({
+  refresh,
+  editingCustomer,
+  setEditingCustomer,
+  setActiveTab,
+}) {
   const [customer, setCustomer] = useState({
     ledger: "",
     name: "",
@@ -18,9 +23,7 @@ function AddCustomer({ refresh, editingCustomer, setEditingCustomer, setActiveTa
     balance: "",
   });
 
-
   console.log(editingCustomer);
-  
 
   const [loading, setLoading] = useState(false);
 
@@ -134,7 +137,7 @@ function AddCustomer({ refresh, editingCustomer, setEditingCustomer, setActiveTa
         await axios.post("/customer", customer);
         toast.success("Customer saved successfully!");
       }
-     setActiveTab("details")
+      setActiveTab("details");
 
       // Reset form
       setCustomer({
@@ -143,7 +146,7 @@ function AddCustomer({ refresh, editingCustomer, setEditingCustomer, setActiveTa
         mobile: "",
         city: "",
         address1: "",
-        gstNumber: "",  
+        gstNumber: "",
         creditLimit: "",
         creditDays: "",
         area: "",
@@ -164,136 +167,136 @@ function AddCustomer({ refresh, editingCustomer, setEditingCustomer, setActiveTa
   }
 
   return (
-    <Container className='mt-4'>
+    <Container className="mt-4">
       <Card>
         <Card.Header>{editingCustomer ? "Edit" : "Add"} Customer</Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
             <Row>
-              <Col md={6} className='mb-3'>
+              <Col md={6} className="mb-3">
                 <Form.Label>
                   Firm <span style={{ color: "red" }}>*</span>
                 </Form.Label>
                 <Form.Control
                   ref={(el) => (inputRefs.current[0] = el)}
                   onKeyDown={(e) => handleKeyDown(e, 0)}
-                  name='ledger'
-                  type='text'
-                  placeholder='Enter Firm Name'
+                  name="ledger"
+                  type="text"
+                  placeholder="Enter Firm Name"
                   value={customer.ledger}
                   onChange={handleChange}
                   required
                 />
               </Col>
 
-              <Col md={6} className='mb-3'>
+              <Col md={6} className="mb-3">
                 <Form.Label>
                   Mobile Number <span style={{ color: "red" }}>*</span>
                 </Form.Label>
                 <Form.Control
                   ref={(el) => (inputRefs.current[1] = el)}
                   onKeyDown={(e) => handleKeyDown(e, 1)}
-                  type='number'
-                  name='mobile'
-                  placeholder='Mobile'
+                  type="number"
+                  name="mobile"
+                  placeholder="Mobile"
                   value={customer.mobile}
                   onChange={handleChange}
                   required
                 />
               </Col>
 
-              <Col md={6} className='mb-3'>
+              <Col md={6} className="mb-3">
                 <Form.Label>City</Form.Label>
                 <Form.Control
                   ref={(el) => (inputRefs.current[2] = el)}
                   onKeyDown={(e) => handleKeyDown(e, 2)}
-                  type='text'
-                  name='city'
-                  placeholder='City'
+                  type="text"
+                  name="city"
+                  placeholder="City"
                   value={customer.city}
                   onChange={handleChange}
                 />
               </Col>
 
-              <Col md={6} className='mb-3'>
+              <Col md={6} className="mb-3">
                 <Form.Label>
                   Area <span style={{ color: "red" }}>*</span>
                 </Form.Label>
                 <Form.Control
                   ref={(el) => (inputRefs.current[3] = el)}
                   onKeyDown={(e) => handleKeyDown(e, 3)}
-                  type='text'
-                  placeholder='Area Name'
-                  name='area'
+                  type="text"
+                  placeholder="Area Name"
+                  name="area"
                   value={customer.area}
                   onChange={handleChange}
                 />
               </Col>
 
-              <Col md={12} className='mb-3'>
+              <Col md={12} className="mb-3">
                 <Form.Label>Address</Form.Label>
                 <Form.Control
                   ref={(el) => (inputRefs.current[4] = el)}
                   onKeyDown={(e) => handleKeyDown(e, 4)}
-                  name='address1'
-                  placeholder='Address'
+                  name="address1"
+                  placeholder="Address"
                   value={customer.address1}
                   onChange={handleChange}
                 />
               </Col>
 
-              <Col md={6} className='mb-3'>
+              <Col md={6} className="mb-3">
                 <Form.Label>Credit Limit</Form.Label>
                 <Form.Control
                   ref={(el) => (inputRefs.current[5] = el)}
                   onKeyDown={(e) => handleKeyDown(e, 5)}
-                  type='number'
-                  name='creditLimit'
-                  placeholder='Credit Limit'
+                  type="number"
+                  name="creditLimit"
+                  placeholder="Credit Limit"
                   value={customer.creditLimit}
                   onChange={handleChange}
                 />
               </Col>
-              <Col md={6} className='mb-3'>
+              <Col md={6} className="mb-3">
                 <Form.Label>Balance</Form.Label>
                 <Form.Control
                   ref={(el) => (inputRefs.current[6] = el)}
                   onKeyDown={(e) => handleKeyDown(e, 6)}
-                  type='number'
-                  name='balance'
-                  placeholder='Balance'
+                  type="number"
+                  name="balance"
+                  placeholder="Balance"
                   value={customer.balance}
                   onChange={handleChange}
                 />
               </Col>
 
-              <Col md={6} className='mb-3'>
+              <Col md={6} className="mb-3">
                 <Form.Label>Credit Days</Form.Label>
                 <Form.Control
                   ref={(el) => (inputRefs.current[7] = el)}
                   onKeyDown={(e) => handleKeyDown(e, 7)}
                   // type='date'
                   type="number"
-                  name='creditDays'
+                  name="creditDays"
                   value={customer.creditDays}
                   onChange={handleChange}
                 />
               </Col>
 
-              <Col md={6} className='mb-3'>
+              <Col md={6} className="mb-3">
                 <Form.Label>GST No.</Form.Label>
                 <Form.Control
                   ref={(el) => (inputRefs.current[8] = el)}
                   onKeyDown={(e) => handleKeyDown(e, 8)}
-                  name='gstNumber'
-                  placeholder='GST No.'
+                  name="gstNumber"
+                  placeholder="GST No."
                   value={customer.gstNumber}
                   onChange={handleChange}
                 />
               </Col>
             </Row>
 
-            <Button type='submit' variant='primary'>
+            <Button type="submit" variant="primary">
               {editingCustomer ? "Update Customer" : "Add Customer"}
             </Button>
           </Form>

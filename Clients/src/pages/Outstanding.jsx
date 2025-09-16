@@ -100,7 +100,7 @@ const Outstanding = () => {
       : "0.00";
 
   return (
-    <div className='p-3'>
+    <div className="p-3">
       <FilterModal
         show={showFilterModal}
         onHide={() => setShowFilterModal(false)}
@@ -127,10 +127,10 @@ const Outstanding = () => {
 
       {!showFilterModal && !showNameModal && (
         <>
-          <h5 className='text-center fw-bold mb-0 py-2'>
+          <h5 className="text-center fw-bold mb-0 py-2">
             SAMRIDHI ENTERPRISES
           </h5>
-          <h3 className='text-center fw-bold mb-0 py-2'>
+          <h3 className="text-center fw-bold mb-0 py-2">
             {selectedName?.name?.toUpperCase()} OUTSTANDING{" "}
             {startDate && endDate
               ? `FROM ${new Date(startDate).toLocaleDateString(
@@ -145,7 +145,7 @@ const Outstanding = () => {
 
           <Table bordered responsive>
             <thead>
-              <tr className='text-center fw-bold'>
+              <tr className="text-center fw-bold">
                 <th colSpan={1}>TOTAL NO.</th>
                 <th colSpan={2}>
                   BILLS :{" "}
@@ -155,7 +155,7 @@ const Outstanding = () => {
                 <th>{totalBillValue}</th>
                 <th colSpan={4}></th>
               </tr>
-              <tr className='text-center border'>
+              <tr className="text-center border">
                 <th>Sr No.</th>
                 <th>DATE</th>
                 <th>PARTY NAME</th>
@@ -170,7 +170,7 @@ const Outstanding = () => {
             <tbody>
               {tableData &&
                 tableData.map((row, index) => (
-                  <tr key={index} className='text-center'>
+                  <tr key={index} className="text-center">
                     <td>{index + 1}</td>
                     <td>{dayjs(row.billDate).format("DD-MM-YYYY")}</td>
                     <td>{row.customerName}</td>

@@ -1,4 +1,3 @@
-
 import React, {
   useEffect,
   useState,
@@ -17,8 +16,8 @@ const defaultRow = {
   Qty: "",
   Unit: "",
   Free: "",
-  Basic: "", 
-  Rate: "", 
+  Basic: "",
+  Rate: "",
   Sch: "0.00",
   SchAmt: "",
   CD: "0.00",
@@ -43,7 +42,6 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
 
   const schemeInputRef = useRef(null);
   const cdInputRef = useRef(null);
-
 
   useEffect(() => {
     if (showSchemeModal && schemeInputRef.current) {
@@ -171,7 +169,6 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
     };
   }, [showModal]);
 
-
   useImperativeHandle(ref, () => ({
     focusItemName: () => {
       console.log("Focusing ItemName input...");
@@ -189,15 +186,15 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
     "Qty",
     "Unit",
     "Free",
-    "Basic", 
-    "Rate", 
+    "Basic",
+    "Rate",
     "Sch",
     "SchAmt",
     "CD",
     "CDAmt",
-    "Total", 
-    "GST", 
-    "Amount", 
+    "Total",
+    "GST",
+    "Amount",
   ];
 
   useEffect(() => {
@@ -253,7 +250,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
       const baseRate = parseFloat(value.salesRate) || 0;
 
       if (!isNaN(baseRate)) {
-        row.Rate = baseRate.toFixed(2); 
+        row.Rate = baseRate.toFixed(2);
       } else {
         row.Rate = "";
       }
@@ -317,12 +314,12 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
       )
       .map((r) => ({
         productId: r.product._id,
-        itemName: r.product.productName || 'N/A',
+        itemName: r.product.productName || "N/A",
         hsnCode: r.product.hsnCode,
         unit: r.Unit,
         qty: parseFloat(r.Qty),
         Free: parseFloat(r.Free) || 0,
-        rate: parseFloat(r.Basic), 
+        rate: parseFloat(r.Basic),
         sch: parseFloat(r.Sch) || 0,
         schAmt: parseFloat(r.SchAmt) || 0,
         cd: parseFloat(r.CD) || 0,
@@ -515,7 +512,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
         )
         .map((r) => ({
           productId: r.product._id,
-          itemName: r.product.productName || 'N/A',
+          itemName: r.product.productName || "N/A",
           hsnCode: r.product.hsnCode,
           unit: r.Unit,
           qty: parseFloat(r.Qty),
@@ -569,7 +566,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
       )
       .map((r) => ({
         productId: r.product._id,
-        itemName: r.product.productName || 'N/A',
+        itemName: r.product.productName || "N/A",
         hsnCode: r.product.hsnCode,
         unit: r.Unit,
         qty: parseFloat(r.Qty),
@@ -616,7 +613,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
       )
       .map((r) => ({
         productId: r.product._id,
-        itemName: r.product.productName || 'N/A',
+        itemName: r.product.productName || "N/A",
         hsnCode: r.product.hsnCode,
         unit: r.Unit,
         qty: parseFloat(r.Qty),
@@ -702,7 +699,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
 
   return (
     <div
-      className='mt-4'
+      className="mt-4"
       style={{
         width: "100vw",
         padding: "0 1rem",
@@ -711,16 +708,16 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
         transform: "translateX(-50%)",
       }}
     >
-      <h2 className='text-center mb-4'>Product Invoice</h2>
+      <h2 className="text-center mb-4">Product Invoice</h2>
 
-      <div className='mt-3 p-3 bg-light border rounded'>
-        <div className='d-flex  gap-5 w-100'>
+      <div className="mt-3 p-3 bg-light border rounded">
+        <div className="d-flex  gap-5 w-100">
           <h5>Total Items: {rows.length}</h5>
         </div>
 
-        <div className='d-flex align-items-center gap-4 text-muted mb-0'>
+        <div className="d-flex align-items-center gap-4 text-muted mb-0">
           <strong>Shortcuts:</strong>
-          <div className='d-flex align-items-center gap-3'>
+          <div className="d-flex align-items-center gap-3">
             <span>
               <strong>New Line:</strong> Enter / F2
             </span>
@@ -735,18 +732,18 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
       </div>
 
       <div
-        className='table-responsive'
+        className="table-responsive"
         style={{ maxHeight: "70vh", overflowX: "auto", overflowY: "auto" }}
       >
         <table
-          className='table table-bordered text-center'
+          className="table table-bordered text-center"
           style={{
             border: "2px solid #dee2e6",
             borderRadius: "8px",
             minWidth: "1200px",
           }}
         >
-          <thead className='table-secondary'>
+          <thead className="table-secondary">
             <tr>
               {fields.map((field, idx) => (
                 <th key={idx}>
@@ -772,16 +769,13 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
                         }}
                       >
                         <Select
-                      
                           ref={(ref) => {
                             if (ref) {
-                              selectRefs.current[rowIndex] = ref; 
-                              if (rowIndex === 0) selectRef.current = ref; 
+                              selectRefs.current[rowIndex] = ref;
+                              if (rowIndex === 0) selectRef.current = ref;
                             }
                           }}
-                          className='w-100 '
-                        
-
+                          className="w-100 "
                           value={
                             row.product
                               ? {
@@ -790,7 +784,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
                                 }
                               : null
                           }
-                          placeholder='Select Product'
+                          placeholder="Select Product"
                           styles={{
                             container: (base) => ({
                               ...base,
@@ -802,7 +796,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
                       </div>
                     ) : field === "Unit" ? (
                       <Select
-                        className='w-100'
+                        className="w-100"
                         value={
                           row.Unit ? { label: row.Unit, value: row.Unit } : null
                         }
@@ -821,7 +815,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
                         }}
                         onKeyDown={(e) => {
                           const key = e.key.toLowerCase();
-                        
+
                           if (key === "p" && row.product?.secondaryUnit) {
                             e.preventDefault();
                             handleChange(
@@ -831,7 +825,6 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
                             );
                           }
 
-                        
                           if (key === "c" && row.product?.primaryUnit) {
                             e.preventDefault();
                             handleChange(
@@ -856,8 +849,8 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
                         "Basic",
                       ].includes(field) ? (
                       <input
-                        type='text'
-                        className='form-control'
+                        type="text"
+                        className="form-control"
                         ref={(el) => (basicRefs.current[rowIndex] = el)}
                         value={row[field]}
                         onFocus={() => {
@@ -885,15 +878,15 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
                       />
                     ) : field === "GST" ? (
                       <input
-                        type='text'
-                        className='form-control'
+                        type="text"
+                        className="form-control"
                         value={row[field]}
                         readOnly
                       />
                     ) : (
                       <input
-                        type='text'
-                        className='form-control'
+                        type="text"
+                        className="form-control"
                         ref={(el) => {
                           if (field === "Qty") qtyRefs.current[rowIndex] = el;
                         }}
@@ -923,7 +916,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
               <td
                 style={{ width: "100%" }}
                 colSpan={fields.length - 1}
-                className='text-start'
+                className="text-start"
               >
                 Final Amount: ₹ <span>{finalTotalAmount}</span>
               </td>
@@ -960,7 +953,6 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
               outline: "none",
             }}
             onClick={(e) => e.stopPropagation()}
-            
             onKeyDown={(e) => {
               if (e.key === "ArrowDown") {
                 e.preventDefault();
@@ -1002,9 +994,9 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
             <h5>Select a Product</h5>
 
             <input
-              type='text'
-              className='form-control mb-3'
-              placeholder='Search products...'
+              type="text"
+              className="form-control mb-3"
+              placeholder="Search products..."
               value={filterText}
               onChange={(e) => {
                 setFilterText(e.target.value);
@@ -1014,8 +1006,8 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
               autoFocus
             />
 
-            <table className='table table-bordered table-hover'>
-              <thead className='table-light'>
+            <table className="table table-bordered table-hover">
+              <thead className="table-light">
                 <tr>
                   <th>SR</th>
                   {/* <th>Product Image</th> */}
@@ -1031,7 +1023,6 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
               </thead>
               <tbody>
                 {filteredProducts.map((product, index) => (
-              
                   <tr
                     key={product._id}
                     ref={(el) => (rowRefs.current[index] = el)}
@@ -1044,7 +1035,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
                           : "pointer",
                     }}
                     onClick={() => {
-                      if (virtualStockMap[product._id] === 0) return; 
+                      if (virtualStockMap[product._id] === 0) return;
                       handleChange(selectedRowIndex, "product", product);
                       setShowModal(false);
                       setTimeout(() => {
@@ -1109,14 +1100,14 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
           >
             <h5>Apply Scheme for All Items</h5>
             <input
-              type='number'
-              className='form-control mb-3'
-              placeholder='Enter Scheme %'
+              type="number"
+              className="form-control mb-3"
+              placeholder="Enter Scheme %"
               ref={schemeInputRef}
               value={schemeValue}
               onChange={(e) => {
                 const val = e.target.value;
-                if (!/^\d*\.?\d*$/.test(val)) return; 
+                if (!/^\d*\.?\d*$/.test(val)) return;
                 setSchemeValue(val);
               }}
               onKeyDown={(e) => {
@@ -1127,7 +1118,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
             />
 
             <button
-              className='btn btn-primary'
+              className="btn btn-primary"
               onClick={() => {
                 applySchemeToAll();
               }}
@@ -1165,9 +1156,9 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
           >
             <h5>Apply Cash Discount (CD) for All Items</h5>
             <input
-              type='number'
-              className='form-control mb-3'
-              placeholder='Enter CD %'
+              type="number"
+              className="form-control mb-3"
+              placeholder="Enter CD %"
               ref={cdInputRef}
               value={cdValue}
               onChange={(e) => {
@@ -1181,7 +1172,7 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
                 }
               }}
             />
-            <button className='btn btn-primary' onClick={applyCDToAll}>
+            <button className="btn btn-primary" onClick={applyCDToAll}>
               Apply
             </button>
           </div>

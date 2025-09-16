@@ -314,13 +314,10 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
     }
   };
 
-  useEffect(()=>{
-    setPieces(
-    formData?.primaryPrice / formData?.secondaryPrice 
-  )
+  useEffect(() => {
+    setPieces(formData?.primaryPrice / formData?.secondaryPrice);
+  }, [formData]);
 
-  },[formData])
-  
   return (
     <div className="col-md-12 mb-4">
       <div className="card shadow border-0">
@@ -466,11 +463,7 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
 
               <div className="col-md-3 mb-3">
                 <label>Price/Pieces</label>
-                <input
-                  value={pieces || 0}
-                  readOnly
-                  className="form-control"
-                />
+                <input value={pieces || 0} readOnly className="form-control" />
               </div>
 
               {/* MRP */}
@@ -507,7 +500,7 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
                 <label>Sales Rate</label>
                 <input
                   ref={(el) => (inputRefs.current[6] = el)}
-                  onKeyDown={(e) => handleKeyDown(e,6)}
+                  onKeyDown={(e) => handleKeyDown(e, 6)}
                   type="number"
                   name="salesRate"
                   value={formData.salesRate}
@@ -561,7 +554,7 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
                 <label>Product Image</label>
                 <input
                   ref={(el) => (inputRefs.current[10] = el)}
-                  onKeyDown={(e) => handleKeyDown(e,10)}
+                  onKeyDown={(e) => handleKeyDown(e, 10)}
                   type="file"
                   name="productImg"
                   onChange={handlePhotoChange}

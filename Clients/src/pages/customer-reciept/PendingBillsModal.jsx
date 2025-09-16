@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -110,7 +108,7 @@ const PendingBillsModal = ({
       alert("Payment adjusted successfully");
       onHide();
       console.log(res);
-      
+
       // onShowAdjustment();
       // navigate(`/`);
     } catch (error) {
@@ -120,7 +118,6 @@ const PendingBillsModal = ({
   };
 
   console.log(pendingBills);
-  
 
   return (
     <Modal show={show} onHide={onHide} fullscreen>
@@ -139,7 +136,6 @@ const PendingBillsModal = ({
             readOnly
             value={`₹${amount}`}
             className="h-25 text-end"
-
           />
           <div>
             <label htmlFor="balance" className="me-2">

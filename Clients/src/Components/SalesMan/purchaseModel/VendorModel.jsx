@@ -15,14 +15,11 @@ const VendorModal = ({
 }) => {
   if (!showModal) return null;
 
+  console.log("Vendors List", VendorList);
 
-
-  console.log("Vendors List", VendorList)
-
-  
   return (
     <div
-      className='modal-overlay'
+      className="modal-overlay"
       style={{
         position: "fixed",
         top: 0,
@@ -35,7 +32,7 @@ const VendorModal = ({
       onClick={() => setShowModal(false)}
     >
       <div
-        className='modal-body'
+        className="modal-body"
         ref={modalRef}
         style={{
           width: "80%",
@@ -87,8 +84,8 @@ const VendorModal = ({
       >
         <input
           ref={inputRef}
-          className='form-control mb-3'
-          placeholder='Search Party...'
+          className="form-control mb-3"
+          placeholder="Search Party..."
           value={filterText}
           onChange={(e) => {
             setFilterText(e.target.value);
@@ -96,8 +93,8 @@ const VendorModal = ({
           }}
         />
 
-        <table className='table table-hover table-bordered'>
-          <thead className='table-light'>
+        <table className="table table-hover table-bordered">
+          <thead className="table-light">
             <tr>
               <th>Firm Name</th>
               <th>Mobile No</th>
@@ -127,21 +124,13 @@ const VendorModal = ({
                 <td>{vendor?.address}</td>
                 <td>{vendor?.totalBalance}</td>
                 <td>{vendor?.gstNumber}</td>
-
               </tr>
             ))}
           </tbody>
         </table>
-         
-
       </div>
     </div>
   );
 };
 
 export default VendorModal;
-
-
-
-
-

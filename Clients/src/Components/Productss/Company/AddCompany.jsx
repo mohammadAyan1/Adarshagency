@@ -39,7 +39,7 @@ const AddCompany = ({ brandNameRef, fetchCompanies, setActiveTab, edit }) => {
 
         // console.log("Created company:", res.data);
         setSubmitSuccess(true);
-        toast.success(`Company ${edit ? "Update":"Create"} successfully!`);
+        toast.success(`Company ${edit ? "Update" : "Create"} successfully!`);
 
         // refresh company list in parent
         if (fetchCompanies) fetchCompanies();
@@ -67,7 +67,10 @@ const AddCompany = ({ brandNameRef, fetchCompanies, setActiveTab, edit }) => {
       }
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.error || `Failed to ${edit ? "Update":"Create"} company`);
+      toast.error(
+        error.response?.data?.error ||
+          `Failed to ${edit ? "Update" : "Create"} company`
+      );
     } finally {
       setIsSubmitting(false);
       setLoading(false);

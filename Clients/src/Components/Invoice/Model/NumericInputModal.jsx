@@ -1,4 +1,4 @@
-import                                                     { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const NumericInputModal = ({
   show,
@@ -40,8 +40,8 @@ const NumericInputModal = ({
       >
         <h5>{title}</h5>
         <input
-          type='number'
-          className='form-control mb-3'
+          type="number"
+          className="form-control mb-3"
           placeholder={`Enter ${title}`}
           ref={inputRef}
           value={value}
@@ -54,7 +54,7 @@ const NumericInputModal = ({
             if (e.key === "Enter") onApply();
           }}
         />
-        <button className='btn btn-primary' onClick={onApply}>
+        <button className="btn btn-primary" onClick={onApply}>
           Apply
         </button>
       </div>

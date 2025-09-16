@@ -28,14 +28,13 @@ const BrandModels = ({
     }));
     setShowModal(false);
 
-
     setTimeout(() => {
       partyNoRef.current?.focus();
     }, 100);
   };
   return (
     <div
-      className='modal-overlay'
+      className="modal-overlay"
       style={{
         position: "fixed",
         top: 0,
@@ -48,7 +47,7 @@ const BrandModels = ({
       onClick={() => setShowModal(false)}
     >
       <div
-        className='modal-body'
+        className="modal-body"
         ref={modalRef}
         style={{
           width: "80%",
@@ -87,8 +86,8 @@ const BrandModels = ({
       >
         <input
           ref={inputRef}
-          className='form-control mb-3'
-          placeholder='Search brand...'
+          className="form-control mb-3"
+          placeholder="Search brand..."
           value={filterText}
           onChange={(e) => {
             setFilterText(e.target.value);
@@ -97,8 +96,8 @@ const BrandModels = ({
           autoFocus
         />
 
-        <table className='table table-hover table-bordered'>
-          <thead className='table-light'>
+        <table className="table table-hover table-bordered">
+          <thead className="table-light">
             <tr>
               <th>Brand Name</th>
             </tr>

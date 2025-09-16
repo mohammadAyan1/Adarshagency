@@ -7,17 +7,17 @@ const Test = () => {
   };
 
   return (
-    <div className='container-fluid mt-3'>
+    <div className="container-fluid mt-3">
       <button
-        className='btn btn-primary d-print-none mb-3'
+        className="btn btn-primary d-print-none mb-3"
         onClick={handlePrint}
       >
         Print Bill
       </button>
 
-      <div id='print-section' className='p-3 border'>
-        <div className='text-center'>
-          <h5 className='mb-1'>ADARSH AGENCY</h5>
+      <div id="print-section" className="p-3 border">
+        <div className="text-center">
+          <h5 className="mb-1">ADARSH AGENCY</h5>
           <small>
             H.NO.02, Nagar Nigam Colony, Timber Market, Chhola, Bhopal <br />
             Mob: 9926793332, 9893315590 <br />
@@ -28,7 +28,7 @@ const Test = () => {
         <hr />
 
         <div
-          className='d-flex justify-content-between mb-2'
+          className="d-flex justify-content-between mb-2"
           style={{ fontSize: "0.85rem" }}
         >
           <div>
@@ -51,10 +51,10 @@ const Test = () => {
         </div>
 
         <table
-          className='table table-bordered table-sm'
+          className="table table-bordered table-sm"
           style={{ fontSize: "0.75rem" }}
         >
-          <thead className='text-center'>
+          <thead className="text-center">
             <tr>
               <th>SR</th>
               <th>PARTICULARS</th>
@@ -91,11 +91,11 @@ const Test = () => {
             </tr>
             {/* Add other rows in the same format */}
             <tr>
-              <td colSpan='10' className='text-end'>
+              <td colSpan="10" className="text-end">
                 <strong>Total</strong>
               </td>
               <td>3183.93</td>
-              <td colSpan='2'>382.08</td>
+              <td colSpan="2">382.08</td>
               <td>
                 <strong>3566.01</strong>
               </td>
@@ -104,7 +104,7 @@ const Test = () => {
         </table>
 
         <div
-          className='d-flex justify-content-between mt-3'
+          className="d-flex justify-content-between mt-3"
           style={{ fontSize: "0.8rem" }}
         >
           <div style={{ width: "65%" }}>
@@ -132,7 +132,7 @@ const Test = () => {
             <p>
               <strong>Rs:</strong> Three Thousand Five Hundred Sixty Six Only
             </p>
-            <p className='mt-4'>
+            <p className="mt-4">
               <strong>Authorised Signatory</strong>
             </p>
           </div>

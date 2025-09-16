@@ -12,15 +12,15 @@ const Dashboard = () => {
       }}
     >
       {/* Header */}
-      <div className='d-flex justify-content-between align-items-center bg-white px-4 py-3 shadow'>
-        <h5 className='mb-0 fw-bold'>Welcome Aadrsh Agency</h5>
+      <div className="d-flex justify-content-between align-items-center bg-white px-4 py-3 shadow">
+        <h5 className="mb-0 fw-bold">Welcome Aadrsh Agency</h5>
         {/* <span className='text-secondary'>EN</span> */}
       </div>
 
       {/* Stats Cards */}
-      <div fluid className='py-4'>
+      <div fluid className="py-4">
         {/* Stats Cards - Force 8 per row on desktop */}
-        <div className='d-flex flex-wrap justify-content-start gap-3 px-1'>
+        <div className="d-flex flex-wrap justify-content-start gap-3 px-1">
           {[
             { label: "Total Customers", value: "736", bg: "success" },
             { label: "Total Today Bill", value: "146", bg: "primary" },
@@ -43,21 +43,21 @@ const Dashboard = () => {
                 minWidth: "140px", // fallback for small screens
               }}
             >
-              <div className='small fw-semibold'>{item.label}</div>
-              <div className='fs-5 fw-bold'>{item.value}</div>
+              <div className="small fw-semibold">{item.label}</div>
+              <div className="fs-5 fw-bold">{item.value}</div>
             </div>
           ))}
         </div>
 
         {/* KPI Table */}
         {/* KPI Table */}
-        <div className='bg-white mt-4 rounded shadow p-3'>
+        <div className="bg-white mt-4 rounded shadow p-3">
           <div style={{ overflowX: "auto" }}>
             <Table
               bordered
               hover
               responsive
-              className='mb-0 text-center align-middle table-striped'
+              className="mb-0 text-center align-middle table-striped"
               style={{ borderCollapse: "separate", borderSpacing: "0" }}
             >
               <thead>
@@ -124,8 +124,8 @@ const Dashboard = () => {
             </Table>
           </div>
 
-          <div className='text-center mt-3'>
-            <Button variant='primary'>Go to Reports Page</Button>
+          <div className="text-center mt-3">
+            <Button variant="primary">Go to Reports Page</Button>
           </div>
         </div>
       </div>

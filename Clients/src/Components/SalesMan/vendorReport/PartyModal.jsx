@@ -1,83 +1,3 @@
-// import React from "react";
-// import { Modal, Button, Form, Row, Col } from "react-bootstrap";
-
-// const PartyModal = ({ show, onHide, onSubmit }) => {
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     // Collect data and pass to parent
-//     const formData = new FormData(e.target);
-//     const party = Object.fromEntries(formData.entries());
-//     onSubmit(party);
-//   };
-
-
-  
-
-//   return (
-//     <Modal show={show} onHide={onHide} size="lg" centered>
-//       <Modal.Header closeButton>
-//         <Modal.Title>Add Party</Modal.Title>
-//       </Modal.Header>
-//       <Modal.Body>
-//         <Form onSubmit={handleSubmit}>
-//           <Row className="mb-3">
-//             <Col md={4}>
-//               <Form.Group>
-//                 <Form.Label>Firm Name *</Form.Label>
-//                 <Form.Control name="firmName" required placeholder="Enter Party firm" />
-//               </Form.Group>
-//             </Col>
-//             <Col md={4}>
-//               <Form.Group>
-//                 <Form.Label>Mobile Number *</Form.Label>
-//                 <Form.Control name="mobileNumber" required placeholder="Enter mobile number" />
-//               </Form.Group>
-//             </Col>
-//             <Col md={4}>
-//               <Form.Group>
-//                 <Form.Label>Balance</Form.Label>
-//                 <Form.Control name="balance" defaultValue="0" />
-//               </Form.Group>
-//             </Col>
-//           </Row>
-
-//           <Row className="mb-3">
-//             <Col md={6}>
-//               <Form.Group>
-//                 <Form.Label>City</Form.Label>
-//                 <Form.Control name="city" placeholder="City" />
-//               </Form.Group>
-//             </Col>
-//             <Col md={6}>
-//               <Form.Group>
-//                 <Form.Label>Address *</Form.Label>
-//                 <Form.Control name="address" required placeholder="Enter address" />
-//               </Form.Group>
-//             </Col>
-//           </Row>
-
-//           <Row className="mb-3">
-//             <Col md={6}>
-//               <Form.Group>
-//                 <Form.Label>GST No.</Form.Label>
-//                 <Form.Control name="gstNo" placeholder="GST No." />
-//               </Form.Group>
-//             </Col>
-//           </Row>
-
-//           <Button type="submit" variant="primary">Add Party</Button>
-//         </Form>
-//       </Modal.Body>
-//     </Modal>
-//   );
-// };
-
-// export default PartyModal;
-
-
-
-
-
 import React from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
@@ -110,13 +30,21 @@ const PartyModal = ({ show, onHide, onSubmit }) => {
             <Col md={4}>
               <Form.Group>
                 <Form.Label>Firm Name *</Form.Label>
-                <Form.Control name="firm" required placeholder="Enter Party firm" />
+                <Form.Control
+                  name="firm"
+                  required
+                  placeholder="Enter Party firm"
+                />
               </Form.Group>
             </Col>
             <Col md={4}>
               <Form.Group>
                 <Form.Label>Mobile Number *</Form.Label>
-                <Form.Control name="mobile" required placeholder="Enter mobile number" />
+                <Form.Control
+                  name="mobile"
+                  required
+                  placeholder="Enter mobile number"
+                />
               </Form.Group>
             </Col>
             <Col md={4}>
@@ -137,7 +65,11 @@ const PartyModal = ({ show, onHide, onSubmit }) => {
             <Col md={6}>
               <Form.Group>
                 <Form.Label>Address *</Form.Label>
-                <Form.Control name="address" required placeholder="Enter address" />
+                <Form.Control
+                  name="address"
+                  required
+                  placeholder="Enter address"
+                />
               </Form.Group>
             </Col>
           </Row>

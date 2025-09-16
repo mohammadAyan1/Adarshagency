@@ -33,8 +33,8 @@ const Product = ({ onSuccess, onCancel, productToEdit }) => {
     companyId: "",
     productName: "",
     productImg: null,
-    mrp: "", 
-    salesRate: "", 
+    mrp: "",
+    salesRate: "",
     purchaseRate: "",
     availableQty: 0,
     hsnCode: "",
@@ -63,9 +63,7 @@ const Product = ({ onSuccess, onCancel, productToEdit }) => {
   useEffect(() => {
     const fetchDropdownData = async () => {
       try {
-        const [
-          companyRes,
-        ] = await Promise.all([
+        const [companyRes] = await Promise.all([
           axios.get("/company"),
           axios.get("/category"),
           axios.get("/Subcategory"),
@@ -398,13 +396,13 @@ const Product = ({ onSuccess, onCancel, productToEdit }) => {
       cell: (row, index) => (
         <>
           <button
-            className='btn btn-sm btn-warning me-2'
+            className="btn btn-sm btn-warning me-2"
             onClick={() => handleEdit(index)}
           >
             <PencilFill />
           </button>
           <button
-            className='btn btn-sm btn-danger'
+            className="btn btn-sm btn-danger"
             onClick={() => handleDelete(index)}
           >
             <TrashFill />
@@ -422,33 +420,33 @@ const Product = ({ onSuccess, onCancel, productToEdit }) => {
   }
 
   return (
-    <div className='container-fluid mt-2'>
+    <div className="container-fluid mt-2">
       {/* <h3 className='mb-3'>Create Product</h3> */}
-      <div className='row-2'>
+      <div className="row-2">
         {/* Form Section */}
-        <div className='col-md-12 mb-4'>
-          <div className='card shadow border-0'>
-            <div className='card-body'>
-              <h5 className='card-title text-primary mb-3'>
+        <div className="col-md-12 mb-4">
+          <div className="card shadow border-0">
+            <div className="card-body">
+              <h5 className="card-title text-primary mb-3">
                 {/* {editIndex || productToEdit?._id !== null
                   ? "Add Product"
                   : "Add New Product"} */}
               </h5>
               <form onSubmit={handleSubmit}>
-                <div className='row'>
+                <div className="row">
                   {/* Brand */}
-                  <div className='col-md-6 mb-3'>
+                  <div className="col-md-6 mb-3">
                     <label>Brand</label>
                     <select
                       // ref={companyIdRef}
                       ref={(el) => (inputRefs.current[0] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 0)}
-                      name='companyId'
+                      name="companyId"
                       value={formData.companyId}
                       onChange={handleChange}
-                      className='form-control'
+                      className="form-control"
                     >
-                      <option value=''>Select Brand</option>
+                      <option value="">Select Brand</option>
                       {companies.map((c) => (
                         <option key={c._id} value={c._id}>
                           {c.name}
@@ -457,29 +455,29 @@ const Product = ({ onSuccess, onCancel, productToEdit }) => {
                     </select>
                   </div>
                   {/* Other inputs */}
-                  <div className='col-md-6 mb-3'>
+                  <div className="col-md-6 mb-3">
                     <label>Product Name</label>
                     <input
                       // ref={productNameRef}
                       ref={(el) => (inputRefs.current[1] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 1)}
-                      type='text'
-                      name='productName'
+                      type="text"
+                      name="productName"
                       value={formData.productName}
                       onChange={handleChange}
-                      className='form-control'
+                      className="form-control"
                     />
                   </div>
 
-                  <div className='col-md-6 mb-3'>
+                  <div className="col-md-6 mb-3">
                     <label>Product Image</label>
                     <input
                       ref={(el) => (inputRefs.current[2] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 2)}
-                      type='file'
-                      name='productImg'
+                      type="file"
+                      name="productImg"
                       onChange={handlePhotoChange}
-                      className='form-control'
+                      className="form-control"
                     />
                   </div>
 
@@ -498,132 +496,132 @@ const Product = ({ onSuccess, onCancel, productToEdit }) => {
                     />
                   </div> */}
 
-                  <div className='col-md-3 mb-3'>
+                  <div className="col-md-3 mb-3">
                     <label>KG Price</label>
                     <input
                       ref={(el) => (inputRefs.current[4] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 4)}
-                      type='number'
-                      name='primaryPrice'
+                      type="number"
+                      name="primaryPrice"
                       value={formData.primaryPrice}
                       onChange={handleChange}
-                      className='form-control'
+                      className="form-control"
                     />
                   </div>
 
-                  <div className='col-md-3 mb-3'>
+                  <div className="col-md-3 mb-3">
                     <label>Pieces</label>
                     <input
                       ref={(el) => (inputRefs.current[5] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 5)}
-                      type='text'
-                      name='secondaryUnit'
-                      placeholder='e.g. Pcs'
+                      type="text"
+                      name="secondaryUnit"
+                      placeholder="e.g. Pcs"
                       value={formData.secondaryUnit}
                       onChange={handleChange}
-                      className='form-control'
+                      className="form-control"
                     />
                   </div>
 
-                  <div className='col-md-3 mb-3'>
+                  <div className="col-md-3 mb-3">
                     <label>Pieces Price</label>
                     <input
                       ref={(el) => (inputRefs.current[6] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 6)}
-                      type='number'
-                      name='secondaryPrice'
+                      type="number"
+                      name="secondaryPrice"
                       value={formData.secondaryPrice}
                       onChange={handleChange}
-                      className='form-control'
+                      className="form-control"
                     />
                   </div>
 
                   {/* MRP */}
 
-                  <div className='col-md-3 mb-3'>
+                  <div className="col-md-3 mb-3">
                     <label>MRP</label>
                     <input
                       ref={(el) => (inputRefs.current[7] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 7)}
-                      type='number'
-                      name='mrp'
+                      type="number"
+                      name="mrp"
                       value={formData.mrp}
                       onChange={handleChange}
-                      className='form-control'
+                      className="form-control"
                     />
                   </div>
 
                   {/* Purchase Rate */}
-                  <div className='col-md-3 mb-3'>
+                  <div className="col-md-3 mb-3">
                     <label>Purchase Rate</label>
                     <input
                       ref={(el) => (inputRefs.current[8] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 8)}
-                      type='number'
-                      name='purchaseRate'
+                      type="number"
+                      name="purchaseRate"
                       value={formData.purchaseRate}
                       onChange={handleChange}
-                      className='form-control'
+                      className="form-control"
                     />
                   </div>
 
                   {/* sales Rate */}
-                  <div className='col-md-3 mb-3'>
+                  <div className="col-md-3 mb-3">
                     <label>Sales Rate</label>
                     <input
                       ref={(el) => (inputRefs.current[9] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 9)}
-                      type='number'
-                      name='salesRate'
+                      type="number"
+                      name="salesRate"
                       value={formData.salesRate}
                       onChange={handleChange}
-                      className='form-control'
+                      className="form-control"
                     />
                   </div>
                   {/* ------------------------------------------------------------------------------------- */}
 
-                  <div className='col-md-2 mb-3'>
+                  <div className="col-md-2 mb-3">
                     <label>Available Qty</label>
                     <input
                       ref={(el) => (inputRefs.current[10] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 10)}
-                      type='number'
-                      name='availableQty'
+                      type="number"
+                      name="availableQty"
                       value={formData.availableQty}
                       onChange={handleChange}
-                      className='form-control'
+                      className="form-control"
                     />
                   </div>
                   {/* HSN */}
-                  <div className='col-md-3 mb-3'>
+                  <div className="col-md-3 mb-3">
                     <label>HSN Code</label>
                     <input
                       ref={(el) => (inputRefs.current[11] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 11)}
-                      type='text'
-                      name='hsnCode'
+                      type="text"
+                      name="hsnCode"
                       value={formData.hsnCode}
                       onChange={handleChange}
-                      className='form-control'
+                      className="form-control"
                     />
                   </div>
 
                   {/* gst */}
-                  <div className='col-md-3 mb-3'>
+                  <div className="col-md-3 mb-3">
                     <label>GST %</label>
                     <input
                       ref={(el) => (inputRefs.current[12] = el)}
                       onKeyDown={(e) => handleKeyDown(e, 12)}
-                      type='Number'
-                      name='gstPercent'
+                      type="Number"
+                      name="gstPercent"
                       value={formData.gstPercent}
                       onChange={handleChange}
-                      className='form-control'
+                      className="form-control"
                     />
                   </div>
                 </div>
-                <div className=''>
-                  <button type='submit' className='btn btn-primary'>
+                <div className="">
+                  <button type="submit" className="btn btn-primary">
                     {editIndex !== null || productToEdit
                       ? "Update Product"
                       : "Create Product"}
@@ -636,15 +634,15 @@ const Product = ({ onSuccess, onCancel, productToEdit }) => {
 
         {/* Product List Table Section */}
         {!onSuccess && (
-          <div className='col-md-12 mb-4'>
-            <div className='card shadow border-0'>
-              <div className='card-body'>
-                <h5 className='card-title text-success mb-3'>Product List</h5>
+          <div className="col-md-12 mb-4">
+            <div className="card shadow border-0">
+              <div className="card-body">
+                <h5 className="card-title text-success mb-3">Product List</h5>
                 {products.length === 0 ? (
                   <p>No products added yet.</p>
                 ) : (
                   <CustomDataTable
-                    title='Product Table'
+                    title="Product Table"
                     columns={productColumns(
                       handleEdit,
                       handleDelete,

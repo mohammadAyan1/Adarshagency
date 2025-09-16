@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState, useRef } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 import ProductForm from "./ProductForm";
@@ -61,15 +58,15 @@ const ProductTabs = () => {
   };
 
   return (
-    <div className='container mt-3'>
+    <div className="container mt-3">
       <Tabs
         activeKey={key}
         onSelect={(k) => setKey(k)}
-        className='mb-3'
+        className="mb-3"
         justify
       >
         <Tab
-          eventKey='form'
+          eventKey="form"
           title={productToEdit ? "Edit Product" : "Add Product"}
         >
           <div ref={formTabRef}>
@@ -80,7 +77,7 @@ const ProductTabs = () => {
           </div>
         </Tab>
 
-        <Tab eventKey='list' title='Product List'>
+        <Tab eventKey="list" title="Product List">
           <ProductList onEdit={handleEdit} refreshFlag={refreshListFlag} />
         </Tab>
       </Tabs>

@@ -23,6 +23,7 @@ const createSalesman = async (req, res) => {
 const Display = async (req, res) => {
   try {
     const Data = await Salesman.find();
+    console.log(Data);
     res.status(200).send({ Data });
   } catch (error) {
     console.error("Error fetching Sales Man:", error); // Log the error for debugging

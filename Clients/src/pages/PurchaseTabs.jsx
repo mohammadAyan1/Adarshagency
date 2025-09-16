@@ -20,19 +20,19 @@ const PurchaseTabs = () => {
   };
 
   return (
-    <div className=' mt-4'>
+    <div className=" mt-4">
       <Tabs
-        id='purchase-tabs'
+        id="purchase-tabs"
         activeKey={activeKey}
         onSelect={(k) => setActiveKey(k)}
-        className='mb-3'
+        className="mb-3"
         justify
       >
-        <Tab eventKey='form' title={editId ? "Edit Purchase" : "Add Purchase"}>
+        <Tab eventKey="form" title={editId ? "Edit Purchase" : "Add Purchase"}>
           <PurchaseForm idToEdit={editId} onSuccess={handleSuccess} />
         </Tab>
 
-        <Tab eventKey='list' title='Purchase List'>
+        <Tab eventKey="list" title="Purchase List">
           <PurchaseList onEdit={handleEdit} refreshTrigger={refreshList} />
         </Tab>
       </Tabs>

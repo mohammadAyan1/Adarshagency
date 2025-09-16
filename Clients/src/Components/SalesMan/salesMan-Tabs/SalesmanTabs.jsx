@@ -20,17 +20,17 @@ const SalesmanTabs = () => {
   };
 
   return (
-    <div className='container mt-3'>
+    <div className="container mt-3">
       <Tabs
         activeKey={key}
         onSelect={(k) => setKey(k)}
-        className='mb-3'
+        className="mb-3"
         justify
       >
-        <Tab eventKey='form' title={editId ? "Edit Salesman" : "Add Salesman"}>
+        <Tab eventKey="form" title={editId ? "Edit Salesman" : "Add Salesman"}>
           <AddSalesMan idToEdit={editId} onSuccess={handleSuccess} />
         </Tab>
-        <Tab eventKey='list' title='Salesman List'>
+        <Tab eventKey="list" title="Salesman List">
           <DisplaySalesMan onEdit={handleEdit} refreshTrigger={refreshList} />
         </Tab>
       </Tabs>

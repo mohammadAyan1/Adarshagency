@@ -48,21 +48,21 @@ function CustomDataTable({
   }, [filterText, data]);
 
   if (loading) {
-    return <div className='py-4 text-center'>Loading...</div>; // or your Loader component
+    return <div className="py-4 text-center">Loading...</div>; // or your Loader component
   }
 
   return (
     <div>
       {/* ✅ Search Bar */}
-      <InputGroup className='mb-3'>
+      <InputGroup className="mb-3">
         <Form.Control
-          type='text'
-          placeholder='Search...'
+          type="text"
+          placeholder="Search..."
           value={filterText}
           onChange={(e) => setFilterText(e.target.value)}
         />
         {filterText && (
-          <Button variant='outline-secondary' onClick={() => setFilterText("")}>
+          <Button variant="outline-secondary" onClick={() => setFilterText("")}>
             Clear
           </Button>
         )}
@@ -85,7 +85,7 @@ function CustomDataTable({
         paginationComponentOptions={paginationOptions}
         defaultSortFieldId={1}
         defaultSortAsc={true}
-        noDataComponent={<div className='py-4'>No data found</div>}
+        noDataComponent={<div className="py-4">No data found</div>}
       />
     </div>
   );

@@ -29,33 +29,35 @@ import VendorLedger from "../Components/payment/vendorLedger";
 
 import Outstanding from "../pages/Outstanding";
 import PurchaseTabs from "../pages/PurchaseTabs";
+import SalesManWindow from "../Components/SalesmanWindow/SalesManWindow";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path='/' element={<Layout />}>
+      <Route path="/" element={<Layout />}>
         <Route index element={<DashboardCards />} />
-        <Route path='/add-company' element={<FirmDetail />} />
-        <Route path='/brand' element={<CompanyDetail />} />
-        <Route path='/pro-categories' element={<CategoryDetail />} />
-        <Route path='/pro-SubCat' element={<SubCatDetail />} />
-        <Route path='/product' element={<Product />} />
-        <Route path='/add-salesman' element={<AddSalesMan />} />
-        <Route path='/add-salesman/:id' element={<AddSalesMan />} />
-        <Route path='/display-salesman' element={<DisplaySalesMan />} />
-        <Route path='/add-invoice' element={<BillingReport />} />
-        <Route path='/edit-invoice/:id' element={<BillingReport />} />
-        <Route path='/generate-invoice' element={<GenerateInvoice />} />
-        <Route path='/display-invoice' element={<DisplayInvoice />} />
-        <Route path='/generate-invoice/:id' element={<GenerateInvoice />} />
-        <Route path='/Vendor-report' element={<VendorReport />} />
-        <Route path='/purchase' element={<PurchaseTabs />} />
-        <Route path='/add-customer' element={<CustomerDetail />} />
-        <Route path='/test' element={<PaymentVoucherForm />} />
-        <Route path='/report' element={<CustomerForm />} />
-        <Route path='/ledger' element={<Ledger />} />
-        <Route path='/vendor-ledger' element={<VendorLedger />} />
-        <Route path='/outstanding' element={<Outstanding />} />
+        <Route path="/add-company" element={<FirmDetail />} />
+        <Route path="/brand" element={<CompanyDetail />} />
+        <Route path="/pro-categories" element={<CategoryDetail />} />
+        <Route path="/pro-SubCat" element={<SubCatDetail />} />
+        <Route path="/product" element={<Product />} />
+        <Route path="/add-salesman" element={<AddSalesMan />} />
+        <Route path="/add-salesman/:id" element={<AddSalesMan />} />
+        <Route path="/display-salesman" element={<DisplaySalesMan />} />
+        <Route path="/add-invoice" element={<BillingReport />} />
+        <Route path="/edit-invoice/:id" element={<BillingReport />} />
+        <Route path="/generate-invoice" element={<GenerateInvoice />} />
+        <Route path="/display-invoice" element={<DisplayInvoice />} />
+        <Route path="/generate-invoice/:id" element={<GenerateInvoice />} />
+        <Route path="/Vendor-report" element={<VendorReport />} />
+        <Route path="/purchase" element={<PurchaseTabs />} />
+        <Route path="/add-customer" element={<CustomerDetail />} />
+        <Route path="/test" element={<PaymentVoucherForm />} />
+        <Route path="/report" element={<CustomerForm />} />
+        <Route path="/ledger" element={<Ledger />} />
+        <Route path="/vendor-ledger" element={<VendorLedger />} />
+        <Route path="/outstanding" element={<Outstanding />} />
+        {/* <Route path="/salesmanwindow" element={<SalesManWindow />} /> */}
       </Route>
     </Routes>
   );

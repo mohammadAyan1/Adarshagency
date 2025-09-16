@@ -381,7 +381,7 @@ const CustomerBill = ({ onBillingDataChange }, ref) => {
   // --- Render ---
   return (
     <div
-      className='mt-4'
+      className="mt-4"
       style={{
         width: "100vw",
         padding: "0 1rem",
@@ -390,12 +390,12 @@ const CustomerBill = ({ onBillingDataChange }, ref) => {
         transform: "translateX(-50%)",
       }}
     >
-      <h2 className='text-center mb-4'>Product Invoice</h2>
-      <div className='mt-3 p-3 bg-light border rounded'>
+      <h2 className="text-center mb-4">Product Invoice</h2>
+      <div className="mt-3 p-3 bg-light border rounded">
         <h5>Total Items: {rows.length}</h5>
-        <div className='d-flex align-items-center gap-4 text-muted mb-0'>
+        <div className="d-flex align-items-center gap-4 text-muted mb-0">
           <strong>Shortcuts:</strong>
-          <div className='d-flex align-items-center gap-3'>
+          <div className="d-flex align-items-center gap-3">
             <span>
               <strong>New Line:</strong> Enter / F2
             </span>
@@ -411,18 +411,18 @@ const CustomerBill = ({ onBillingDataChange }, ref) => {
 
       {/* Table */}
       <div
-        className='table-responsive'
+        className="table-responsive"
         style={{ maxHeight: "70vh", overflowX: "auto", overflowY: "auto" }}
       >
         <table
-          className='table table-bordered text-center'
+          className="table table-bordered text-center"
           style={{
             border: "2px solid #dee2e6",
             borderRadius: "8px",
             minWidth: "1200px",
           }}
         >
-          <thead className='table-secondary'>
+          <thead className="table-secondary">
             <tr>
               {fields.map((field, idx) => (
                 <th key={idx}>
@@ -447,7 +447,7 @@ const CustomerBill = ({ onBillingDataChange }, ref) => {
               />
             ))}
             <tr style={{ fontWeight: "bold", backgroundColor: "#f8f9fa" }}>
-              <td colSpan={fields.length - 1} className='text-start'>
+              <td colSpan={fields.length - 1} className="text-start">
                 Final Amount: ₹ <span>{finalTotalAmount}</span>
               </td>
             </tr>
@@ -479,7 +479,7 @@ const CustomerBill = ({ onBillingDataChange }, ref) => {
       <NumericInputModal
         show={showSchemeModal}
         onClose={() => setShowSchemeModal(false)}
-        title='Apply Scheme for All Items'
+        title="Apply Scheme for All Items"
         value={schemeValue}
         setValue={setSchemeValue}
         onApply={applySchemeToAll}
@@ -487,7 +487,7 @@ const CustomerBill = ({ onBillingDataChange }, ref) => {
       <NumericInputModal
         show={showCDModal}
         onClose={() => setShowCDModal(false)}
-        title='Apply Cash Discount (CD) for All Items'
+        title="Apply Cash Discount (CD) for All Items"
         value={cdValue}
         setValue={setCDValue}
         onApply={applyCDToAll}

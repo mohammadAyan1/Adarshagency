@@ -75,9 +75,9 @@ function ProductSelectionModal({
         <h5>Select a Product</h5>
         <input
           ref={inputRef}
-          type='text'
-          className='form-control mb-3'
-          placeholder='Search products...'
+          type="text"
+          className="form-control mb-3"
+          placeholder="Search products..."
           value={filterText}
           onChange={(e) => {
             setFilterText(e.target.value);
@@ -85,8 +85,8 @@ function ProductSelectionModal({
           }}
           autoFocus
         />
-        <table className='table table-bordered table-hover'>
-          <thead className='table-light'>
+        <table className="table table-bordered table-hover">
+          <thead className="table-light">
             <tr>
               <th>SR</th>
               <th>Product Image</th>
@@ -113,7 +113,7 @@ function ProductSelectionModal({
                   {product.productImg ? (
                     <img
                       src={`${IMAGE_BASE}/Images/${product.productImg}`}
-                      alt='Product'
+                      alt="Product"
                       width={40}
                       height={40}
                       style={{ borderRadius: "50%" }}

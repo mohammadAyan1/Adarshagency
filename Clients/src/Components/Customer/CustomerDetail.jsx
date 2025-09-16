@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import {
   Container,
@@ -49,7 +48,7 @@ function CustomerDetail() {
     try {
       const res = await axios.get("/customer");
       console.log(res);
-      
+
       setCustomers(res.data);
       setFilteredItems(res.data);
     } catch (err) {
@@ -91,7 +90,7 @@ function CustomerDetail() {
 
   const handleEdit = (customer) => {
     console.log(customer);
-    
+
     setEditingCustomer(customer);
     setActiveTab("add");
   };
@@ -174,16 +173,16 @@ function CustomerDetail() {
     {
       name: "Actions",
       cell: (row) => (
-        <div className='d-flex gap-2'>
+        <div className="d-flex gap-2">
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={
               <Tooltip id={`tooltip-edit-${row._id}`}>Edit Customer</Tooltip>
             }
           >
             <Button
-              variant='warning'
-              className='d-flex align-items-center justify-content-center'
+              variant="warning"
+              className="d-flex align-items-center justify-content-center"
               onClick={() => handleEdit(row)}
               style={{ width: "40px", height: "40px", padding: 0 }}
             >
@@ -192,7 +191,7 @@ function CustomerDetail() {
           </OverlayTrigger>
 
           <OverlayTrigger
-            placement='top'
+            placement="top"
             overlay={
               <Tooltip id={`tooltip-delete-${row._id}`}>
                 Delete Customer
@@ -200,8 +199,8 @@ function CustomerDetail() {
             }
           >
             <Button
-              variant='danger'
-              className='d-flex align-items-center justify-content-center'
+              variant="danger"
+              className="d-flex align-items-center justify-content-center"
               onClick={() => handleDelete(row._id)}
               style={{ width: "40px", height: "40px", padding: 0 }}
             >
@@ -227,7 +226,7 @@ function CustomerDetail() {
   }
 
   return (
-    <Container className='mt-4'>
+    <Container className="mt-4">
       <Card>
         <Card.Body>
           <Tabs
@@ -239,28 +238,26 @@ function CustomerDetail() {
                 setEditingCustomer(null);
               }
             }}
-            className='mb-3'
+            className="mb-3"
           >
-            <Tab eventKey='details' title='Customer Detail'>
-        
-
+            <Tab eventKey="details" title="Customer Detail">
               <CustomDataTable
-                title='Customers'
+                title="Customers"
                 columns={columns}
                 data={filteredItems}
                 loading={loading}
                 filterComponent={
-                  <div className='mb-3'>
+                  <div className="mb-3">
                     <InputGroup>
                       <Form.Control
-                        type='text'
-                        placeholder='Search by name, area or mobile...'
+                        type="text"
+                        placeholder="Search by name, area or mobile..."
                         value={filterText}
                         onChange={(e) => setFilterText(e.target.value)}
                       />
                       {filterText && (
                         <Button
-                          variant='outline-secondary'
+                          variant="outline-secondary"
                           onClick={() => setFilterText("")}
                         >
                           Clear
@@ -270,16 +267,16 @@ function CustomerDetail() {
                   </div>
                 }
                 exportButtons={
-                  <Row className='mb-3'>
+                  <Row className="mb-3">
                     <Col>
                       <Button
-                        variant='success'
+                        variant="success"
                         onClick={exportToExcel}
-                        className='me-2'
+                        className="me-2"
                       >
                         <BsFileEarmarkExcel /> Download Excel
                       </Button>
-                      <Button variant='danger' onClick={exportToPDF}>
+                      <Button variant="danger" onClick={exportToPDF}>
                         <BsFileEarmarkPdf /> Download PDF
                       </Button>
                     </Col>
@@ -289,7 +286,7 @@ function CustomerDetail() {
             </Tab>
 
             <Tab
-              eventKey='add'
+              eventKey="add"
               title={editingCustomer ? "Edit Customer" : "Add Customer"}
             >
               <AddCustomer
@@ -303,7 +300,7 @@ function CustomerDetail() {
         </Card.Body>
       </Card>
 
-      <ToastContainer position='top-right' autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={3000} />
     </Container>
   );
 }
