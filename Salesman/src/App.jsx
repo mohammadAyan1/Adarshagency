@@ -1,20 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SideBar from "./ComponentsCreated/SideBar/SideBar";
 import Dashboard from "./ComponentsCreated/Dashboard/Dashboard";
 import Login from "./ComponentsCreated/Login/Login";
+import MobileBillForm from "./ComponentsCreated/AddBill/AddBill";
+// import { Label } from "@radix-ui/react-label";
+import { Label } from "./components/ui/label";
+import ProtectedRoute from "./ComponentsCreated/ProtectedRoute/ProtectedRoutes";
+import { SheetDemo } from "./ComponentsCreated/SliderSidebar/SliderSideBar";
 
 function App() {
+  const [userName, setUserName] = useState({});
+  // const [userName, setUserName] = useState({});
+
   return (
     <BrowserRouter>
       {/* Sidebar overlay (fixed, doesn’t push content) */}
-      <SideBar />
+      <SideBar userName={userName} />
 
       {/* Main content always full screen */}
       <div className="flex justify-center items-start min-h-screen w-full p-6">
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Dashboard setUserName={setUserName} />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
+          <Route
+            path="/addbill"
+            element={
+              <ProtectedRoute>
+                <MobileBillForm />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </BrowserRouter>

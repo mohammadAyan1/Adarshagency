@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 const express = require("express");
 const app = express();
@@ -6,9 +5,11 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
-const morgan = require("morgan"); 
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 
 // ---------Routes----------
+const protectedRoutes = require("./middleware/auth.middleware")
 const CompanyRoute = require("./Routes/CompanyRoute");
 const CategoryRoute = require("./Routes/CategoryRoute");
 const SubCategoryRoute = require("./Routes/SubCategoryRoute");
@@ -18,19 +19,25 @@ const BillingRoute = require("./Routes/ProductBillingRoute");
 const VendorRoute = require("./Routes/VendorRoute");
 const PurchaseRoute = require("./Routes/PurchaseRoute");
 const customerRoutes = require("./Routes/CustomerRoute");
+const auth = require("./Routes/auth.controller");
+const CheckAuth = require("./Routes/CheckAuth");
+const fetchShopName = require("./Routes/getShopName");
+
 
 //  Morgan middleware (logs all requests in 'dev' format)
 app.use(morgan("dev"));
 
-
-
-
 //  CORS setup
 app.use(
   cors({
-    origin:["https://adarsh-agency-zeta.vercel.app","http://localhost:5173","https://adarshagency-3f6i.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE"], 
-    credentials: true, 
+    origin: [
+      "https://adarsh-agency-zeta.vercel.app",
+      "http://localhost:5173",
+      "https://adarshagency-3f6i.vercel.app",
+      "http://localhost:5174",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
 
@@ -39,7 +46,7 @@ app.options("*", cors());
 // Body Parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cookieParser());
 //  MongoDB Connection
 mongoose
   .connect(process.env.dbUrl)
@@ -60,8 +67,16 @@ app.use("/api/product", ProductRoute);
 app.use("/api/Subcategory", SubCategoryRoute);
 app.use("/api/salesman", SalesManRoute);
 app.use("/api/pro-billing", BillingRoute);
+// app.use("/api/pro-billing", BillingRoute);
 app.use("/api/vendor", VendorRoute);
 app.use("/api/purchase", PurchaseRoute);
+app.use("/api/login", auth);
+app.use("/api/checksalesman",CheckAuth)
+app.use("/api/fetchshopname",fetchShopName)
+
+// fetchshopname
+
+
 
 //  404 Not Found Handler
 app.use((req, res, next) => {

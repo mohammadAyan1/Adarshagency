@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import {
   Card,
@@ -10,8 +11,28 @@ import {
 } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
+import axios from "../../Config/axios.js";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const [form, setForm] = useState({});
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post("/login/salesman", form);
+      console.log("Response:", res.data);
+      if (res.status) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error("Login error:", err.response?.data || err.message);
+    }
+  };
+
   return (
     <>
       <Card className="w-full max-w-sm">
@@ -20,45 +41,44 @@ const Login = () => {
           <CardDescription>
             Enter your Username below to login to your account
           </CardDescription>
-          <CardAction>
-            {/* <Button variant="link">Sign Up</Button> */}
-          </CardAction>
+          <CardAction></CardAction>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Username</Label>
                 <Input
-                  id="email"
-                  type="email"
+                  id="username"
+                  type="text"
                   placeholder="Username"
+                  onChange={(e) => {
+                    setForm((prev) => ({ ...prev, username: e.target.value }));
+                  }}
                   required
                 />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  {/* <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a> */}
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  onChange={(e) => {
+                    setForm((prev) => ({ ...prev, password: e.target.value }));
+                  }}
+                />
               </div>
             </div>
+            <CardFooter className="flex-col gap-2">
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
+            </CardFooter>
           </form>
         </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
-          {/* <Button variant="outline" className="w-full">
-            Login with Google
-          </Button> */}
-        </CardFooter>
       </Card>
     </>
   );

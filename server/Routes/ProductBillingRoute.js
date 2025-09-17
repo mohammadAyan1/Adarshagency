@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const BillingCtrl = require("../Controller/ProductBillingCtrl");
+const protectedRoutes = require("../middleware/auth.middleware");
 
 router.post("/", BillingCtrl.createBilling);
 router.get("/", BillingCtrl.getAllInvoices);
+router.get("/salesman", protectedRoutes, BillingCtrl.getAllInvoicesBySalesMan);
 
 router.post("/adjust", BillingCtrl.adjustNewRef);
 router.post("/new", BillingCtrl.applyNewRef);

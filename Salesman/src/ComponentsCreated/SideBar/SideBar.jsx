@@ -9,9 +9,13 @@ import {
   SidebarHeader,
   SidebarTrigger,
 } from "../../components/ui/sidebar";
+import { Link } from "react-router-dom";
 import { Home, Users, Settings } from "lucide-react";
 
-const SideBar = () => {
+const SideBar = ({userName}) => {
+  // const [userName,setUserName] = useState("")
+  console.log(userName);
+  
   return (
     <>
       <div className="flex">
@@ -24,22 +28,38 @@ const SideBar = () => {
 
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Main</SidebarGroupLabel>
+              <SidebarGroupLabel>User</SidebarGroupLabel>
               <SidebarGroupContent>
                 <ul className="space-y-1">
                   <li className="flex items-center gap-2 px-3 py-2 rounded hover:bg-accent cursor-pointer">
+                    {/* <Settings size={18} /> */}
+                    <Users size={18} />
+                    <span>{userName?.username || "Guest"}</span>
+                  </li>
+                </ul>
+              </SidebarGroupContent>
+              <SidebarGroupLabel>Main</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <ul className="space-y-1">
+                  <Link
+                    to={"/"}
+                    className="flex items-center gap-2 px-3 py-2 rounded hover:bg-accent cursor-pointer"
+                  >
                     <Home size={18} />
                     <span>Home</span>
-                  </li>
+                  </Link>
                   <li className="flex items-center gap-2 px-3 py-2 rounded hover:bg-accent cursor-pointer">
                     <Users size={18} />
                     <span>Users</span>
                   </li>
 
-                  <li className="flex items-center gap-2 px-3 py-2 rounded hover:bg-accent cursor-pointer">
+                  <Link
+                    to={"/addbill"}
+                    className="flex items-center gap-2 px-3 py-2 rounded hover:bg-accent cursor-pointer"
+                  >
                     <Users size={18} />
                     <span>Add Bill</span>
-                  </li>
+                  </Link>
                 </ul>
               </SidebarGroupContent>
             </SidebarGroup>
