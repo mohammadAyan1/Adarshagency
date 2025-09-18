@@ -11,6 +11,7 @@ import { SheetDemo } from "./ComponentsCreated/SliderSidebar/SliderSideBar";
 
 function App() {
   const [userName, setUserName] = useState({});
+  const [ userDetail,setUserDetail] = useState()
   // const [userName, setUserName] = useState({});
 
   return (
@@ -29,12 +30,12 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setUserDetail={setUserDetail}/>} />
           <Route
             path="/addbill"
             element={
               <ProtectedRoute>
-                <MobileBillForm />
+                <MobileBillForm userDetail={userDetail} />
               </ProtectedRoute>
             }
           />

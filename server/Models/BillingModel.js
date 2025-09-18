@@ -40,7 +40,9 @@ const InvoiceSchema = new mongoose.Schema({
 
   customerName: String,
   customer: CustomerInfoSchema, // ✅ Embedded
-  billingType: { type: String, enum: ["Cash", "Credit"], required: true },
+  // billingType: { type: String, enum: ["Cash", "Credit"], required: true },
+  billingType: { type: String, enum: ["Cash", "Credit", "cash", "credit"], required: true },
+
 
   billDate: { type: Date, default: Date.now },
   paymentMode: String,

@@ -1,0 +1,111 @@
+const express = require("express");
+
+const Invoice = require("../Models/BillingModel");
+const Salesman = require("../Models/SalesManModel");
+const Customer = require("../Models/CustomerModel");
+
+const router = express.Router();
+
+// router.post("/additem", async (req, res) => {
+//   try {
+//     console.log(req.body);
+//     const { formData, product } = req.body;
+
+//     const salesmanData = await salesman.findById(formData.salesmanId);
+//     console.log(salesmanData);
+
+//     const customerData = await customer.findById(formData.shop);
+//     console.log(customerData);
+
+//     const setInvoiceData = new Invoice({
+//       salesmanId: formData?.salesmanId,
+//       customerId: formData?.shop,
+//       salesmanName: salesmanData?.name,
+//       customerName: customerData?.name,
+//       customer: { customerName: customerData?.name },
+//     });
+
+//     await setInvoiceData.save();
+
+//     res.status(200).json({
+//       message: "data save ssuccessfully",
+//       data: setInvoiceData,
+//       status: true,
+//     });
+//   } catch (error) {
+//     res.status(200).json({
+//       message: "server error while save product data from salesman ",
+//       data: null,
+//       status: false,
+//     });
+//   }
+// });
+
+router.post("/additem", async (req, res) => {
+  try {
+    const { formData, products } = req.body;
+    console.log(req.body);
+    
+    console.log(formData);
+    console.log(products);
+    
+
+    // find related customer
+    const customerData = await Customer.findById(formData.shop);
+    if (!customerData) {
+      return res.status(404).json({ message: "Customer not found", status: false });
+    }
+
+    // find related salesman
+    const salesmanData = await Salesman.findById(formData.salesmanId);
+    if (!salesmanData) {
+      return res.status(404).json({ message: "Salesman not found", status: false });
+    }
+
+    // ✅ Create invoice with embedded customer info
+    const newInvoice = new Invoice({
+      companyId: formData.companyId,
+      salesmanId: formData.salesmanId,
+      customerId: formData.shop,
+      salesmanName: salesmanData.name,
+      customerName: customerData.name,
+
+      customer: {
+        CustomerName: customerData.name,
+        Billdate: formData.billDate,
+        paymentMode: formData.paymentMode,
+        salesmanName: salesmanData.name,
+        selectedBeatId: customerData.beatId,
+        selectedBeatName: customerData.beatName,
+        selectedCustomerId: customerData._id,
+        selectedSalesmanId: salesmanData._id,
+        billingType: formData.billType,
+      },
+
+      billingType: formData.billType,
+      billDate: formData.billDate,
+      paymentMode: formData.paymentMode,
+      billing: products, // your product array
+
+      finalAmount: formData.finalAmount,
+      pendingAmount: formData.finalAmount, // initial pending same as total
+    });
+
+    await newInvoice.save();
+
+    res.status(201).json({
+      message: "Invoice saved successfully",
+      data: newInvoice,
+      status: true,
+    });
+  } catch (error) {
+    console.error("Error saving invoice:", error);
+    res.status(500).json({
+      message: "Server error while saving invoice",
+      status: false,
+    });
+  }
+});
+
+
+module.exports = router;

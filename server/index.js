@@ -22,6 +22,7 @@ const customerRoutes = require("./Routes/CustomerRoute");
 const auth = require("./Routes/auth.controller");
 const CheckAuth = require("./Routes/CheckAuth");
 const fetchShopName = require("./Routes/getShopName");
+const addProductData = require("./Routes/addSalesmanProductData");
 
 
 //  Morgan middleware (logs all requests in 'dev' format)
@@ -33,6 +34,8 @@ app.use(
     origin: [
       "https://adarsh-agency-zeta.vercel.app",
       "http://localhost:5173",
+      "http://localhost:5175",
+
       "https://adarshagency-3f6i.vercel.app",
       "http://localhost:5174",
     ],
@@ -73,6 +76,7 @@ app.use("/api/purchase", PurchaseRoute);
 app.use("/api/login", auth);
 app.use("/api/checksalesman",CheckAuth)
 app.use("/api/fetchshopname",fetchShopName)
+app.use("/api/addsalesmanproductdata",addProductData)
 
 // fetchshopname
 

@@ -14,7 +14,7 @@ import { Label } from "../../components/ui/label";
 import axios from "../../Config/axios.js";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setUserDetail }) => {
   const [form, setForm] = useState({});
 
   const navigate = useNavigate();
@@ -25,6 +25,10 @@ const Login = () => {
     try {
       const res = await axios.post("/login/salesman", form);
       console.log("Response:", res.data);
+      setUserDetail(res.data);
+
+      localStorage.setItem("userData", JSON.stringify(res.data));
+
       if (res.status) {
         navigate("/");
       }
