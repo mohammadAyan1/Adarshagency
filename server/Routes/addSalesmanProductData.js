@@ -3,7 +3,8 @@ const express = require("express");
 const Invoice = require("../Models/BillingModel");
 const Salesman = require("../Models/SalesManModel");
 const Customer = require("../Models/CustomerModel");
-
+const Product = require("../Models/ProductModel.js");
+const Ledger = require("../Models/LedgerModel.js")
 const router = express.Router();
 
 // router.post("/additem", async (req, res) => {
@@ -45,22 +46,53 @@ router.post("/additem", async (req, res) => {
   try {
     const { formData, products } = req.body;
     console.log(req.body);
-    
+
     console.log(formData);
     console.log(products);
-    
 
     // find related customer
     const customerData = await Customer.findById(formData.shop);
     if (!customerData) {
-      return res.status(404).json({ message: "Customer not found", status: false });
+      return res
+        .status(404)
+        .json({ message: "Customer not found", status: false });
     }
 
     // find related salesman
     const salesmanData = await Salesman.findById(formData.salesmanId);
     if (!salesmanData) {
-      return res.status(404).json({ message: "Salesman not found", status: false });
+      return res
+        .status(404)
+        .json({ message: "Salesman not found", status: false });
     }
+
+    const mappedProducts = products.map((p) => ({
+      productId: p.productId || null,
+      itemName: p.itemName,
+      unit: p.unit,
+      primaryUnit: p.primaryUnit,
+      secondaryUnit: p.secondaryUnit,
+      qty: p.qty,
+      freeQty: p.freeQty,
+      rate: p.rate,
+      sch: p.sch,
+      schAmt: p.schAmt,
+      cd: p.cd,
+      cdAmt: p.cdAmt,
+      total: p.total,
+      GST: p.GST,
+      totalGstAmount: p.totalGstAmount,
+      amount: p.amount,
+      finalAmount: p.finalAmount,
+      pendingAmount: p.pendingAmount,
+      availableQty: p.availableQty,
+    }));
+
+    // Calculate invoice total
+    const totalFinalAmount = mappedProducts.reduce(
+      (sum, p) => sum + (p.finalAmount || 0),
+      0
+    );
 
     // ✅ Create invoice with embedded customer info
     const newInvoice = new Invoice({
@@ -85,13 +117,56 @@ router.post("/additem", async (req, res) => {
       billingType: formData.billType,
       billDate: formData.billDate,
       paymentMode: formData.paymentMode,
-      billing: products, // your product array
 
-      finalAmount: formData.finalAmount,
-      pendingAmount: formData.finalAmount, // initial pending same as total
+      billing: mappedProducts,
+
+      finalAmount: totalFinalAmount,
+      pendingAmount: totalFinalAmount, // initially full pending
     });
 
     await newInvoice.save();
+
+    customerData.totalBalance += totalFinalAmount;
+    await customerData.save();
+
+    const ledger = new Ledger({
+      refType: "invoice",
+      refId: newInvoice._id,
+      narration: `Invoice created for customer ${customerData.name}`,
+      debitAccount: `Customer: ${customerData.name}`,
+      creditAccount: "Sales Income",
+      amount: totalFinalAmount,
+      companyId: newInvoice.companyId,
+      customerId: customerData._id,
+    });
+
+    await ledger.save();
+
+    newInvoice.ledgerIds.push(ledger._id);
+    await newInvoice.save();
+
+    for (const item of mappedProducts) {
+      console.log(item);
+      
+      if (!item.productId) {
+        throw new Error(`Product ID missing`);
+      }
+
+      const totalQtyToDeduct = (item.qty || 0) + (item.freeQty || 0);
+      const product = await Product.findById(item.productId);
+
+      if (!product) throw new Error(`Product not found: ${item.productId}`);
+
+      if (product.availableQty < totalQtyToDeduct) {
+        throw new Error(
+          `Not enough stock for ${product.productName}. Available: ${product.availableQty}, Required: ${totalQtyToDeduct}`
+        );
+      }
+
+      product.availableQty -= totalQtyToDeduct;
+      product.lastUpdated = new Date();
+      await product.save();
+    }
 
     res.status(201).json({
       message: "Invoice saved successfully",
@@ -106,6 +181,5 @@ router.post("/additem", async (req, res) => {
     });
   }
 });
-
 
 module.exports = router;

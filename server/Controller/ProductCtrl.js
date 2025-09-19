@@ -99,22 +99,36 @@ const getProducts = async (req, res) => {
   }
 };
 
-const getProductForSalesMan  = async(req,res)=>{
+const getProductForSalesMan = async (req, res) => {
   try {
     console.log("hgjhgj");
-    
-    const getProduct = await Product.find({})
+
+    // const getProduct = await Product.find({}).populate("companyId")
+    const getProduct = await Product.find({}).populate("companyId");
+
+    console.log(JSON.stringify(getProduct, null, 2));
+
     console.log(getProduct);
-    
+
     if (!getProduct) {
-      return res.status(400).json({status:false,message:"did not fetch product"})
+      return res
+        .status(400)
+        .json({ status: false, message: "did not fetch product" });
     }
 
-    res.status(200).json({status:true,message:"Product fetch successfull",data:getProduct})
+    res
+      .status(200)
+      .json({
+        status: true,
+        message: "Product fetch successfull",
+        data: getProduct,
+      });
   } catch (error) {
-    return res.status(500).json({ status :false,message:"Server Error while fetching product"})
+    return res
+      .status(500)
+      .json({ status: false, message: "Server Error while fetching product" });
   }
-}
+};
 
 const UpdateProductQuantity = async (req, res) => {
   const { productId, quantity } = req.body;
@@ -250,5 +264,5 @@ module.exports = {
   UpdateProductQuantity,
   deleteProduct,
   getProductById,
-  getProductForSalesMan
+  getProductForSalesMan,
 };

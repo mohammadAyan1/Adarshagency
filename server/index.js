@@ -23,6 +23,8 @@ const auth = require("./Routes/auth.controller");
 const CheckAuth = require("./Routes/CheckAuth");
 const fetchShopName = require("./Routes/getShopName");
 const addProductData = require("./Routes/addSalesmanProductData");
+const Logout = require("./Routes/logoutSalesman.js");
+
 
 
 //  Morgan middleware (logs all requests in 'dev' format)
@@ -77,6 +79,8 @@ app.use("/api/login", auth);
 app.use("/api/checksalesman",CheckAuth)
 app.use("/api/fetchshopname",fetchShopName)
 app.use("/api/addsalesmanproductdata",addProductData)
+app.use("/api/logout",Logout)
+
 
 // fetchshopname
 

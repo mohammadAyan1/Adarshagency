@@ -13,6 +13,8 @@ const getError = (err) =>
 export const createInvoice = createAsyncThunk(
   "invoice/createInvoice",
   async (invoiceData, { rejectWithValue }) => {
+    console.log(invoiceData);
+    
     try {
       const res = await axios.post(API_URL, invoiceData);
       return res.data.invoice;

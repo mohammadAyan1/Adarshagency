@@ -6,6 +6,8 @@ const Company = require("../Models/CompanyModel");
 // ➕ Create a new Company
 router.post("/", async (req, res) => {
   try {
+    console.log(req.body,"this is post the data in the brand section");
+    
     const newCompany = new Company(req.body);
     const savedCompany = await newCompany.save();
     res.status(201).json(savedCompany);
@@ -20,7 +22,7 @@ router.get("/", async (req, res) => {
   console.log("this is call");
   try {
     const companies = await Company.find();
-    console.log(companies);
+    console.log(companies,"my name is ayan get the data from the company model");
     
     res.status(200).json(companies);
   } catch (error) {

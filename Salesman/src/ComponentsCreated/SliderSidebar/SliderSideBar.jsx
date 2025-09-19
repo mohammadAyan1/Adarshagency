@@ -14,17 +14,40 @@ import { useEffect, useState } from "react";
 export function SheetDemo({ isOpen, setIsOpen, productData }) {
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState(productData || []);
-
+  const [alphaSort, setAlphaSort] = useState(null); // null, "asc", "desc"
+  const [priceSort, setPriceSort] = useState(null); // null, "asc", "desc"
   useEffect(() => {
-    if (!search) {
-      setFilteredData(productData); // show all when empty
-    } else {
-      const filterData = productData?.filter((item) =>
-        item?.productName?.toLowerCase().includes(search.toLowerCase())
+    if (!productData) return;
+
+    let data = [...productData];
+
+    // search filter
+    if (search) {
+      data = data.filter(
+        (item) =>
+          item?.productName?.toLowerCase().includes(search.toLowerCase()) ||
+          item?.companyId?.name?.toLowerCase().includes(search.toLowerCase())
       );
-      setFilteredData(filterData);
     }
-  }, [search, productData]);
+
+    // alpha sorting
+    if (alphaSort === "asc") {
+      data.sort((a, b) => a.productName.localeCompare(b.productName));
+    } else if (alphaSort === "desc") {
+      data.sort((a, b) => b.productName.localeCompare(a.productName));
+    }
+
+    // price sorting
+    if (priceSort === "asc") {
+      data.sort((a, b) => a.mrp - b.mrp); // Low → High
+    } else if (priceSort === "desc") {
+      data.sort((a, b) => b.mrp - a.mrp); // High → Low
+    }
+
+    setFilteredData(data);
+  }, [search, productData, alphaSort, priceSort]);
+
+  console.log(productData);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -38,9 +61,30 @@ export function SheetDemo({ isOpen, setIsOpen, productData }) {
               onChange={(e) => setSearch(e.target.value)}
             />
           </SheetDescription>
+          <div className="flex justify-between items-center">
+            <div
+              onClick={() =>
+                setAlphaSort(alphaSort === "asc" ? "desc" : "asc") ||
+                setPriceSort(null)
+              }
+              className="bg-blue-700 p-2 rounded w-20 text-white cursor-pointer"
+            >
+              {alphaSort === "asc" ? "A → Z" : "Z → A"}
+            </div>
+
+            <div
+              onClick={() =>
+                setPriceSort(priceSort === "asc" ? "desc" : "asc") ||
+                setAlphaSort(null)
+              }
+              className="bg-blue-700 p-2 rounded w-28 text-white cursor-pointer"
+            >
+              {priceSort === "asc" ? "Low → High" : "High → Low"}
+            </div>
+          </div>
         </SheetHeader>
 
-        <div>
+        <div className="grid grid-cols-2">
           {filteredData?.map((item, index) => (
             <div
               key={index}
@@ -66,6 +110,10 @@ export function SheetDemo({ isOpen, setIsOpen, productData }) {
                 <h1>
                   <span className="font-bold">Sale Price: </span>₹
                   {item?.salesRate}
+                </h1>
+                <h1>
+                  <span className="font-bold">Brand: </span>
+                  {item?.companyId?.name || "NAN"}
                 </h1>
               </div>
             </div>
