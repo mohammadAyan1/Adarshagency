@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get("/checksalesman");
+        const res = await axios.get("/checksalesman",{withCredentials:true});
         if (res.data?.status) {
           console.log(res);
 

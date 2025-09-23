@@ -23,7 +23,7 @@ const Login = ({ setUserDetail }) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("/login/salesman", form);
+      const res = await axios.post("/login/salesman", form,{withCredentials:true});
       console.log("Response:", res.data);
       setUserDetail(res.data);
 
