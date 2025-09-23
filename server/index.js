@@ -36,7 +36,7 @@ app.use(
       "http://localhost:5173",
       "http://localhost:5175",
       "https://adarshagency-3f6i.vercel.app",
-      // "http://localhost:5174",
+      "http://localhost:5174",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
