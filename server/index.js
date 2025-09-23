@@ -35,14 +35,19 @@ app.use(
       "https://adarsh-agency-zeta.vercel.app",
       "http://localhost:5173",
       "http://localhost:5175",
-      // "https://soft.adarshagency.com/api",
       "https://adarshagency-3f6i.vercel.app",
-      "http://localhost:5174",
+      // "http://localhost:5174",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 
 app.options("*", cors());
 
@@ -70,7 +75,7 @@ app.use("/api/product", ProductRoute);
 app.use("/api/Subcategory", SubCategoryRoute);
 app.use("/api/salesman", SalesManRoute);
 app.use("/api/pro-billing", BillingRoute);
-// app.use("/api/pro-billing", BillingRoute);
+
 app.use("/api/vendor", VendorRoute);
 app.use("/api/purchase", PurchaseRoute);
 app.use("/api/login", auth);
@@ -78,8 +83,6 @@ app.use("/api/checksalesman", CheckAuth);
 app.use("/api/fetchshopname", fetchShopName);
 app.use("/api/addsalesmanproductdata", addProductData);
 app.use("/api/logout", Logout);
-
-// fetchshopname
 
 //  404 Not Found Handler
 app.use((req, res, next) => {

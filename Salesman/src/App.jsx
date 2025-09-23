@@ -10,14 +10,17 @@ import ProtectedRoute from "./ComponentsCreated/ProtectedRoute/ProtectedRoutes";
 import { SheetDemo } from "./ComponentsCreated/SliderSidebar/SliderSideBar";
 
 function App() {
-  const [userName, setUserName] = useState({});
-  const [ userDetail,setUserDetail] = useState()
+  // const [userName, setUserName] = useState({});
+  const [userDetail, setUserDetail] = useState(
+    JSON.parse(localStorage.getItem("userData")) || null
+  );
+
   // const [userName, setUserName] = useState({});
 
   return (
     <BrowserRouter>
       {/* Sidebar overlay (fixed, doesn’t push content) */}
-      <SideBar userName={userName} />
+      <SideBar userName={userDetail} />
 
       {/* Main content always full screen */}
       <div className="flex justify-center items-start min-h-screen w-full p-6">
@@ -26,11 +29,14 @@ function App() {
             path="/"
             element={
               <ProtectedRoute>
-                <Dashboard setUserName={setUserName} />
+                <Dashboard setUserName={setUserDetail} />
               </ProtectedRoute>
             }
           />
-          <Route path="/login" element={<Login setUserDetail={setUserDetail}/>} />
+          <Route
+            path="/login"
+            element={<Login setUserDetail={setUserDetail} />}
+          />
           <Route
             path="/addbill"
             element={

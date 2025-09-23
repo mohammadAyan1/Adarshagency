@@ -5,6 +5,8 @@ const SalesManModel = require("../Models/SalesManModel")
 const protectedRoutes = async (req, res, next) => {
   try {
     const token = req?.cookies?.token;
+    console.log(req);
+    
     console.log(token,"jhgfhg");
     
     if (!token) {
@@ -18,7 +20,7 @@ const protectedRoutes = async (req, res, next) => {
       return res.status(401).json({ status:false ,message: "Token is not valid" });
     }
 
-    req.check = user;
+    req.user = user;
     next();
   } catch (error) {
     console.error("Authentication error:", error.message);

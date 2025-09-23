@@ -21,7 +21,6 @@ router.post("/salesman", async (req, res) => {
     const findSalesman = await SalesManModel.findOne({ username });
 
     console.log(findSalesman);
-    
 
     if (!findSalesman) {
       return res.status(400).json({ message: "Wrong Credential" });
@@ -38,11 +37,13 @@ router.post("/salesman", async (req, res) => {
       expiresIn: "1D",
     });
 
+    const isProd = process.env.NODE_ENV === "production";
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure:false,
-      // secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: isProd, // false on localhost, true on Render
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
     res.status(200).json({
