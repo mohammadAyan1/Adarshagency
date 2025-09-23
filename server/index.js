@@ -9,7 +9,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
 // ---------Routes----------
-const protectedRoutes = require("./middleware/auth.middleware")
+const protectedRoutes = require("./middleware/auth.middleware");
 const CompanyRoute = require("./Routes/CompanyRoute");
 const CategoryRoute = require("./Routes/CategoryRoute");
 const SubCategoryRoute = require("./Routes/SubCategoryRoute");
@@ -25,8 +25,6 @@ const fetchShopName = require("./Routes/getShopName");
 const addProductData = require("./Routes/addSalesmanProductData");
 const Logout = require("./Routes/logoutSalesman.js");
 
-
-
 //  Morgan middleware (logs all requests in 'dev' format)
 app.use(morgan("dev"));
 
@@ -37,7 +35,7 @@ app.use(
       "https://adarsh-agency-zeta.vercel.app",
       "http://localhost:5173",
       "http://localhost:5175",
-
+      // "https://soft.adarshagency.com/api",
       "https://adarshagency-3f6i.vercel.app",
       "http://localhost:5174",
     ],
@@ -76,15 +74,12 @@ app.use("/api/pro-billing", BillingRoute);
 app.use("/api/vendor", VendorRoute);
 app.use("/api/purchase", PurchaseRoute);
 app.use("/api/login", auth);
-app.use("/api/checksalesman",CheckAuth)
-app.use("/api/fetchshopname",fetchShopName)
-app.use("/api/addsalesmanproductdata",addProductData)
-app.use("/api/logout",Logout)
-
+app.use("/api/checksalesman", CheckAuth);
+app.use("/api/fetchshopname", fetchShopName);
+app.use("/api/addsalesmanproductdata", addProductData);
+app.use("/api/logout", Logout);
 
 // fetchshopname
-
-
 
 //  404 Not Found Handler
 app.use((req, res, next) => {

@@ -186,7 +186,7 @@ const Dashboard = ({ setUserName }) => {
               <TableHead>Amount</TableHead>
               <TableHead>Bill Date</TableHead>
               <TableHead>Bill Time</TableHead>
-              <TableHead>Status</TableHead>
+              {/* <TableHead>Status</TableHead> */}
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -203,7 +203,7 @@ const Dashboard = ({ setUserName }) => {
                 <TableCell>
                   {format(new Date(item?.billDate), "hh:mm a")}
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <select
                     className="border rounded p-1 text-sm"
                     defaultValue="pending"
@@ -212,7 +212,7 @@ const Dashboard = ({ setUserName }) => {
                     <option value="received">Received</option>
                     <option value="delivered">Delivered</option>
                   </select>
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   <Button
                     size="sm"

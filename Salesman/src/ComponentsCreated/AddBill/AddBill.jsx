@@ -11,7 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-// import { toast } from "react-toastify";
 import { toast, ToastContainer } from "react-toastify";
 
 const MobileBillForm = ({ userDetail }) => {
@@ -26,7 +25,7 @@ const MobileBillForm = ({ userDetail }) => {
   };
 
   const initialProduct = {
-    productId:"",
+    productId: "",
     itemName: "",
     unit: "",
     primaryUnit: "",
@@ -49,30 +48,7 @@ const MobileBillForm = ({ userDetail }) => {
 
   const [loginUser, setLoginUser] = useState([initialProduct]);
   const [formData, setFormData] = useState(initialFormData);
-
-  const [products, setProducts] = useState([
-    {
-      productId:"",
-      itemName: "",
-      unit: "",
-      primaryUnit: "",
-      secondaryUnit: "",
-      qty: 0,
-      freeQty: 0,
-      rate: 0,
-      sch: 0,
-      schAmt: 0,
-      cd: 0,
-      cdAmt: 0,
-      total: 0,
-      GST: 0,
-      totalGstAmount: 0,
-      amount: 0,
-      finalAmount: 0,
-      pendingAmount: 0,
-      availableQty: 0,
-    },
-  ]);
+  const [products, setProducts] = useState([initialProduct]);
 
   const [showModel, setShowModel] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -134,15 +110,9 @@ const MobileBillForm = ({ userDetail }) => {
         const updated = { ...p };
 
         if (
-          [
-            "qty",
-            "freeQty",
-            "rate",
-            "sch",
-            "cd",
-            "GST",
-            "availableQty",
-          ].includes(field)
+          ["qty", "freeQty", "rate", "sch", "cd", "GST", "availableQty"].includes(
+            field
+          )
         ) {
           updated[field] = value === "" ? 0 : Number(value);
         } else {
@@ -195,8 +165,6 @@ const MobileBillForm = ({ userDetail }) => {
 
   // When product is selected from modal
   const getSelectedProductData = (val) => {
-    console.log(val);
-    
     if (activeProductIndex === null) {
       setShowModel(false);
       return;
@@ -207,7 +175,7 @@ const MobileBillForm = ({ userDetail }) => {
         i === activeProductIndex
           ? {
               ...p,
-              productId:val?._id,
+              productId: val?._id,
               itemName: val.productName ?? p.itemName,
               unit: val.primaryUnit ?? p.unit,
               primaryUnit: val.primaryUnit ?? p.primaryUnit,
@@ -224,37 +192,13 @@ const MobileBillForm = ({ userDetail }) => {
 
   // Add new blank product row
   const addNewProduct = () => {
-    setProducts((prev) => [
-      ...prev,
-      {
-        productId:"",
-        itemName: "",
-        unit: "",
-        primaryUnit: "",
-        secondaryUnit: "",
-        qty: 0,
-        freeQty: 0,
-        rate: 0,
-        sch: 0,
-        schAmt: 0,
-        cd: 0,
-        cdAmt: 0,
-        total: 0,
-        GST: 0,
-        totalGstAmount: 0,
-        amount: 0,
-        finalAmount: 0,
-        pendingAmount: 0,
-        availableQty: 0,
-      },
-    ]);
+    setProducts((prev) => [...prev, initialProduct]);
   };
 
   // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
     setDisable(true);
-    console.log("Bill Submitted:", { billDetails: formData, products });
 
     try {
       const res = await axios.post("/addsalesmanproductdata/additem", {
@@ -262,10 +206,7 @@ const MobileBillForm = ({ userDetail }) => {
         products,
       });
 
-      console.log(res);
-
       if (res?.data?.status) {
-        // toast.success("Item added successfully");
         toast.success("Bill created successfully");
 
         const data = localStorage.getItem("userData");
@@ -286,8 +227,6 @@ const MobileBillForm = ({ userDetail }) => {
         setProducts([initialProduct]);
         setDisable(false);
       }
-
-      console.log("Server response:", res);
     } catch (err) {
       setDisable(false);
       console.error("Submit failed:", err);
@@ -309,18 +248,20 @@ const MobileBillForm = ({ userDetail }) => {
   // Calculate grand total
   const grandTotal = products.reduce((sum, p) => sum + (p.amount || 0), 0);
 
-  console.log(grandTotal);
-
   if (loading) return <div>Loading...</div>;
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="p-4 space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="p-2 sm:p-4 space-y-6 max-w-7xl mx-auto"
+      >
         {/* Bill Form */}
-        <div className="space-y-4 border p-4 rounded-lg shadow-sm">
+        <div className="space-y-4 border p-4 rounded-lg shadow-sm bg-white">
           <h2 className="text-lg font-bold mb-2">Bill Details</h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Location */}
             <div className="flex flex-col gap-2">
               <Label>Location</Label>
               <Select
@@ -337,8 +278,7 @@ const MobileBillForm = ({ userDetail }) => {
                 <SelectContent>
                   {invoices?.[0]?.salesmanId?.beat
                     ?.filter(
-                      (beatItem) =>
-                        beatItem?.area && beatItem.area.trim() !== ""
+                      (beatItem) => beatItem?.area && beatItem.area.trim() !== ""
                     )
                     .map((beatItem, idx) => (
                       <SelectItem key={idx} value={beatItem.area}>
@@ -349,6 +289,7 @@ const MobileBillForm = ({ userDetail }) => {
               </Select>
             </div>
 
+            {/* Shop */}
             <div className="flex flex-col gap-2">
               <Label>Shop</Label>
               <Select
@@ -368,6 +309,7 @@ const MobileBillForm = ({ userDetail }) => {
               </Select>
             </div>
 
+            {/* Bill Date */}
             <div className="flex flex-col gap-2">
               <Label>Bill Date</Label>
               <Input
@@ -377,6 +319,7 @@ const MobileBillForm = ({ userDetail }) => {
               />
             </div>
 
+            {/* Payment Mode */}
             <div className="flex flex-col gap-2">
               <Label>Payment Mode</Label>
               <Select
@@ -393,6 +336,7 @@ const MobileBillForm = ({ userDetail }) => {
               </Select>
             </div>
 
+            {/* Bill Type */}
             <div className="flex flex-col gap-2">
               <Label>Bill Type</Label>
               <Select
@@ -412,7 +356,7 @@ const MobileBillForm = ({ userDetail }) => {
         </div>
 
         {/* Product Form */}
-        <div className="space-y-4 border p-4 rounded-lg shadow-sm">
+        <div className="space-y-4 border p-4 rounded-lg shadow-sm bg-white">
           <h2 className="text-lg font-bold mb-2">Product Details</h2>
 
           {products.map((product, index) => (
@@ -440,24 +384,22 @@ const MobileBillForm = ({ userDetail }) => {
                 <Label>Unit</Label>
                 <Select
                   value={product.unit}
-                  onValueChange={(val) =>
-                    handleProductChange(index, "unit", val)
-                  }
+                  onValueChange={(val) => handleProductChange(index, "unit", val)}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select unit" />
                   </SelectTrigger>
                   <SelectContent>
-                    {product?.primaryUnit ? (
+                    {product?.primaryUnit && (
                       <SelectItem value={product.primaryUnit}>
                         {product.primaryUnit}
                       </SelectItem>
-                    ) : null}
-                    {product?.secondaryUnit ? (
+                    )}
+                    {product?.secondaryUnit && (
                       <SelectItem value={product.secondaryUnit}>
                         {product.secondaryUnit}
                       </SelectItem>
-                    ) : null}
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -525,7 +467,7 @@ const MobileBillForm = ({ userDetail }) => {
                 />
               </div>
 
-              {/* Rate (read-only, from backend) */}
+              {/* Rate */}
               <div className="flex flex-col gap-2">
                 <Label>Rate</Label>
                 <Input type="number" value={product.rate} readOnly />
@@ -543,22 +485,10 @@ const MobileBillForm = ({ userDetail }) => {
                 />
               </div>
 
-              {/* SchAmt (calculated) */}
+              {/* SchAmt */}
               <div className="flex flex-col gap-2">
                 <Label>SchAmt</Label>
-                <Input
-                  type="number"
-                  value={(() => {
-                    const rate = Number(product?.rate) || 0;
-                    const gst = Number(product?.GST) || 0;
-                    const basic = ((100 - gst) * rate) / 100;
-                    const qty = Number(product?.qty) || 0;
-                    const schPercent = Number(product?.sch) || 0;
-                    const schAmt = basic * qty * (schPercent / 100);
-                    return (Number.isFinite(schAmt) ? schAmt : 0).toFixed(2);
-                  })()}
-                  readOnly
-                />
+                <Input type="number" value={product.schAmt.toFixed(2)} readOnly />
               </div>
 
               {/* CD% */}
@@ -573,54 +503,16 @@ const MobileBillForm = ({ userDetail }) => {
                 />
               </div>
 
-              {/* CDAmt (calculated) */}
+              {/* CDAmt */}
               <div className="flex flex-col gap-2">
                 <Label>CDAmt</Label>
-                <Input
-                  type="number"
-                  value={(() => {
-                    const rate = Number(product?.rate) || 0;
-                    const gst = Number(product?.GST) || 0;
-                    const basic = ((100 - gst) * rate) / 100;
-                    const qty = Number(product?.qty) || 0;
-                    const cdPercent = Number(product?.cd) || 0;
-                    const cdAmt = basic * qty * (cdPercent / 100);
-                    return (Number.isFinite(cdAmt) ? cdAmt : 0).toFixed(2);
-                  })()}
-                  readOnly
-                />
+                <Input type="number" value={product.cdAmt.toFixed(2)} readOnly />
               </div>
 
-              {/* Total (calculated) */}
-              {/* <div className="flex flex-col gap-2">
-                <Label>Total</Label>
-                <Input
-                  type="number"
-                  value={(() => {
-                    const rate = Number(product?.rate) || 0;
-                    const gst = Number(product?.GST) || 0;
-                    const basic = ((100 - gst) * rate) / 100;
-                    const qty = Number(product?.qty) || 0;
-                    const schAmt =
-                      basic * qty * (Number(product?.sch) / 100 || 0);
-                    const cdAmt =
-                      basic * qty * (Number(product?.cd) / 100 || 0);
-                    const total = basic * qty - schAmt - cdAmt;
-                    // setProducts((prev) => [...prev, total]);
-
-                    return (Number.isFinite(total) ? total : 0).toFixed(2);
-                  })()}
-                  readOnly
-                />
-              </div> */}
-
+              {/* Total */}
               <div className="flex flex-col gap-2">
                 <Label>Total</Label>
-                <Input
-                  type="number"
-                  value={product.total.toFixed(2)}
-                  readOnly
-                />
+                <Input type="number" value={product.total.toFixed(2)} readOnly />
               </div>
 
               {/* GST */}
@@ -629,6 +521,7 @@ const MobileBillForm = ({ userDetail }) => {
                 <Input type="number" value={product.GST} readOnly />
               </div>
 
+              {/* Amount */}
               <div className="flex flex-col gap-2">
                 <Label>Amount</Label>
                 <Input
@@ -644,12 +537,18 @@ const MobileBillForm = ({ userDetail }) => {
             type="button"
             variant="outline"
             onClick={addNewProduct}
-            className="mt-2"
+            className="mt-2 w-full sm:w-auto"
           >
             + Add Product
           </Button>
         </div>
 
+        {/* Grand Total */}
+        <div className="text-right font-bold text-lg">
+          Grand Total: ₹{grandTotal.toFixed(2)}
+        </div>
+
+        {/* Submit */}
         <Button disabled={disable} type="submit" className="w-full">
           {disable ? "Submitting..." : "Submit Bill"}
         </Button>
@@ -661,7 +560,7 @@ const MobileBillForm = ({ userDetail }) => {
           setShowModel={setShowModel}
         />
       )}
-      {/* <ToastContainer/> */}
+
       <ToastContainer position="top-right" autoClose={3000} />
     </>
   );

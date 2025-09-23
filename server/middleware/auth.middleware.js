@@ -4,7 +4,7 @@ const SalesManModel = require("../Models/SalesManModel")
 
 const protectedRoutes = async (req, res, next) => {
   try {
-    const token = req.cookies?.token;
+    const token = req?.cookies?.token;
     console.log(token,"jhgfhg");
     
     if (!token) {

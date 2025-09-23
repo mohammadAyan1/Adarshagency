@@ -70,10 +70,10 @@ const SideBar = ({ userName }) => {
                     <Home size={18} />
                     <span>Home</span>
                   </Link>
-                  <li className="flex items-center gap-2 px-3 py-2 rounded hover:bg-accent cursor-pointer">
+                  {/* <li className="flex items-center gap-2 px-3 py-2 rounded hover:bg-accent cursor-pointer">
                     <Users size={18} />
                     <span>Users</span>
-                  </li>
+                  </li> */}
 
                   <Link
                     to={"/addbill"}
