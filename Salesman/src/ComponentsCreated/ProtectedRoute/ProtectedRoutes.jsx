@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
         const res = await axios.get("/checksalesman",{withCredentials:true});
         console.log(res);
         
-        if (res?.status) {
+        if (res.data?.status) {
           console.log(res);
 
           setAuthenticated(true);
