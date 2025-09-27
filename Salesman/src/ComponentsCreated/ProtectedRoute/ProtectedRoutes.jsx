@@ -36,6 +36,8 @@ const ProtectedRoute = ({ children }) => {
         const res = await axios.get("/checksalesman", {
           withCredentials: true,
         });
+        console.log(res);
+
         if (res.data?.status) {
           setAuthenticated(true);
         } else {
