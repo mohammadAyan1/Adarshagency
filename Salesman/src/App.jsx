@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SideBar from "./ComponentsCreated/SideBar/SideBar";
-import Dashboard from "./ComponentsCreated/Dashboard/Dashboard";
+import Dashboard from "./ComponentsCreated/DashBoard/Dashboard";
 import Login from "./ComponentsCreated/Login/Login";
 import MobileBillForm from "./ComponentsCreated/AddBill/AddBill";
 // import { Label } from "@radix-ui/react-label";
