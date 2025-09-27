@@ -19,23 +19,47 @@ const Login = ({ setUserDetail }) => {
 
   const navigate = useNavigate();
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const res = await axios.post("/login/salesman", form,{withCredentials:true});
+  //     console.log("Response:", res.data);
+  //     setUserDetail(res.data);
+
+  //     localStorage.setItem("userData", JSON.stringify(res.data));
+
+  //     if (res.status) {
+  //       navigate("/");
+  //     }
+  //   } catch (err) {
+  //     console.error("Login error:", err.response?.data || err.message);
+  //   }
+  // };
+
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const res = await axios.post("/login/salesman", form,{withCredentials:true});
-      console.log("Response:", res.data);
+  try {
+    const res = await axios.post("/login/salesman", form, {
+      withCredentials: true, // important
+    });
+
+    console.log("Response:", res.data);
+
+    if (res.data?.status) {
       setUserDetail(res.data);
-
       localStorage.setItem("userData", JSON.stringify(res.data));
-
-      if (res.status) {
-        navigate("/");
-      }
-    } catch (err) {
-      console.error("Login error:", err.response?.data || err.message);
+      navigate("/"); // redirect to homepage
+    } else {
+      console.error("Login failed:", res.data.message);
     }
-  };
+  } catch (err) {
+    console.error("Login error:", err.response?.data || err.message);
+  }
+};
+
 
   return (
     <>

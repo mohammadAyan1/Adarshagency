@@ -39,6 +39,9 @@ router.post("/salesman", async (req, res) => {
 
     const isProd = process.env.NODE_ENV === "production";
 
+    
+    
+
     res.cookie("token", token, {
       httpOnly: true,
       secure: isProd, // false on localhost, true on Render

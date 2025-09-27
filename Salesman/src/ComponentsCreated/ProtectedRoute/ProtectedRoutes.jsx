@@ -6,23 +6,44 @@ const ProtectedRoute = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
 
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     try {
+  //       const res = await axios.get("/checksalesman",{withCredentials:true});
+  //       console.log(res);
+
+  //       if (res.data?.status) {
+  //         console.log(res);
+
+  //         setAuthenticated(true);
+  //       } else {
+  //         setAuthenticated(false);
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+
+  //       setAuthenticated(false);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   checkAuth();
+  // }, []);
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get("/checksalesman",{withCredentials:true});
-        console.log(res);
-        
+        const res = await axios.get("/checksalesman", {
+          withCredentials: true,
+        });
         if (res.data?.status) {
-          console.log(res);
-
           setAuthenticated(true);
         } else {
           setAuthenticated(false);
         }
       } catch (err) {
-        console.log(err);
-
         setAuthenticated(false);
+        console.log(err);
       } finally {
         setLoading(false);
       }
