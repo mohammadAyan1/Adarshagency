@@ -29,24 +29,50 @@ const Logout = require("./Routes/logoutSalesman.js");
 app.use(morgan("dev"));
 
 //  CORS setup
+// app.use(
+//   cors({
+//     origin: [
+//       "https://adarsh-agency-zeta.vercel.app",
+//       "http://localhost:5173",
+//       "http://localhost:5175",
+//       "https://adarshagency-3f6i.vercel.app",
+//       "http://localhost:5174",
+//     ],
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true,
+//   })
+// );
+
+// --- CORS setup ---
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:5175",
+  "https://adarsh-agency-zeta.vercel.app",  // your Vercel frontend
+  "https://adarshagency-3f6i.vercel.app",  // old Vercel test frontend
+];
+
 app.use(
   cors({
-    origin: [
-      "https://adarsh-agency-zeta.vercel.app",
-      "http://localhost:5173",
-      "http://localhost:5175",
-      "https://adarshagency-3f6i.vercel.app",
-      "http://localhost:5174",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    origin: function (origin, callback) {
+      // allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"), false);
+      }
+    },
+    credentials: true, // <--- allow cookies
   })
 );
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+
+
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
 
 
 app.options("*", cors());
