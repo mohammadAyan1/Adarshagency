@@ -39,6 +39,7 @@ router.post("/salesman", async (req, res) => {
 
     const isProd = process.env.NODE_ENV === "production";
 
+    console.log(token);
     
     
 
@@ -53,6 +54,7 @@ router.post("/salesman", async (req, res) => {
       status: true,
       data: findSalesman,
       message: "Sales man Register successfull",
+      // token:token
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });

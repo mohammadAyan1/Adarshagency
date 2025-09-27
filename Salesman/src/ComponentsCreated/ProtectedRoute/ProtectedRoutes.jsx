@@ -31,9 +31,13 @@ const ProtectedRoute = ({ children }) => {
   // }, []);
 
   useEffect(() => {
+
+    // const getToken = localStorage.getItem("token")
+    // const token = JSON.parse(getToken)
+
     const checkAuth = async () => {
       try {
-        const res = await axios.get("/checksalesman", {
+        const res = await axios.get("/checksalesman",   {
           withCredentials: true,
         });
         console.log(res);

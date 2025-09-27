@@ -257,11 +257,13 @@ const getAllInvoices = async (req, res) => {
 const getAllInvoicesBySalesMan = async (req, res) => {
   try {
     console.log("yifhgfcv");
+    console.log(req);
+    
 
     // const { salesmanId } = req.params;
     // const invoices = await Invoice.find({ salesmanId })
-    console.log(req.check._id);
-    const { _id } = req.check;
+    console.log(req.user._id);
+    const { _id } = req.user;
 
     const invoices = await Invoice.find({ salesmanId: _id })
       .sort({ createdAt: -1 })

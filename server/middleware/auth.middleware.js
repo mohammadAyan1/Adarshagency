@@ -1,6 +1,5 @@
-
-const jwt = require("jsonwebtoken")
 const SalesManModel = require("../Models/SalesManModel")
+const jwt = require("jsonwebtoken")
 
 const protectedRoutes = async (req, res, next) => {
   try {
