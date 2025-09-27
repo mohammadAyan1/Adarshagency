@@ -10,7 +10,9 @@ const ProtectedRoute = ({ children }) => {
     const checkAuth = async () => {
       try {
         const res = await axios.get("/checksalesman",{withCredentials:true});
-        if (res.data?.status) {
+        console.log(res);
+        
+        if (res?.status) {
           console.log(res);
 
           setAuthenticated(true);
