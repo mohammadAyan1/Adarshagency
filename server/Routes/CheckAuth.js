@@ -8,6 +8,9 @@ const router = express.Router();
 // });
 
 router.get("/", (req, res) => {
+  console.log(req);
+  console.log(res);
+
   const token = req.cookies?.token;
 
   if (!token) {
