@@ -48,6 +48,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:5175",
+  "https://adarshagency-1.onrender.com",
   "https://adarsh-agency-zeta.vercel.app",  // your Vercel frontend
   "https://adarshagency-3f6i.vercel.app",  // old Vercel test frontend
 ];
