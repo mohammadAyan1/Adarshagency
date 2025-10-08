@@ -3,6 +3,9 @@ import { Modal } from "react-bootstrap";
 // import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../Config/axios";
 import Header from "./Header1";
+import { useDispatch, useSelector } from "react-redux";
+// import fetchCustomerById from "../../redux/features/customerThunks.js";
+import { updateCustomerBalanced } from "../../redux/features/customer/customerThunks";
 
 const PendingBillsModal = ({
   show,
@@ -13,10 +16,17 @@ const PendingBillsModal = ({
   setBillAdjust,
   setDebitAmount,
   debitAmount,
-  billAjust,
+  // billAjust,
+  selectedCustomer,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [balanceType, setBalanceType] = useState("new"); // default: new balance
+
+  const [inputValue, setInputValue] = useState(debitAmount);
+
+  console.log(selectedCustomer);
+
+  const dispatch = useDispatch();
 
   // const navigate = useNavigate();
 
@@ -88,6 +98,49 @@ const PendingBillsModal = ({
 
   console.log(pendingBills);
 
+  const handleChange = (e) => {
+    const value = e.target.value.replace(/[^0-9.]/g, ""); // allow only numbers & dot
+    const numericValue = parseFloat(value || 0);
+
+    // Prevent value greater than debitAmount
+    if (numericValue > debitAmount) {
+      return; // ignore typing beyond limit
+    }
+
+    setInputValue(value);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const amount = Number(inputValue || debitAmount);
+
+      if (!amount || amount <= 0) {
+        alert("Please enter a valid debit amount.");
+        return;
+      }
+
+      const res = await dispatch(
+        updateCustomerBalanced({
+          id: selectedCustomer._id,
+          data: amount,
+        })
+      ).unwrap();
+
+      if (res.success) {
+        alert("✅ Payment successful!");
+
+        setDebitAmount((prev) => Math.max(prev - amount, 0));
+
+        setInputValue(""); // reset input field
+      } else {
+        alert(res.message || "Payment failed");
+      }
+    } catch (error) {
+      console.error("Error while updating balance:", error);
+      alert(error.message || "Something went wrong while debiting balance");
+    }
+  };
+
   return (
     <Modal show={show} onHide={onHide} fullscreen>
       <Header />
@@ -106,14 +159,17 @@ const PendingBillsModal = ({
             value={`₹${Number(debitAmount)?.toFixed(2)}`}
             className="h-25 text-end"
           />
-          {/* <div>
+          <div>
             <label htmlFor="balance" className="me-2">
               Select Balance:
             </label>
             <select
               id="balance"
               value={balanceType}
-              onChange={(e) => setBalanceType(e.target.value)}
+              onChange={(e) => {
+                // handleFetchBalanced;
+                setBalanceType(e.target.value);
+              }}
             >
               <option value="old">Old Balance</option>
               <option value="new">New Balance</option>
@@ -122,66 +178,113 @@ const PendingBillsModal = ({
             <p className="mt-2">
               Selected: {balanceType === "old" ? "Old Balance" : "New Balance"}
             </p>
-          </div> */}
-        </div>
-        <div className="pending-table-wrapper">
-          <div className="pending-table-header">
-            <span>INVOICE NO.</span>
-            <span>INV. AMOUNT</span>
-            <span>BILL DATE</span>
-            <span>DUE DATE</span>
-            <span>DAYS</span>
-            <span>BALANCE</span>
-            <span>AMOUNT</span>
           </div>
-          {pendingBills.length > 0 ? (
-            pendingBills.map((bill, index) => {
-              console.log("====================================");
-              console.log(bill);
-              console.log("====================================");
-              const isSelected = index === selectedIndex;
-              const balance = bill?.pendingAmount || 0;
-              const daysDiff = (() => {
-                const billDate = new Date(bill?.billDate);
-                const dueDate = new Date(bill?.dueDate);
-                const diff = Math.floor(
-                  (dueDate - billDate) / (1000 * 60 * 60 * 24)
-                );
-                return isNaN(diff) ? "-" : diff;
-              })();
-              return (
-                <div
-                  key={bill._id}
-                  className={`pending-row ${isSelected ? "active-row" : ""}`}
-                >
-                  <span>{bill?.invoiceNo}</span>
-                  <span>
-                    {balance.toFixed(2)} {bill?.type}
-                  </span>
-                  <span>{formatDate(bill?.billDate)}</span>
-                  <span>{formatDate(bill?.dueDate)}</span>
-                  <span>{daysDiff}</span>
-                  <span>
-                    {balance.toFixed(2)} {bill?.type}
-                  </span>
-                  <span>
-                    <button
-                      className="select-btn"
-                      onClick={() => {
-                        handleSave(bill?._id);
-                        onHide();
-                      }}
-                    >
-                      SELECT
-                    </button>
-                  </span>
-                </div>
-              );
-            })
-          ) : (
-            <div className="pending-empty">No pending bills available.</div>
-          )}
         </div>
+        {balanceType == "old" ? (
+          <div className="w-full max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6 space-y-6 border border-gray-100">
+            {/* Old Balance */}
+            <div>
+              <label className="block text-gray-700 text-sm font-medium mb-1">
+                Old Balance
+              </label>
+              <input
+                type="text"
+                readOnly
+                value={`₹${Number(selectedCustomer.balance).toFixed(2)}`}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 text-gray-700 font-medium cursor-not-allowed focus:outline-none"
+              />
+            </div>
+
+            {/* Debited Balance */}
+            <div>
+              <label className="block text-gray-700 text-sm font-medium mb-1">
+                Debited Balance
+              </label>
+              <div className="flex items-center border border-gray-300 rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
+                <span className="text-gray-500 mr-1 font-medium">₹</span>
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={handleChange}
+                  className="flex-1 outline-none text-gray-700 font-semibold"
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Max allowed: ₹{Number(debitAmount).toFixed(2)}
+              </p>
+            </div>
+
+            {/* Action Button */}
+            <div className="flex justify-end">
+              <button
+                onClick={handleSubmit}
+                // className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg transition-all shadow-md hover:shadow-lg"
+                className="bg-blue-700"
+              >
+                Confirm Debit
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="pending-table-wrapper">
+            <div className="pending-table-header">
+              <span>INVOICE NO.</span>
+              <span>INV. AMOUNT</span>
+              <span>BILL DATE</span>
+              <span>DUE DATE</span>
+              <span>DAYS</span>
+              <span>BALANCE</span>
+              <span>AMOUNT</span>
+            </div>
+            {pendingBills.length > 0 ? (
+              pendingBills.map((bill, index) => {
+                console.log("====================================");
+                console.log(bill);
+                console.log("====================================");
+                const isSelected = index === selectedIndex;
+                const balance = bill?.pendingAmount || 0;
+                const daysDiff = (() => {
+                  const billDate = new Date(bill?.billDate);
+                  const dueDate = new Date(bill?.dueDate);
+                  const diff = Math.floor(
+                    (dueDate - billDate) / (1000 * 60 * 60 * 24)
+                  );
+                  return isNaN(diff) ? "-" : diff;
+                })();
+                return (
+                  <div
+                    key={bill._id}
+                    className={`pending-row ${isSelected ? "active-row" : ""}`}
+                  >
+                    <span>{bill?.invoiceNo}</span>
+                    <span>
+                      {balance.toFixed(2)} {bill?.type}
+                    </span>
+                    <span>{formatDate(bill?.billDate)}</span>
+                    <span>{formatDate(bill?.dueDate)}</span>
+                    <span>{daysDiff}</span>
+                    <span>
+                      {balance.toFixed(2)} {bill?.type}
+                    </span>
+                    <span>
+                      <button
+                        className="select-btn"
+                        onClick={() => {
+                          handleSave(bill?._id);
+                          onHide();
+                        }}
+                      >
+                        SELECT
+                      </button>
+                    </span>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="pending-empty">No pending bills available.</div>
+            )}
+          </div>
+        )}
       </Modal.Body>
     </Modal>
   );

@@ -55,6 +55,52 @@ exports.updateCustomer = async (req, res) => {
   }
 };
 
+exports.updateCustomerBalanced = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { data } = req.body; // 'data' = amount to subtract
+    console.log(req.body);
+
+    console.log(id);
+    console.log(data);
+
+    // Find the customer first
+    const customer = await Customer.findById(id);
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
+    // Calculate new balance
+    const newBalance = customer.balance - Number(data);
+
+    // Prevent negative balance
+    if (newBalance < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Insufficient balance",
+        currentBalance: customer.balance,
+      });
+    }
+
+    // Update balance
+    customer.balance = newBalance;
+    await customer.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Customer balance updated successfully",
+      customer,
+    });
+  } catch (error) {
+    console.error("Error updating customer balance:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+
 // DELETE customer
 exports.deleteCustomer = async (req, res) => {
   try {

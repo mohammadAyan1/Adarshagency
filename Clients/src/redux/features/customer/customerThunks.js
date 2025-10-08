@@ -65,6 +65,35 @@ export const updateCustomer = createAsyncThunk(
   }
 );
 
+// update customer balanced
+// export const updateCustomerBalanced = createAsyncThunk(
+//   "customer/updateCustomerBalanced",
+//   async ({ id, data }, { rejectWithValue }) => {
+//     console.log(id);
+//     console.log(data);
+
+//     try {
+//       const response = await axios.put(`${API_URL}/balance/${id}`, { data });
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(getErrorMessage(error));
+//     }
+//   }
+// );
+
+export const updateCustomerBalanced = createAsyncThunk(
+  "customer/updateCustomerBalanced",
+  async ({ id, data }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`${API_URL}/balance/${id}`, { data });
+      return response.data; // ✅ return full backend JSON
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+
 // Delete a customer
 export const deleteCustomer = createAsyncThunk(
   "customer/deleteCustomer",

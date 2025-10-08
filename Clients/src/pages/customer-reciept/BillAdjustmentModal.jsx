@@ -20,6 +20,7 @@ const BillAdjustmentModal = forwardRef(
       onPendingChange,
       debitAmount,
       billAjust,
+      selectedCustomer,
     },
     ref
   ) => {
@@ -35,6 +36,8 @@ const BillAdjustmentModal = forwardRef(
     ]);
 
     const selectRef = useRef(); // Ref for first dropdown
+
+    console.log(selectedCustomer);
 
     const typeMap = {
       "Adj Ref": "adjustment",

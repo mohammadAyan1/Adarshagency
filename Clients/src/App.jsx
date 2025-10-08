@@ -25,7 +25,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <AppRoutes />
-      <PopupModel/>
+      <PopupModel />
       <MyModal />
     </BrowserRouter>
   );

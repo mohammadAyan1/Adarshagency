@@ -7,6 +7,7 @@ router.get("/", customerController.getAllCustomers);
 router.get("/beats", customerController.getAllBeats);
 router.get("/:id", customerController.getCustomerById);
 router.put("/:id", customerController.updateCustomer);
+router.put("/balance/:id", customerController.updateCustomerBalanced);
 router.delete("/:id", customerController.deleteCustomer);
 
 module.exports = router;

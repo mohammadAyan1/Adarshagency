@@ -409,6 +409,7 @@ const CustomerForm = () => {
         }}
         billAjust={billAjust}
         debitAmount={debitAmount}
+        selectedCustomer={selectedCustomer}
       />
 
       <PendingBillsModal
@@ -424,6 +425,7 @@ const CustomerForm = () => {
         setBillAdjust={setBillAdjust}
         debitAmount={debitAmount}
         setDebitAmount={setDebitAmount}
+        selectedCustomer={selectedCustomer}
       />
     </Container>
   );
