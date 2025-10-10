@@ -1044,19 +1044,6 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
                     }}
                   >
                     <td>{index + 1}</td>
-                    {/* <td>
-                      {product.productImg ? (
-                        <img
-                          src={`${IMAGE_BASE}/${product.productImg}`}
-                          alt='Product'
-                          width={40}
-                          height={40}
-                          style={{ borderRadius: "50%" }}
-                        />
-                      ) : (
-                        "No Photo"
-                      )}
-                    </td> */}
                     <td style={{ textAlign: "left" }}>{product.productName}</td>
                     <td>{virtualStockMap[product._id]}</td>
                     <td>{product.companyId?.name || "N/A"}</td>

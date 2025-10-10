@@ -103,7 +103,9 @@ const ProductModel = ({
           </thead>
           <tbody>
             {filteredItems.map((prod, idx) => {
-              const isDisabled = prod.availableQty === 0;
+              {
+                /* const isDisabled = prod.availableQty === 0; */
+              }
               const isFocused = idx === focusedIndex;
 
               return (
@@ -112,16 +114,17 @@ const ProductModel = ({
                   ref={(el) => (rowRefs.current[idx] = el)}
                   className={`${isFocused ? "table-active" : ""}`}
                   style={{
-                    cursor: isDisabled ? "not-allowed" : "pointer",
-                    backgroundColor: isDisabled ? "#f2f2f2" : "",
-                    color: isDisabled ? "#999" : "",
-                    opacity: isDisabled ? 0.5 : 1,
-                    pointerEvents: isDisabled ? "none" : "auto",
+                    // cursor: isDisabled ? "not-allowed" : "pointer",
+                    cursor: "pointer",
+                    backgroundColor: "",
+                    color: "",
+                    opacity: 1,
+                    pointerEvents: "auto",
                   }}
                   onClick={() => {
-                    if (!isDisabled) {
-                      handleProductSelect(prod);
-                    }
+                    // if (!isDisabled) {
+                    handleProductSelect(prod);
+                    // }
                   }}
                 >
                   <td>{prod.productName}</td>

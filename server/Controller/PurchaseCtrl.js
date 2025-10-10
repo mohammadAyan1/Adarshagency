@@ -1,57 +1,128 @@
-
 const mongoose = require("mongoose");
 const Purchase = require("../Models/PurchaseModel");
 const Product = require("../Models/ProductModel");
 const Ledger = require("../Models/LedgerModel");
 
 // ✅ Create New Purchase Entry
+// exports.createPurchase = async (req, res) => {
+//   try {
+//     console.log(req.body, "purcxhase ");
+//     let totalAmount = 0;
+
+//     // Calculate total final amount
+//     req.body.items.forEach((item) => {
+//       totalAmount += parseFloat(item.totalAmount || 0);
+//     });
+
+//     const newPurchase = new Purchase({
+//       ...req.body,
+//       finalAmount: totalAmount,
+//       pendingAmount: totalAmount, // initially full amount due
+//     });
+
+//     const savedPurchase = await newPurchase.save();
+
+//     // ✅ Ledger Entry: CREDIT => Vendor ko paisa dena hai
+
+//     const ledger = await Ledger.create({
+//       vendorId: savedPurchase.vendorId,
+//       refId: savedPurchase._id, // ✅ Correct field name
+//       refType: "invoice",
+//       type: "CREDIT",
+//       amount: totalAmount,
+//       debitAccount: "Inventory", // ✅ Logical debit side
+//       creditAccount: "Accounts Payable", // ✅ Logical credit side
+//       narration: `New Purchase created`,
+//     });
+
+//     // Link ledgerId to purchase
+//     savedPurchase.ledgerIds.push(ledger._id);
+//     await savedPurchase.save();
+
+//     // ✅ Update Product stock
+//     for (const item of savedPurchase.items) {
+//       const product = await Product.findById(item.productId);
+//       if (product) {
+//         product.availableQty += Number(item.quantity);
+
+//         await product.save();
+//       }
+//     }
+
+//     res.status(201).json(savedPurchase);
+//   } catch (err) {
+//     console.error("Error creating purchase:", err.message);
+//     res.status(400).json({ message: err.message });
+//   }
+// };
+
+// server/controllers/purchaseController.js
+// const Purchase = require("../models/Purchase");
+// const Ledger = require("../models/Ledger");
+// const Product = require("../models/Product");
+
 exports.createPurchase = async (req, res) => {
   try {
-    let totalAmount = 0;
+    console.log(req.body, "purchase");
 
-    // Calculate total final amount
-    req.body.items.forEach((item) => {
+    // sanitize items: remove companyId if present (we don't use brands anymore)
+    const sanitizedItems = (req.body.items || []).map((item) => {
+      const clean = { ...item };
+      if ("companyId" in clean) {
+        delete clean.companyId;
+      }
+      return clean;
+    });
+
+    let totalAmount = 0;
+    sanitizedItems.forEach((item) => {
       totalAmount += parseFloat(item.totalAmount || 0);
     });
 
     const newPurchase = new Purchase({
-      ...req.body,
+      vendorId: req.body.vendorId,
+      date: req.body.date,
+      entryNumber: req.body.entryNumber,
+      partyNo: req.body.partyNo,
+      items: sanitizedItems,
       finalAmount: totalAmount,
-      pendingAmount: totalAmount, // initially full amount due
+      pendingAmount: totalAmount,
     });
 
     const savedPurchase = await newPurchase.save();
 
-    // ✅ Ledger Entry: CREDIT => Vendor ko paisa dena hai
-
+    // create ledger (credit)
     const ledger = await Ledger.create({
       vendorId: savedPurchase.vendorId,
-      refId: savedPurchase._id, // ✅ Correct field name
+      refId: savedPurchase._id,
       refType: "invoice",
       type: "CREDIT",
       amount: totalAmount,
-      debitAccount: "Inventory", // ✅ Logical debit side
-      creditAccount: "Accounts Payable", // ✅ Logical credit side
+      debitAccount: "Inventory",
+      creditAccount: "Accounts Payable",
       narration: `New Purchase created`,
     });
 
-    // Link ledgerId to purchase
     savedPurchase.ledgerIds.push(ledger._id);
     await savedPurchase.save();
 
-    // ✅ Update Product stock
+    // Update product stock
     for (const item of savedPurchase.items) {
+      if (!item.productId) continue;
       const product = await Product.findById(item.productId);
       if (product) {
-        product.availableQty -= Number(item.quantity);
+        product.availableQty =
+          (product.availableQty || 0) + Number(item.quantity || 0);
         await product.save();
       }
     }
 
     res.status(201).json(savedPurchase);
   } catch (err) {
-    console.error("Error creating purchase:", err.message);
-    res.status(400).json({ message: err.message });
+    console.error("Error creating purchase:", err);
+    res
+      .status(400)
+      .json({ message: err.message || "Failed to create purchase" });
   }
 };
 

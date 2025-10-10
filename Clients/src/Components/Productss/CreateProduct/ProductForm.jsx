@@ -324,26 +324,6 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
         <div className="card-body">
           <form onSubmit={handleSubmit}>
             <div className="row">
-              {/* Brand */}
-              {/* <div className='col-md-6 mb-3'>
-                <label>Brand</label>
-                <select
-                  ref={(el) => (inputRefs.current[0] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 0)}
-                  name='companyId'
-                  value={formData.companyId}
-                  onChange={handleChange}
-                  className='form-control'
-                >
-                  <option value=''>Select Brand</option>
-                  {companies.map((c) => (
-                    <option key={c._id} value={c._id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
-
               <div className="col-md-6 mb-3" style={{ position: "relative" }}>
                 <label>Brand</label>
                 <input
@@ -353,7 +333,7 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
                   onSelect={() => setShowBrandList(true)}
                   value={
                     formData.companyId
-                      ? companies.find((c) => c._id === formData.companyId)
+                      ? companies.find((c) => c._id == formData.companyId)
                           ?.name || ""
                       : "Select Brand"
                   }
@@ -380,7 +360,7 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
                         key={c._id}
                         style={{
                           padding: "0.25rem",
-                          background: brandIndex === i ? "#ddd" : "#fff",
+                          background: brandIndex == i ? "#ddd" : "#fff",
                           cursor: "pointer",
                         }}
                         onMouseDown={() => handleBrandSelect(i)}
@@ -406,21 +386,6 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
                 />
               </div>
 
-              {/* ------------Primary and Secondary Unit / Price code------------------- */}
-              {/* <div className='col-md-3 mb-3'>
-                <label>Unit (e.g. KG) </label>
-                <input
-                  type='text'
-                  name='primaryUnit'
-                  placeholder='e.g. KG'
-                  value={formData.primaryUnit}
-                  onChange={handleChange}
-                  className='form-control'
-                  ref={(el) => (inputRefs.current[3] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 3)}
-                />
-              </div> */}
-
               <div className="col-md-3 mb-3">
                 <label>Price/(KG/Box)</label>
                 <input
@@ -433,20 +398,6 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
                   className="form-control"
                 />
               </div>
-
-              {/* <div className='col-md-3 mb-3'>
-                <label>Unit (e.g. Pieces) </label>
-                <input
-                  ref={(el) => (inputRefs.current[5] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 5)}
-                  type='text'
-                  name='secondaryUnit'
-                  placeholder='e.g. Pcs'
-                  value={formData.secondaryUnit}
-                  onChange={handleChange}
-                  className='form-control'
-                />
-              </div> */}
 
               <div className="col-md-3 mb-3">
                 <label>Pieces/(KG/Box)</label>

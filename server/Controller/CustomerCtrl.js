@@ -55,6 +55,33 @@ exports.updateCustomer = async (req, res) => {
   }
 };
 
+//advance pay
+exports.updateCustomerAdvanced = async (req, res) => {
+  try {
+    // if (req.body) {
+    //   req.body.beats = req.body.beat.map((b) => b.areaName);
+    //   delete req.body.beat; // Optional: clean up unwanted key
+    // }
+
+    // If 'beat' is sent in the request, map it to 'beats'
+    console.log(req.body);
+    console.log(req.params);
+
+    // const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, {
+    //   new: true,
+    //   runValidators: true,
+    // });
+
+    // if (!customer) {
+    //   return res.status(404).json({ error: "Customer not found" });
+    // }
+
+    // res.json(customer);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 exports.updateCustomerBalanced = async (req, res) => {
   try {
     const { id } = req.params;

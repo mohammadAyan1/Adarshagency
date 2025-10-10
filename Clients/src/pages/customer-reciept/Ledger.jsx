@@ -24,6 +24,8 @@ const Ledger = () => {
     setLedgerEntries(res.data);
   };
 
+  console.log(ledgerEntries);
+
   return (
     <Container fluid className="p-4">
       <h2>Customer Ledger</h2>

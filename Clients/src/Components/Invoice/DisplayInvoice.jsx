@@ -224,26 +224,6 @@ const DisplayInvoice = () => {
 
                   <td>{invoice.finalAmount || 0}</td>
 
-                  {/* <td>
-                    <Button
-                      variant='outline-primary'
-                      size='sm'
-                      onClick={() => handlePrint(invoice._id)}
-                    >
-                      Print
-                    </Button>
-                  </td>
-
-                  <td>
-                    <Button
-                      variant='outline-danger'
-                      size='sm'
-                      onClick={() => handleDelete(invoice._id)}
-                    >
-                      Delete
-                    </Button>
-                  </td> */}
-
                   <td
                     style={{
                       display: "flex",

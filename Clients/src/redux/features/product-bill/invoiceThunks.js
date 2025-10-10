@@ -14,7 +14,7 @@ export const createInvoice = createAsyncThunk(
   "invoice/createInvoice",
   async (invoiceData, { rejectWithValue }) => {
     console.log(invoiceData);
-    
+
     try {
       const res = await axios.post(API_URL, invoiceData);
       return res.data.invoice;
@@ -119,7 +119,6 @@ export const fetchInvoicesBySalesman = createAsyncThunk(
   }
 );
 
-
 // ✅ Get invoices by Beat (Area)
 export const fetchInvoicesByBeat = createAsyncThunk(
   "invoice/fetchInvoicesByBeat",
@@ -141,4 +140,3 @@ export const fetchInvoicesByBeat = createAsyncThunk(
     }
   }
 );
-

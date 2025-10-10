@@ -10,6 +10,9 @@ import { Modal, Form, Table } from "react-bootstrap";
 import axiosInstance from "../../Config/axios";
 import Header from "./Header1";
 
+import { useDispatch } from "react-redux";
+import { updateCustomerAdvanced } from "../../redux/features/customer/customerThunks";
+
 const BillAdjustmentModal = forwardRef(
   (
     {
@@ -34,7 +37,10 @@ const BillAdjustmentModal = forwardRef(
         balance: "",
       },
     ]);
+    console.log(billAjust);
+    console.log(selectedCustomer);
 
+    const dispatch = useDispatch();
     const selectRef = useRef(); // Ref for first dropdown
 
     console.log(selectedCustomer);
@@ -43,6 +49,25 @@ const BillAdjustmentModal = forwardRef(
       "Adj Ref": "adjustment",
       "New Ref": "new_ref",
       Clear: "clear_ref",
+    };
+
+    const handleSaveAdvance = async () => {
+      try {
+        console.log(selectedCustomer?._id);
+        console.log(pending);
+        const customerAdvanceId = selectedCustomer?._id;
+
+        dispatch(updateCustomerAdvanced({ customerAdvanceId, pending }))
+          .unwrap()
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     // 🔁 Reset rows when modal is closed
@@ -390,6 +415,13 @@ const BillAdjustmentModal = forwardRef(
                 </table>
               </div>
             )}
+
+            <button
+              className="bg-gray-50 px-4 mt-2"
+              onClick={debitAmount > 0 ? handleSaveAdvance : null}
+            >
+              Ok
+            </button>
           </Modal.Body>
         </Modal>
       </>

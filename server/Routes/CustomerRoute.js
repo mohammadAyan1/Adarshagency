@@ -9,5 +9,6 @@ router.get("/:id", customerController.getCustomerById);
 router.put("/:id", customerController.updateCustomer);
 router.put("/balance/:id", customerController.updateCustomerBalanced);
 router.delete("/:id", customerController.deleteCustomer);
+router.delete("/advanced/:id", customerController.updateCustomerAdvanced);
 
 module.exports = router;

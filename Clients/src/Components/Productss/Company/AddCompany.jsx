@@ -29,7 +29,6 @@ const AddCompany = ({ brandNameRef, fetchCompanies, setActiveTab, edit }) => {
       const gstNumber = "GST-" + Math.random().toString(36).substring(2, 12);
       if (!edit) {
         // generate a random gstNumber
-
         const res = await axios.post("/company", {
           name,
           gstNumber,
@@ -41,14 +40,15 @@ const AddCompany = ({ brandNameRef, fetchCompanies, setActiveTab, edit }) => {
         setSubmitSuccess(true);
         toast.success(`Company ${edit ? "Update" : "Create"} successfully!`);
 
+        // reset name input
+        setName("");
+
         // refresh company list in parent
         if (fetchCompanies) fetchCompanies();
 
         // switch back to View Brand tab
         if (setActiveTab) setActiveTab("view");
 
-        // reset name input
-        setName("");
         // refocus name input
         setTimeout(() => {
           if (nameRef.current) nameRef.current.focus();
@@ -59,7 +59,9 @@ const AddCompany = ({ brandNameRef, fetchCompanies, setActiveTab, edit }) => {
           gstNumber,
         });
 
-        if (res.statusText == "OK") {
+        console.log(res);
+
+        if (res.data?.status) {
           setName("");
           if (fetchCompanies) fetchCompanies();
           if (setActiveTab) setActiveTab("view");

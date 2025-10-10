@@ -39,6 +39,7 @@ const PaymentVoucherForm = () => {
   const balance = useSelector((state) => state.purchase?.balance);
 
   const [voucherNumber, setVoucherNumber] = useState("");
+  console.log(vendorList);
 
   const fetchNextVoucherNumber = async () => {
     try {
@@ -167,9 +168,11 @@ const PaymentVoucherForm = () => {
     }
   }, [openBillModalRequested, vendorBills]);
 
-  const filteredVendors = vendorList.filter((vendor) =>
-    vendor?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // const filteredVendors = vendorList.filter((vendor) =>
+  //   vendor?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+
+  // console.log(filteredVendors);
 
   return (
     <Container className="mt-4">
@@ -277,7 +280,7 @@ const PaymentVoucherForm = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
 
-          {filteredVendors.map((vendor, index) => (
+          {vendorList?.map((vendor, index) => (
             <div
               key={vendor._id}
               onClick={() => {
@@ -297,8 +300,8 @@ const PaymentVoucherForm = () => {
                 <p className="mb-0" style={{ flex: 1 }}>
                   {vendor?.name}
                 </p>
-                <p className="mb-0 text-center" style={{ flex: 1 }}>
-                  {vendor?.city}
+                <p className="mb-0 text-center mr-4" style={{ flex: 1 }}>
+                  {vendor?.firm}
                 </p>
                 <p className="mb-0 text-end" style={{ flex: 1 }}>
                   {vendorBills?.balance}
@@ -307,7 +310,7 @@ const PaymentVoucherForm = () => {
             </div>
           ))}
 
-          {filteredVendors[vendorIndex] && (
+          {vendorList[vendorIndex] && (
             <div
               style={{
                 marginTop: "20px",
@@ -321,9 +324,7 @@ const PaymentVoucherForm = () => {
                 Selected Vendor Address:
               </h6>
               <p style={{ margin: 0, fontStyle: "italic", color: "#495057" }}>
-                🏠{" "}
-                {filteredVendors[vendorIndex]?.address ||
-                  "Address not available"}
+                🏠 {vendorList[vendorIndex]?.address || "Address not available"}
               </p>
             </div>
           )}

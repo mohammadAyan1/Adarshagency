@@ -46,14 +46,6 @@ const CustomerForm = () => {
     (state) => state.invoice
   );
 
-  console.log(invoicesByCustomer);
-  console.log(balanceByCustomer, "balnce by customer");
-
-  console.log(customerList);
-  console.log(vendorBills);
-  console.log(balance);
-
-  // !
   const [voucherNumber, setVoucherNumber] = useState("");
 
   // Fetch next voucher number

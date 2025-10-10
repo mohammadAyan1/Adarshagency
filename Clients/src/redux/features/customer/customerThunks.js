@@ -65,21 +65,26 @@ export const updateCustomer = createAsyncThunk(
   }
 );
 
-// update customer balanced
-// export const updateCustomerBalanced = createAsyncThunk(
-//   "customer/updateCustomerBalanced",
-//   async ({ id, data }, { rejectWithValue }) => {
-//     console.log(id);
-//     console.log(data);
+//update customer advance
+export const updateCustomerAdvanced = createAsyncThunk(
+  "customer/updateCustomerAdvanced",
+  async ({ customerAdvanceId, pending }, { rejectWithValue }) => {
+    console.log(customerAdvanceId);
+    console.log(pending);
 
-//     try {
-//       const response = await axios.put(`${API_URL}/balance/${id}`, { data });
-//       return response.data;
-//     } catch (error) {
-//       return rejectWithValue(getErrorMessage(error));
-//     }
-//   }
-// );
+    try {
+      const response = await axios.put(
+        `${API_URL}/advanced/${customerAdvanceId}`,
+        { pending }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(getErrorMessage(error));
+    }
+  }
+);
+
+// update customer balanced
 
 export const updateCustomerBalanced = createAsyncThunk(
   "customer/updateCustomerBalanced",
@@ -92,7 +97,6 @@ export const updateCustomerBalanced = createAsyncThunk(
     }
   }
 );
-
 
 // Delete a customer
 export const deleteCustomer = createAsyncThunk(

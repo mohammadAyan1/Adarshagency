@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-// import { useNavigate } from "react-router-dom";
+
 import axiosInstance from "../../Config/axios";
 import Header from "./Header1";
 import { useDispatch, useSelector } from "react-redux";
-// import fetchCustomerById from "../../redux/features/customerThunks.js";
-import { updateCustomerBalanced } from "../../redux/features/customer/customerThunks";
+
+import {
+  updateCustomerBalanced,
+  fetchCustomerById,
+} from "../../redux/features/customer/customerThunks";
 
 const PendingBillsModal = ({
   show,
@@ -16,7 +19,6 @@ const PendingBillsModal = ({
   setBillAdjust,
   setDebitAmount,
   debitAmount,
-  // billAjust,
   selectedCustomer,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -24,19 +26,26 @@ const PendingBillsModal = ({
 
   const [inputValue, setInputValue] = useState(debitAmount);
 
-  console.log(selectedCustomer);
+  // const [leftAmount, setLeftAmount] = useState(0);
 
   const dispatch = useDispatch();
 
-  // const navigate = useNavigate();
-
   const pendingBills = bills.invoices?.length ? bills.invoices : [];
+  const { customer } = useSelector((state) => state.customer);
+
+  console.log(customer, "this is useselector data");
 
   useEffect(() => {
     if (show) {
       setSelectedIndex(0);
     }
   }, [show]);
+
+  // useEffect(() => {
+  //   if (show) {
+  //     // setLeftAmount(Number(selectedCustomer?.balance || 0));
+  //   }
+  // }, [show, selectedCustomer]);
 
   useEffect(() => {
     const handleKey = (e) => {
@@ -103,11 +112,15 @@ const PendingBillsModal = ({
     const numericValue = parseFloat(value || 0);
 
     // Prevent value greater than debitAmount
-    if (numericValue > debitAmount) {
-      return; // ignore typing beyond limit
-    }
+    if (numericValue > debitAmount) return;
 
     setInputValue(value);
+
+    // Dynamically decrease the old balance live
+    const totalLeft =
+      Number(selectedCustomer.balance || 0) - Number(numericValue || 0);
+
+    setLeftAmount(totalLeft > 0 ? totalLeft : 0);
   };
 
   const handleSubmit = async () => {
@@ -130,7 +143,7 @@ const PendingBillsModal = ({
         alert("✅ Payment successful!");
 
         setDebitAmount((prev) => Math.max(prev - amount, 0));
-
+        dispatch(fetchCustomerById(selectedCustomer?._id));
         setInputValue(""); // reset input field
       } else {
         alert(res.message || "Payment failed");
@@ -190,7 +203,12 @@ const PendingBillsModal = ({
               <input
                 type="text"
                 readOnly
-                value={`₹${Number(selectedCustomer.balance).toFixed(2)}`}
+                // value={`₹${leftAmount.toFixed(2)}`}
+                value={
+                  customer?.balance
+                    ? customer?.balance
+                    : selectedCustomer?.balance
+                }
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 text-gray-700 font-medium cursor-not-allowed focus:outline-none"
               />
             </div>
@@ -238,9 +256,7 @@ const PendingBillsModal = ({
             </div>
             {pendingBills.length > 0 ? (
               pendingBills.map((bill, index) => {
-                console.log("====================================");
                 console.log(bill);
-                console.log("====================================");
                 const isSelected = index === selectedIndex;
                 const balance = bill?.pendingAmount || 0;
                 const daysDiff = (() => {

@@ -9,6 +9,8 @@ const mongoose = require("mongoose");
 const createBilling = async (req, res) => {
   // console.log("[createBilling] Incoming:", req.body);
 
+  console.log(req.body, "req.body");
+
   try {
     const { customer, billing, finalAmount } = req.body;
     console.log(customer);
@@ -67,8 +69,10 @@ const createBilling = async (req, res) => {
     await invoice.save();
 
     // ✅ 3) Update Customer balance
-    existingCustomer.totalBalance += pendingAmount;
-    await existingCustomer.save();
+    if (customer?.billingType != "Cash") {
+      existingCustomer.totalBalance += pendingAmount;
+      await existingCustomer.save();
+    }
 
     // ✅ 4) Ledger entry
     const ledger = new Ledger({
@@ -331,6 +335,54 @@ const getInvoiceById = async (req, res) => {
   }
 };
 
+// const getInvoicesByCustomer = async (req, res) => {
+//   const { customerIdOrName } = req.params;
+
+//   try {
+//     if (!customerIdOrName) {
+//       return res.status(400).json({
+//         error: "Customer ID or Name is required",
+//       });
+//     }
+
+//     // ✅ Find by ID, nested ID or Customer Name (case-insensitive)
+//     const invoices = await Invoice.find({
+//       $or: [
+//         { customerId: customerIdOrName },
+//         { "customer.selectedCustomerId": customerIdOrName },
+//         {
+//           "customer.CustomerName": {
+//             $regex: new RegExp(customerIdOrName, "i"),
+//           },
+//         },
+//       ],
+//     })
+//       .sort({ createdAt: -1 })
+//       .populate("companyId", "companyName") // only specific fields
+//       .populate("salesmanId", "name")
+//       .populate("billing.productId", "productName")
+//       .populate("customerId", "name");
+
+//     if (!invoices || invoices.length === 0) {
+//       return res.status(404).json({
+//         message: `No invoices found for '${customerIdOrName}'`,
+//       });
+//     }
+
+//     res.status(200).json({
+//       message: "Invoices fetched successfully",
+//       count: invoices.length,
+//       invoices,
+//     });
+//   } catch (error) {
+//     console.error("[getInvoicesByCustomer] Error:", error);
+//     res.status(500).json({
+//       error: "Failed to fetch customer invoices",
+//       details: error.message,
+//     });
+//   }
+// };
+
 const getInvoicesByCustomer = async (req, res) => {
   const { customerIdOrName } = req.params;
 
@@ -341,8 +393,10 @@ const getInvoicesByCustomer = async (req, res) => {
       });
     }
 
-    // ✅ Find by ID, nested ID or Customer Name (case-insensitive)
-    const invoices = await Invoice.find({
+    // ✅ Build query conditions dynamically
+    const query = {
+      billingType: { $regex: /^credit$/i }, // case-insensitive match for "Credit"
+      pendingAmount: { $gt: 0 }, // only invoices with pending amount > 0
       $or: [
         { customerId: customerIdOrName },
         { "customer.selectedCustomerId": customerIdOrName },
@@ -352,21 +406,24 @@ const getInvoicesByCustomer = async (req, res) => {
           },
         },
       ],
-    })
+    };
+
+    // ✅ Fetch invoices with filtering and population
+    const invoices = await Invoice.find(query)
       .sort({ createdAt: -1 })
-      .populate("companyId", "companyName") // only specific fields
+      .populate("companyId", "companyName")
       .populate("salesmanId", "name")
       .populate("billing.productId", "productName")
       .populate("customerId", "name");
 
     if (!invoices || invoices.length === 0) {
       return res.status(404).json({
-        message: `No invoices found for '${customerIdOrName}'`,
+        message: `No credit invoices with pending amount found for '${customerIdOrName}'`,
       });
     }
 
     res.status(200).json({
-      message: "Invoices fetched successfully",
+      message: "Credit invoices fetched successfully",
       count: invoices.length,
       invoices,
     });
@@ -503,7 +560,6 @@ const getBalanceByCustomer = async (req, res) => {
 //   }
 // };
 
-
 const adjustNewRef = async (req, res) => {
   try {
     const { invoiceId, amount, paymentMode, note } = req.body;
@@ -589,8 +645,6 @@ const adjustNewRef = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-
 
 const applyNewRef = async (req, res) => {
   try {

@@ -8,6 +8,7 @@ import {
   deleteCustomer,
   getAllBeats,
   updateCustomerBalanced,
+  updateCustomerAdvanced,
 } from "./customerThunks";
 
 const initialState = {
@@ -118,7 +119,10 @@ const customerSlice = createSlice({
         state.loading = false;
         state.error = action.payload || "Failed to update customer";
       })
-
+      //add advanced
+      .addCase(updateCustomerAdvanced.fulfilled, (state) => {
+        state.loading = false;
+      })
       // 🔹 DELETE CUSTOMER
       .addCase(deleteCustomer.pending, (state) => {
         state.loading = true;

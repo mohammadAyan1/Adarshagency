@@ -1,6 +1,5 @@
 //new code
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import axios from "../../Config/axios";
 import ProductBillingReport from "./ProductBillingReport";
 import CustomerBilling from "./CustomerBilling";
 import toast from "react-hot-toast";
