@@ -12,6 +12,8 @@ import invoiceReducer from "./features/product-bill/invoiceSlice";
 import subCategoryReducer from "./features/subCategory/subCategorySlice";
 import ledgerReducer from "./features/ledger/ledgerSlice";
 
+import purchaseBillReducer from "./features/PurchaseBill/purchaseSlice";
+
 export const store = configureStore({
   reducer: {
     ledger: ledgerReducer,
@@ -24,5 +26,6 @@ export const store = configureStore({
     vendor: vendorReducer,
     purchase: purchaseReducer,
     subCategory: subCategoryReducer,
+    purchaseBillInvoice: purchaseBillReducer,
   },
 });

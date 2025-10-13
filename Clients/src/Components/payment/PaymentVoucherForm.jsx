@@ -18,6 +18,10 @@ const PaymentVoucherForm = () => {
   const [debitAmount, setDebitAmount] = useState("");
   const [selectedVendor, setSelectedVendor] = useState(null);
 
+  const [pendingValue, setPendingValue] = useState(0);
+
+  // const [amountDecrease, setAmountDecrease] = useState(pendingValue);
+
   const [pendingRowIndex, setPendingRowIndex] = useState(null);
   const [showPendingModal, setShowPendingModal] = useState(false);
 
@@ -32,7 +36,6 @@ const PaymentVoucherForm = () => {
 
   const dispatch = useDispatch();
   const [showBillModal, setShowBillModal] = useState(false);
-  const [pendingValue, setPendingValue] = useState(0);
 
   const vendorList = useSelector((state) => state.vendor.vendors);
   const vendorBills = useSelector((state) => state.vendor.vendorBills);
@@ -167,12 +170,6 @@ const PaymentVoucherForm = () => {
       setOpenBillModalRequested(false);
     }
   }, [openBillModalRequested, vendorBills]);
-
-  // const filteredVendors = vendorList.filter((vendor) =>
-  //   vendor?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  // );
-
-  // console.log(filteredVendors);
 
   return (
     <Container className="mt-4">
@@ -376,6 +373,7 @@ const PaymentVoucherForm = () => {
           console.log("⏱ Pending from modal:", value);
           setPendingValue(value);
         }}
+        setDebitAmount={setDebitAmount}
       />
 
       <PendingBillsModal
@@ -387,6 +385,7 @@ const PaymentVoucherForm = () => {
           setShowPendingModal(false);
         }}
         amountBill={pendingValue}
+        setDebitAmount={setDebitAmount}
       />
     </Container>
   );

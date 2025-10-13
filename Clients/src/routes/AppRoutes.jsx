@@ -30,6 +30,7 @@ import VendorLedger from "../Components/payment/vendorLedger";
 import Outstanding from "../pages/Outstanding";
 import PurchaseTabs from "../pages/PurchaseTabs";
 import SalesManWindow from "../Components/SalesmanWindow/SalesManWindow";
+import ModifyBill from "../Components/ModifyBill";
 
 const AppRoutes = () => {
   return (
@@ -57,7 +58,7 @@ const AppRoutes = () => {
         <Route path="/ledger" element={<Ledger />} />
         <Route path="/vendor-ledger" element={<VendorLedger />} />
         <Route path="/outstanding" element={<Outstanding />} />
-        {/* <Route path="/salesmanwindow" element={<SalesManWindow />} /> */}
+        <Route path="/purchase/:id" element={<PurchaseTabs />} />
       </Route>
     </Routes>
   );

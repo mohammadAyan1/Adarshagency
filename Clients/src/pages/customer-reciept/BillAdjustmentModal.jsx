@@ -53,6 +53,11 @@ const BillAdjustmentModal = forwardRef(
 
     const handleSaveAdvance = async () => {
       try {
+        const userConfirmed = window.confirm(
+          "are you sure you want to add the left amoun at the customer advance blanced"
+        );
+        if (!userConfirmed) return;
+
         console.log(selectedCustomer?._id);
         console.log(pending);
         const customerAdvanceId = selectedCustomer?._id;
@@ -418,7 +423,7 @@ const BillAdjustmentModal = forwardRef(
 
             <button
               className="bg-gray-50 px-4 mt-2"
-              onClick={debitAmount > 0 ? handleSaveAdvance : null}
+              onClick={debitAmount > 0 ? handleSaveAdvance : onHide()}
             >
               Ok
             </button>

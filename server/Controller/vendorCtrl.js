@@ -73,7 +73,10 @@ const getBillsByVendorId = async (req, res) => {
     }
 
     // Fetch all purchases (bills) for that vendor
-    const purchases = await Purchase.find({ vendorId }).sort({ date: -1 });
+    const purchases = await Purchase.find({
+      vendorId,
+      pendingAmount: { $ne: 0 },
+    }).sort({ date: -1 });
 
     return res.status(200).json({
       vendor,

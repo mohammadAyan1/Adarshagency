@@ -1,54 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../Config/axios";
-// import Header from "./Header1";
+
 import { payAgainstPurchase } from "../../redux/features/purchase/purchaseThunks";
 import { useDispatch } from "react-redux";
 import Header1 from "../../pages/customer-reciept/Header1";
-
-const dummyInvoices = [
-  {
-    _id: "A000137",
-    invoiceNo: "A000137",
-    pendingAmount: 29110,
-    type: "Dr",
-    billDate: "2025-04-17",
-    dueDate: "2025-04-17",
-  },
-  {
-    _id: "A000136",
-    invoiceNo: "A000136",
-    pendingAmount: 137226,
-    type: "Dr",
-    billDate: "2025-04-30",
-    dueDate: "2025-04-30",
-  },
-  {
-    _id: "CALLIM",
-    invoiceNo: "CALLIM",
-    pendingAmount: 1163,
-    type: "Cr",
-    billDate: "2025-05-01",
-    dueDate: "2025-05-30",
-  },
-  {
-    _id: "X123",
-    invoiceNo: "465100422",
-    pendingAmount: 62221.42,
-    type: "Cr",
-    billDate: "2025-04-30",
-    dueDate: "2025-05-30",
-  },
-  {
-    _id: "X124",
-    invoiceNo: "465100447",
-    pendingAmount: 194627.0,
-    type: "Dr",
-    billDate: "2025-05-16",
-    dueDate: "2025-05-28",
-  },
-];
 
 const PendingBillsModal = ({
   show,
@@ -56,12 +11,13 @@ const PendingBillsModal = ({
   onBillSelect,
   bills = [],
   amountBill,
+  setDebitAmount,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
-  const pendingBills = bills.length ? bills : dummyInvoices;
+  const pendingBills = bills?.length ? bills : null;
 
   useEffect(() => {
     if (show) setSelectedIndex(0);
@@ -106,6 +62,7 @@ const PendingBillsModal = ({
         .unwrap()
         .then((res) => {
           console.log("✅ Payment Success:", res);
+          setDebitAmount((prev) => prev - res?.paidAmount);
           alert("Payment Done!");
         })
         .catch((err) => {
@@ -114,7 +71,7 @@ const PendingBillsModal = ({
         });
 
       onHide();
-      navigate("/");
+      // navigate("/");
     } catch (error) {
       console.error("Error saving adjustment:", error);
       alert("Failed to save adjustment");
@@ -146,6 +103,10 @@ const PendingBillsModal = ({
           </div>
         </div>
 
+        <div>
+          <input type="text" readOnly value={amountBill} />
+        </div>
+
         <div
           className="border border-dark"
           style={{ borderWidth: "2px" }}
@@ -169,8 +130,8 @@ const PendingBillsModal = ({
           style={{ borderWidth: "1px" }}
         ></div>
 
-        {pendingBills.length > 0 ? (
-          pendingBills.map((bill, index) => {
+        {pendingBills?.length > 0 ? (
+          pendingBills?.map((bill, index) => {
             const isSelected = index === selectedIndex;
             const balance = bill?.pendingAmount || 0;
             const daysDiff = (() => {
@@ -213,7 +174,6 @@ const PendingBillsModal = ({
                     }`}
                     onClick={() => {
                       handleSave(bill._id);
-                      onHide();
                     }}
                   >
                     SELECT

@@ -26,23 +26,6 @@ const PurchaseList = ({ onEdit, refreshTrigger }) => {
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [purchaseData, setPurchaseData] = useState({
-    vendorId: "",
-    date: new Date().toISOString().split("T")[0],
-    entryNumber: "",
-    partyNo: "", // Moved partyNo here as it's a main purchase field
-    item: {
-      productId: "",
-      companyId: "",
-      purchaseRate: "",
-      quantity: "",
-      availableQty: "",
-      totalAmount: "",
-      discountPercent: "0",
-      schemePercent: "0",
-    },
-  });
-
   const handleDelete = async (id) => {
     confirmAlert({
       title: "Confirm Delete",

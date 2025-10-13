@@ -139,6 +139,22 @@ exports.getAllPurchases = async (req, res) => {
   }
 };
 
+//fetch purchase bill by id
+exports.fetchPurchaseById = async (req, res) => {
+  console.log(req.body, "check fetch purchase bill work or not ");
+
+  const { id } = req.body;
+  try {
+    const purchases = await Purchase.findById({ id })
+      .populate("vendorId", "firm name")
+      .populate("ledgerIds")
+      .populate("items.productId", "productName");
+    res.json(purchases);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // ✅ Get Purchase By ID
 exports.getPurchaseById = async (req, res) => {
   try {

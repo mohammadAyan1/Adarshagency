@@ -58,26 +58,41 @@ exports.updateCustomer = async (req, res) => {
 //advance pay
 exports.updateCustomerAdvanced = async (req, res) => {
   try {
-    // if (req.body) {
-    //   req.body.beats = req.body.beat.map((b) => b.areaName);
-    //   delete req.body.beat; // Optional: clean up unwanted key
-    // }
+    console.log("Request Body:", req.body);
+    console.log("Request Params:", req.params);
 
-    // If 'beat' is sent in the request, map it to 'beats'
-    console.log(req.body);
-    console.log(req.params);
+    const { id } = req.params;
+    const { pending } = req.body; // pending amount you want to add
 
-    // const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, {
-    //   new: true,
-    //   runValidators: true,
-    // });
+    if (!id) {
+      return res.status(400).json({ error: "Customer ID is required" });
+    }
 
-    // if (!customer) {
-    //   return res.status(404).json({ error: "Customer not found" });
-    // }
+    if (pending == null) {
+      return res.status(400).json({ error: "Pending amount is required" });
+    }
 
-    // res.json(customer);
+    // Find customer by ID
+    const customer = await Customer.findById(id);
+
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
+
+    // ✅ Add pending to advanceBalance
+    customer.advanceBalance = (customer.advanceBalance || 0) + Number(pending);
+
+    // Save the updated document
+    await customer.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Advance balance updated successfully",
+      updatedAdvanceBalance: customer.advanceBalance,
+      customer,
+    });
   } catch (err) {
+    console.error("Error updating customer advance:", err);
     res.status(400).json({ error: err.message });
   }
 };

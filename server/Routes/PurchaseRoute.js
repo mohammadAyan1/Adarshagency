@@ -31,6 +31,9 @@ router.get("/:id", purchaseCtrl.getPurchaseById);
 // ✅ Update purchase
 router.put("/:id", purchaseCtrl.updatePurchase);
 
+//fetch purchase bill by id
+router.get("/fetchPurchaseBillById/:id", purchaseCtrl.fetchPurchaseById);
+
 // ✅ Delete purchase
 router.delete("/:id", purchaseCtrl.deletePurchase);
 

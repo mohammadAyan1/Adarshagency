@@ -9,7 +9,6 @@ import { Modal, Form, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../Config/axios";
 import Header1 from "../../pages/customer-reciept/Header1";
-// import Header from "./Header1";
 
 const BillAdjustmentModal = forwardRef(
   (
@@ -20,6 +19,7 @@ const BillAdjustmentModal = forwardRef(
       openPendingModal,
       selectedVendorId,
       onPendingChange,
+      setDebitAmount,
     },
     ref
   ) => {
@@ -33,9 +33,6 @@ const BillAdjustmentModal = forwardRef(
         balance: "",
       },
     ]);
-
-    const [focusedRowIndex, setFocusedRowIndex] = useState(null);
-    const [cashDiscount, setCashDiscount] = useState(0);
 
     const selectRef = useRef(); // Ref for first dropdown
 
@@ -125,6 +122,10 @@ const BillAdjustmentModal = forwardRef(
     };
 
     const handleKeyDown = async (e, index) => {
+      if (amount <= 0) {
+        alert("Amount should not  be zero");
+        return;
+      }
       const selectedType = rows[index].type;
 
       if (e.key === "Enter") {

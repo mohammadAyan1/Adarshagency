@@ -1,10 +1,11 @@
 // src/App.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
 import MyModal from "./Components/global/MyModal";
 import { useModal } from "./Components/global/ModalContext";
 import PopupModel from "./Components/global/PopupModel";
+import ModifyBill from "./Components/ModifyBill";
 
 const App = () => {
   const { openModal } = useModal();
@@ -24,6 +25,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <ModifyBill />
       <AppRoutes />
       <PopupModel />
       <MyModal />

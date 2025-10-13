@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 import PurchaseForm from "../Components/SalesMan/PurchaseForm";
 import PurchaseList from "../Components/SalesMan/purchaseModel/PurchaseList";
+import { useParams } from "react-router-dom";
 
 const PurchaseTabs = () => {
   const [activeKey, setActiveKey] = useState("form");
@@ -19,6 +20,14 @@ const PurchaseTabs = () => {
     setActiveKey("list");
   };
 
+  const { id } = useParams();
+  useEffect(() => {
+    if (!id) return;
+    console.log(id);
+    setEditId(id);
+    setActiveKey("form");
+  }, [id]);
+
   return (
     <div className=" mt-4">
       <Tabs
@@ -29,7 +38,7 @@ const PurchaseTabs = () => {
         justify
       >
         <Tab eventKey="form" title={editId ? "Edit Purchase" : "Add Purchase"}>
-          <PurchaseForm idToEdit={editId} onSuccess={handleSuccess} />
+          <PurchaseForm idToEdit={editId} onSuccess={handleSuccess} id={id} />
         </Tab>
 
         <Tab eventKey="list" title="Purchase List">

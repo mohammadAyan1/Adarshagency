@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FiGrid, FiLayers, FiChevronDown, FiMenu, FiX } from "react-icons/fi";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useModal } from "../global/ModalContext";
 
 const Navbarfrist = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +10,8 @@ const Navbarfrist = () => {
   const location = useLocation();
 
   const navLinksRef = useRef([]);
+
+  const { openModifyBill } = useModal();
 
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleDropdown = (menu) =>
@@ -261,7 +264,7 @@ const Navbarfrist = () => {
           <div className="dropdown mt-2">
             <Link
               to="/salesmanwindow"
-              ref={(el) => (navLinksRef.current[11] = el)}
+              ref={(el) => (navLinksRef.current[12] = el)}
               style={navLinkStyle("/salesmanwindow")}
               onClick={closeSidebar}
               className="d-flex align-items-center gap-2"
@@ -281,18 +284,23 @@ const Navbarfrist = () => {
           </Link>
 
           <div className="dropdown mt-2">
+            {/* <Link
+              to="/modify-bill"
+              ref={(el) => (navLinksRef.current[12] = el)}
+              style={navLinkStyle("/salesmanwindow")}
+              onClick={closeSidebar}
+            > */}
             <button
-              onClick={() => toggleDropdown("modifybill")}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  toggleDropdown("modifybill");
-                }
+              onClick={() => {
+                openModifyBill();
+                closeSidebar();
               }}
+              // onClick={closeSidebar}
               className="btn text-white w-100 text-start d-flex align-items-center gap-2"
-              ref={(el) => (navLinksRef.current[13] = el)}
             >
-              <FiLayers /> Modify Bill <FiChevronDown size={12} />
+              <FiLayers /> Modify Bill
             </button>
+            {/* </Link> */}
           </div>
 
           <div className="dropdown mt-2">
