@@ -210,6 +210,28 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
     }
   };
 
+  // New function to validate if amount is below purchase value
+  const validateAmountAgainstPurchase = (row, calculatedAmount) => {
+    if (!row.product || !row.product.purchaseRate) return calculatedAmount;
+
+    const purchaseRate = parseFloat(row.product.purchaseRate);
+    const calculatedAmountNum = parseFloat(calculatedAmount);
+
+    if (isNaN(purchaseRate) || isNaN(calculatedAmountNum))
+      return calculatedAmount;
+
+    // If calculated amount is below purchase rate, show warning and return minimum allowed amount
+    if (calculatedAmountNum < purchaseRate) {
+      toast.warning(
+        `Amount for "${row.product.productName}" cannot be below purchase rate (₹${purchaseRate}). Adjusted to minimum allowed.`,
+        { position: "top-center", autoClose: 3000 }
+      );
+      return purchaseRate.toFixed(2);
+    }
+
+    return calculatedAmount;
+  };
+
   const recalculateRow = (row) => {
     const qty = parseFloat(row.Qty) || 0;
     const schPercent = parseFloat(row.Sch) || 0;
@@ -227,6 +249,12 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
     const discountedTotal = basicTotal - schAmt - cdAmt;
 
     const finalAmount = discountedTotal + (discountedTotal * gstPercent) / 100;
+
+    // Validate final amount against purchase rate
+    const validatedAmount = validateAmountAgainstPurchase(
+      row,
+      finalAmount.toFixed(2)
+    );
 
     return {
       ...row,
@@ -801,37 +829,23 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
                           row.Unit ? { label: row.Unit, value: row.Unit } : null
                         }
                         options={[
-                          row.product?.primaryUnit && {
-                            label: row.product.primaryUnit,
-                            value: row.product.primaryUnit,
-                          },
-                          row.product?.secondaryUnit && {
-                            label: row.product.secondaryUnit,
-                            value: row.product.secondaryUnit,
-                          },
-                        ].filter(Boolean)}
+                          { label: "PCS", value: "PCS" },
+                          { label: "BOX", value: "BOX" },
+                        ]}
                         onChange={(selectedOption) => {
                           handleChange(rowIndex, "Unit", selectedOption.value);
                         }}
                         onKeyDown={(e) => {
                           const key = e.key.toLowerCase();
 
-                          if (key === "p" && row.product?.secondaryUnit) {
+                          if (key === "p") {
                             e.preventDefault();
-                            handleChange(
-                              rowIndex,
-                              "Unit",
-                              row.product.secondaryUnit
-                            );
+                            handleChange(rowIndex, "Unit", "PCS");
                           }
 
-                          if (key === "c" && row.product?.primaryUnit) {
+                          if (key === "b") {
                             e.preventDefault();
-                            handleChange(
-                              rowIndex,
-                              "Unit",
-                              row.product.primaryUnit
-                            );
+                            handleChange(rowIndex, "Unit", "BOX");
                           }
                         }}
                         menuPortalTarget={document.body}

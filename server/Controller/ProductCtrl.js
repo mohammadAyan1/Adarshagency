@@ -7,7 +7,7 @@ const createProduct = async (req, res) => {
     const {
       companyId,
       productName,
-      // unit,
+      unit,
       mrp,
       salesRate,
       purchaseRate,
@@ -40,7 +40,7 @@ const createProduct = async (req, res) => {
       companyId,
       productName,
       productImg,
-      // unit,
+      unit,
       mrp,
       salesRate,
       purchaseRate,
@@ -116,13 +116,11 @@ const getProductForSalesMan = async (req, res) => {
         .json({ status: false, message: "did not fetch product" });
     }
 
-    res
-      .status(200)
-      .json({
-        status: true,
-        message: "Product fetch successfull",
-        data: getProduct,
-      });
+    res.status(200).json({
+      status: true,
+      message: "Product fetch successfull",
+      data: getProduct,
+    });
   } catch (error) {
     return res
       .status(500)

@@ -41,8 +41,11 @@ const InvoiceSchema = new mongoose.Schema({
   customerName: String,
   customer: CustomerInfoSchema, // ✅ Embedded
   // billingType: { type: String, enum: ["Cash", "Credit"], required: true },
-  billingType: { type: String, enum: ["Cash", "Credit", "cash", "credit"], required: true },
-
+  billingType: {
+    type: String,
+    enum: ["Cash", "Credit", "cash", "credit"],
+    required: true,
+  },
 
   billDate: { type: Date, default: Date.now },
   paymentMode: String,
@@ -81,3 +84,6 @@ const InvoiceSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Invoice", InvoiceSchema);
+
+
+

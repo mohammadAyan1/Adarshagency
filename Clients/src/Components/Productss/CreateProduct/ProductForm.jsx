@@ -24,7 +24,7 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
     companyId: "",
     productName: "",
     productImg: null,
-    // unit: "",
+    unit: "",
     mrp: "",
     salesRate: "",
     purchaseRate: "",
@@ -81,6 +81,7 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
         _id: productToEdit._id || "",
         companyId: productToEdit.companyId?._id || "",
         productName: productToEdit.productName || "",
+        unit: productToEdit.unit || "",
         mrp: productToEdit.mrp || "",
         salesRate: productToEdit.salesRate || "",
         purchaseRate: productToEdit.purchaseRate || "",
@@ -140,6 +141,7 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
         const data = new FormData();
         data.append("companyId", formData.companyId);
         data.append("productName", formData.productName);
+        data.append("unit", formData.unit);
         data.append("mrp", formData.mrp);
         data.append("salesRate", formData.salesRate);
         data.append("purchaseRate", formData.purchaseRate);
@@ -163,6 +165,7 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
         const productData = {
           companyId: formData.companyId,
           productName: formData.productName,
+          unit: formData.unit,
           mrp: formData.mrp,
           salesRate: formData.salesRate,
           purchaseRate: formData.purchaseRate,
@@ -190,6 +193,7 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
         companyId: "",
         productName: "",
         productImg: null,
+        unit: "",
         mrp: "",
         salesRate: "",
         purchaseRate: "",
@@ -386,11 +390,27 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
                 />
               </div>
 
+              <div className="col-md-6 mb-3">
+                <label>Unit</label>
+                <select
+                  ref={(el) => (inputRefs.current[2] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 2)}
+                  name="unit"
+                  value={formData.unit}
+                  onChange={handleChange}
+                  className="form-control"
+                >
+                  <option value="">Select Unit</option>
+                  <option value="PCS">PCS</option>
+                  <option value="BOX">BOX</option>
+                </select>
+              </div>
+
               <div className="col-md-3 mb-3">
                 <label>Price/(KG/Box)</label>
                 <input
-                  ref={(el) => (inputRefs.current[2] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 2)}
+                  ref={(el) => (inputRefs.current[3] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 3)}
                   type="number"
                   name="primaryPrice"
                   value={formData.primaryPrice}
@@ -402,8 +422,8 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
               <div className="col-md-3 mb-3">
                 <label>Pieces/(KG/Box)</label>
                 <input
-                  ref={(el) => (inputRefs.current[3] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 3)}
+                  ref={(el) => (inputRefs.current[4] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 4)}
                   type="number"
                   name="secondaryPrice"
                   value={formData.secondaryPrice}
@@ -422,8 +442,8 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
               <div className="col-md-3 mb-3">
                 <label>MRP</label>
                 <input
-                  ref={(el) => (inputRefs.current[4] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 4)}
+                  ref={(el) => (inputRefs.current[5] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 5)}
                   type="number"
                   name="mrp"
                   value={formData.mrp}
@@ -436,8 +456,8 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
               <div className="col-md-3 mb-3">
                 <label>Purchase Rate</label>
                 <input
-                  ref={(el) => (inputRefs.current[5] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 5)}
+                  ref={(el) => (inputRefs.current[6] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 6)}
                   type="number"
                   name="purchaseRate"
                   value={formData.purchaseRate}
@@ -450,8 +470,8 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
               <div className="col-md-3 mb-3">
                 <label>Sales Rate</label>
                 <input
-                  ref={(el) => (inputRefs.current[6] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 6)}
+                  ref={(el) => (inputRefs.current[7] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 7)}
                   type="number"
                   name="salesRate"
                   value={formData.salesRate}
@@ -464,8 +484,8 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
               <div className="col-md-2 mb-3">
                 <label>Available Qty</label>
                 <input
-                  ref={(el) => (inputRefs.current[7] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 7)}
+                  ref={(el) => (inputRefs.current[8] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 8)}
                   type="number"
                   name="availableQty"
                   value={formData.availableQty}
@@ -477,8 +497,8 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
               <div className="col-md-3 mb-3">
                 <label>HSN Code</label>
                 <input
-                  ref={(el) => (inputRefs.current[8] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 8)}
+                  ref={(el) => (inputRefs.current[9] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 9)}
                   type="text"
                   name="hsnCode"
                   value={formData.hsnCode}
@@ -491,8 +511,8 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
               <div className="col-md-3 mb-3">
                 <label>GST %</label>
                 <input
-                  ref={(el) => (inputRefs.current[9] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 9)}
+                  ref={(el) => (inputRefs.current[10] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 10)}
                   type="Number"
                   name="gstPercent"
                   value={formData.gstPercent}
@@ -504,8 +524,8 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
               <div className="col-md-6 mb-3">
                 <label>Product Image</label>
                 <input
-                  ref={(el) => (inputRefs.current[10] = el)}
-                  onKeyDown={(e) => handleKeyDown(e, 10)}
+                  ref={(el) => (inputRefs.current[11] = el)}
+                  onKeyDown={(e) => handleKeyDown(e, 11)}
                   type="file"
                   name="productImg"
                   onChange={handlePhotoChange}

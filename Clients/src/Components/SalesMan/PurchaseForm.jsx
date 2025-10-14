@@ -175,17 +175,17 @@ const PurchaseForm = ({ idToEdit, onSuccess }) => {
       const updated = [...prev];
       let newValue = value;
 
-      if (name === "quantity") {
-        const available = parseInt(updated[rowIndex].availableQty) || 0;
-        const qtyValue = parseInt(value);
-        if (isNaN(qtyValue) || qtyValue < 0) {
-          newValue = 0;
-        } else if (available && qtyValue > available) {
-          newValue = available;
-        } else {
-          newValue = qtyValue;
-        }
-      }
+      // if (name === "quantity") {
+      //   const available = parseInt(updated[rowIndex].availableQty) || 0;
+      //   const qtyValue = parseInt(value);
+      //   if (isNaN(qtyValue) || qtyValue < 0) {
+      //     newValue = 0;
+      //   } else if (available && qtyValue > available) {
+      //     newValue = available;
+      //   } else {
+      //     newValue = qtyValue;
+      //   }
+      // }
 
       if (
         name === "purchaseRate" ||

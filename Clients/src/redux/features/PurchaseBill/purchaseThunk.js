@@ -29,7 +29,7 @@ export const fetchPurchaseBillById = createAsyncThunk(
   async ({ id }, { rejectWithValue }) => {
     try {
       console.log("this is update purchase");
-      
+
       const res = await axiosInstance.get(
         `${API_URL}/fetchPurchaseBillById/:${id}`
       );

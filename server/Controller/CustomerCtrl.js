@@ -1,4 +1,5 @@
 const Customer = require("../Models/CustomerModel");
+const Invoice = require("../Models/BillingModel");
 
 // CREATE customer
 exports.createCustomer = async (req, res) => {
@@ -184,5 +185,25 @@ exports.getAllBeats = async (req, res) => {
   } catch (err) {
     console.error("getAllBeats error:", err);
     res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getAllCustomerBill = async (req, res) => {
+  try {
+    console.log("lkjhgfdsa");
+
+    const purchases = await Invoice.find()
+      .populate("companyId", "name")
+      .populate("salesmanId", "name")
+      .populate("customerId", "CustomerName")
+      .populate("ledgerIds", "ledgerName") // if applicable
+      .populate("billing.productId", "productName unit rate") // nested populate
+      // .populate("customer.selectedBeatId", "beatName")
+      .populate("customer.selectedCustomerId", "CustomerName")
+      .populate("customer.selectedSalesmanId", "name");
+
+    res.json(purchases);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

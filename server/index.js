@@ -24,6 +24,7 @@ const CheckAuth = require("./Routes/CheckAuth");
 const fetchShopName = require("./Routes/getShopName");
 const addProductData = require("./Routes/addSalesmanProductData");
 const Logout = require("./Routes/logoutSalesman.js");
+const customerBillInvoice = require("./Controller/CustomerBillCTRL.js");
 
 //  Morgan middleware (logs all requests in 'dev' format)
 app.use(morgan("dev"));

@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema({
   secondaryUnit: String,
   primaryPrice: Number,
   secondaryPrice: Number,
-  // unit: { type: String }, // New field for Unit dropdown
+  unit: { type: String }, // New field for Unit dropdown
   mrp: { type: Number }, // New MRP field
   salesRate: { type: Number }, // New Sales Rate field
   purchaseRate: { type: Number }, // New Purchase Rate field

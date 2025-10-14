@@ -47,6 +47,9 @@ const GenerateInvoice = () => {
         const invoiceResponse = await axios.get(`/pro-billing/${id}`, {
           signal,
         });
+
+        console.log(invoiceResponse);
+
         const invoice = invoiceResponse.data;
         setInvoiceData(invoice);
 
@@ -410,6 +413,7 @@ const GenerateInvoice = () => {
                       "Item Name",
                       "HSN Code",
                       "MRP",
+                      "Unit",
                       "Qty",
                       "Free",
                       "Rate",
@@ -472,6 +476,7 @@ const GenerateInvoice = () => {
                         >
                           {item.itemName || "N/A"}
                         </td>
+
                         <td style={commonBodyCellStyle}>
                           {product.hsnCode || "N/A"}
                         </td>
@@ -483,6 +488,10 @@ const GenerateInvoice = () => {
                         >
                           {formatCurrency(product.mrp)}
                         </td>
+                        <td style={commonBodyCellStyle}>
+                          {item.unit || "N/A"}
+                        </td>
+
                         <td
                           style={{
                             ...commonBodyCellStyle,

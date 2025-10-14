@@ -59,6 +59,7 @@ const AppRoutes = () => {
         <Route path="/vendor-ledger" element={<VendorLedger />} />
         <Route path="/outstanding" element={<Outstanding />} />
         <Route path="/purchase/:id" element={<PurchaseTabs />} />
+        <Route path="/add-invoice/:id" element={<BillingReport />} />
       </Route>
     </Routes>
   );
