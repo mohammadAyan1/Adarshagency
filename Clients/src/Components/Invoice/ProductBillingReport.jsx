@@ -44,6 +44,11 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
   const cdInputRef = useRef(null);
 
   useEffect(() => {
+    if (rows.Unit == "BOX") {
+    }
+  }, [rows.Unit]);
+
+  useEffect(() => {
     if (showSchemeModal && schemeInputRef.current) {
       schemeInputRef.current.focus();
     }
@@ -285,29 +290,18 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
     }
 
     if (field === "Unit" && row.product) {
-      const prod = row.product;
-      const baseRate = parseFloat(prod.salesRate) || 0;
+      if (row.Unit == "BOX") {
+        const prod = row.product;
+        const baseRate = parseFloat(prod.salesRate * prod.secondaryPrice) || 0;
+        console.log(baseRate);
 
-      if (!isNaN(baseRate)) {
-        row.Rate = baseRate.toFixed(2);
-      } else {
-        row.Rate = "";
-      }
-    }
-
-    if (field === "Qty" && row.product) {
-      const qtyNum = parseFloat(value);
-      const prod = row.product;
-
-      if (!isNaN(qtyNum) && qtyNum > 0) {
-        if (qtyNum > prod.availableQty) {
-          toast.error(
-            `Product "${prod.productName}" has only ${prod.availableQty} in stock.`,
-            { position: "top-center", autoClose: 3000 }
-          );
-          return;
+        if (!isNaN(baseRate)) {
+          row.Rate = baseRate.toFixed(2);
+        } else {
+          row.Rate = "";
         }
-
+      } else {
+        const prod = row.product;
         const baseRate = parseFloat(prod.salesRate) || 0;
 
         if (!isNaN(baseRate)) {
@@ -317,6 +311,59 @@ const ProductBillingReport = ({ onBillingDataChange, onEdit }, ref) => {
         }
       }
     }
+
+    if (field === "Qty" && row.product) {
+      const prod = row.product;
+
+      if (row.Unit == "BOX") {
+        console.log(prod);
+        const qtyNum = parseFloat(value);
+        if (!isNaN(qtyNum) && qtyNum > 0) {
+          const availableQtyInBOX = prod?.availableQty / prod?.secondaryPrice;
+          console.log(availableQtyInBOX);
+          if (qtyNum > availableQtyInBOX) {
+            toast.error(
+              `Product "${prod.productName}" has only ${prod.availableQty} in stock.`,
+              { position: "top-center", autoClose: 3000 }
+            );
+            return;
+          }
+          // const baseRate = parseFloat(prod.salesRate) || 0;
+          const baseRate =
+            parseFloat(prod.salesRate * prod.secondaryPrice) || 0;
+
+          if (!isNaN(baseRate)) {
+            row.Rate = baseRate.toFixed(2);
+          } else {
+            row.Rate = "";
+          }
+        }
+      } else {
+        console.log(prod);
+
+        const qtyNum = parseFloat(value);
+
+        if (!isNaN(qtyNum) && qtyNum > 0) {
+          if (qtyNum > prod.availableQty) {
+            toast.error(
+              `Product "${prod.productName}" has only ${prod.availableQty} in stock.`,
+              { position: "top-center", autoClose: 3000 }
+            );
+            return;
+          }
+
+          const baseRate = parseFloat(prod.salesRate) || 0;
+
+          if (!isNaN(baseRate)) {
+            row.Rate = baseRate.toFixed(2);
+          } else {
+            row.Rate = "";
+          }
+        }
+      }
+    }
+
+    // useEffect(() => {}, []);
 
     // 🔁 Recalculate all row values like Basic, SchAmt, CDAmt, etc.
     row = recalculateRow(row);

@@ -401,7 +401,7 @@ const ProductForm = ({ onSuccess, productToEdit }) => {
                   className="form-control"
                 >
                   <option value="">Select Unit</option>
-                  <option value="PCS">PCS</option>
+                  <option value="PCS">KG</option>
                   <option value="BOX">BOX</option>
                 </select>
               </div>
